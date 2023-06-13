@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "539367211685",
+    "project_id": "dac-app-dac4f",
+    "storage_bucket": "dac-app-dac4f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:539367211685:android:26101d20a24b832904c34c",
+        "android_client_info": {
+          "package_name": "com.ammar.dac"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "539367211685-torg60nrhckjo7le8hkap69djlkubljb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD4eHZ8gu8-Xw5NkTJgBATzVgp0bPR7CDE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "539367211685-torg60nrhckjo7le8hkap69djlkubljb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
