@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
+import 'useful_example.dart';
+
 class CalculationScreen extends StatefulWidget {
   const CalculationScreen({Key? key}) : super(key: key);
 
@@ -9,112 +11,126 @@ class CalculationScreen extends StatefulWidget {
 }
 
 class _CalculationScreenState extends State<CalculationScreen> {
-  int index = 0;
-  WeeklySales weeklySales = getData(0);
-
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
+    return const SafeArea(
       child: Scaffold(
-          body: SingleChildScrollView(
-        child: SizedBox(
-          height: 300,
-          child: Column(
+          body: Column(
             children: [
-              GestureDetector(
-                onHorizontalDragEnd: (DragEndDetails details) {
-                  if (details.primaryVelocity! < 0) {
-                    //Right swipe
-                    setState(() {
-                      if (index + 1 <= 2) {
-                        weeklySales = getData(++index);
-                      }
-                    });
-                  } else if (details.primaryVelocity! > 0) {
-                    //left swipe
-                    setState(() {
-                      if (index - 1 >= 0) {
-                        weeklySales = getData(--index);
-                      }
-                    });
-                  }
-                },
-                child: WeeklyEarnings(
-                  weeklySales: weeklySales,
-                ),
-              ),
+              WeeklyEarnings(),
+              SizedBox(height: 25,),
+              Pagination(),
             ],
-          ),
-        ),
-      )),
+          )),
     );
   }
 }
 
 class WeeklyEarnings extends StatelessWidget {
-  final WeeklySales weeklySales;
-
-  const WeeklyEarnings({Key? key, required this.weeklySales}) : super(key: key);
+  const WeeklyEarnings({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    TrackballBehavior trackballBehavior = TrackballBehavior(
-        enable: true, activationMode: ActivationMode.singleTap);
-    return SfCartesianChart(
-        enableAxisAnimation: true,
-        //trackballBehavior: trackballBehavior,
-        primaryYAxis: NumericAxis(
-            minimum: weeklySales.min, maximum: weeklySales.max + 5000),
-        title: ChartTitle(text: weeklySales.title),
-        primaryXAxis: CategoryAxis(),
-        series: <LineSeries<SalesData, String>>[
-          LineSeries<SalesData, String>(
-            markerSettings: const MarkerSettings(isVisible: true),
-            dataSource: weeklySales.salesData,
-            xValueMapper: (SalesData sales, _) => sales.day,
-            yValueMapper: (SalesData sales, _) => sales.sales,
-          ),
-        ]);
+    ZoomPanBehavior zoomBehavior =
+        ZoomPanBehavior(enablePinching: true, enableSelectionZooming: true);
+    return Column(
+      children: [
+        SfCartesianChart(
+            zoomPanBehavior: zoomBehavior,
+            onZooming: (ZoomPanArgs z) {
+              //print(z.currentZoomPosition);
+            },
+            onPlotAreaSwipe: (ChartSwipeDirection direction){print(direction);},
+            enableAxisAnimation: true,
+            //trackballBehavior: trackballBehavior,
+            primaryYAxis: NumericAxis(minimum: 10000, maximum: 100000),
+            title: ChartTitle(text: 'title'),
+            primaryXAxis: DateTimeAxis(),
+            series: <ColumnSeries<SalesData, DateTime>>[
+              ColumnSeries<SalesData, DateTime>(
+                //markerSettings: const MarkerSettings(isVisible: true),
+                dataSource: <SalesData>[
+                  SalesData(DateTime(2020, 1, 1), 32000),
+                  SalesData(DateTime(2020, 1, 2), 30000),
+                  SalesData(DateTime(2020, 1, 3), 50000),
+                  SalesData(DateTime(2020, 1, 4), 75000),
+                  SalesData(DateTime(2020, 1, 5), 63000),
+                  SalesData(DateTime(2020, 1, 6), 60000),
+                  SalesData(DateTime(2020, 1, 7), 55000),
+                  SalesData(DateTime(2020, 1, 8), 16000),
+                  SalesData(DateTime(2020, 1, 9), 35000),
+                  SalesData(DateTime(2020, 1, 10), 55000),
+                  SalesData(DateTime(2020, 1, 11), 45000),
+                  SalesData(DateTime(2020, 1, 12), 33000),
+                  SalesData(DateTime(2020, 1, 13), 40000),
+                  SalesData(DateTime(2020, 1, 14), 56000),
+                  SalesData(DateTime(2020, 1, 15), 37000),
+                  SalesData(DateTime(2020, 1, 16), 36000),
+                  SalesData(DateTime(2020, 1, 17), 80000),
+                  SalesData(DateTime(2020, 1, 18), 75000),
+                  SalesData(DateTime(2020, 1, 19), 43000),
+                  SalesData(DateTime(2020, 1, 20), 65000),
+                  SalesData(DateTime(2020, 1, 21), 51000),
+                ],
+                xValueMapper: (SalesData sales, _) => sales.day,
+                yValueMapper: (SalesData sales, _) => sales.sales,
+              ),
+            ]),
+        Row(
+          children: [
+            IconButton(
+              onPressed: () {
+                zoomBehavior.zoomIn();
+              },
+              icon: const Icon(Icons.add),
+            ),
+            IconButton(
+              onPressed: () {
+                zoomBehavior.zoomOut();
+              },
+              icon: const Icon(Icons.remove),
+            ),
+            IconButton(
+              onPressed: () {
+                zoomBehavior.panToDirection('top');
+              },
+              icon: const Icon(Icons.arrow_upward),
+            ),
+            IconButton(
+              onPressed: () {
+                zoomBehavior.panToDirection('bottom');
+              },
+              icon: const Icon(Icons.arrow_downward),
+            ),
+            IconButton(
+              onPressed: () {
+                zoomBehavior.panToDirection('left');
+              },
+              icon: const Icon(Icons.keyboard_arrow_left),
+            ),
+            IconButton(
+              onPressed: () {
+                zoomBehavior.panToDirection('right');
+              },
+              icon: const Icon(Icons.keyboard_arrow_right),
+            ),
+            IconButton(
+              onPressed: () {
+                zoomBehavior.reset();
+              },
+              icon: const Icon(Icons.refresh),
+            ),
+          ],
+        )
+      ],
+    );
   }
-}
-
-WeeklySales getData(int index) {
-  var list = [
-    WeeklySales(salesData: <SalesData>[
-      SalesData('Sun', 32000),
-      SalesData('Mon', 30000),
-      SalesData('Tue', 50000),
-      SalesData('Wed', 75000),
-      SalesData('Thu', 63000),
-      SalesData('Fri', 60000),
-      SalesData('Sat', 55000),
-    ], min: 30000, max: 75000, title: 'Week 1'),
-    WeeklySales(salesData: <SalesData>[
-      SalesData('Sun', 16000),
-      SalesData('Mon', 35000),
-      SalesData('Tue', 55000),
-      SalesData('Wed', 45000),
-      SalesData('Thu', 33000),
-      SalesData('Fri', 40000),
-      SalesData('Sat', 56000),
-    ], min: 16000, max: 56000, title: 'Week 2'),
-    WeeklySales(salesData: <SalesData>[
-      SalesData('Sun', 37000),
-      SalesData('Mon', 36000),
-      SalesData('Tue', 80000),
-      SalesData('Wed', 75000),
-      SalesData('Thu', 43000),
-      SalesData('Fri', 65000),
-      SalesData('Sat', 51000),
-    ], min: 36000, max: 80000, title: 'Week 3')
-  ];
-  return list[index];
 }
 
 class SalesData {
   SalesData(this.day, this.sales);
 
-  final String day;
+  final DateTime day;
   final double sales;
 }
 
