@@ -1,5 +1,6 @@
 import 'package:dac/modules/medicines_management/cubit/cubit.dart';
 import 'package:dac/modules/medicines_management/cubit/states.dart';
+import 'package:dac/shared/notificatinos_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -21,10 +22,6 @@ class MedicinePreviewScreen extends StatelessWidget {
       child: BlocConsumer<MedicinesManagementCubit, MedicinesManagementStates>(
         listener: (context, state) {},
         builder: (context, state) {
-          bool isChanged(String text) {
-            return text == '';
-          }
-
           var medicineManagement = MedicinesManagementCubit.get(context);
           return Scaffold(
             appBar: AppBar(),
@@ -62,6 +59,17 @@ class MedicinePreviewScreen extends StatelessWidget {
                         onPressed: () {
                           medicineManagement.deleteMedicine(
                               context: context, id: medicineModel.id);
+                        }),
+                    CustomizedButton(
+                        title: 'order',
+                        condition: true,
+                        onPressed: () {
+                          NotificationsService.sendOrderNotification(
+                              userOrder: {
+                                'userID': 1,
+                                'userName': 'UserName',
+                                'medicineName': 'medicineName'
+                              });
                         })
                   ],
                 ),

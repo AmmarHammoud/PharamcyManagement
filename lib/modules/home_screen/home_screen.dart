@@ -9,7 +9,6 @@ import '../medicines_management/medicines_management.dart';
 import '../search_box/search_box.dart';
 
 class HomeScreen extends StatelessWidget {
-
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
@@ -58,6 +57,7 @@ class HomeScreen extends StatelessWidget {
                           imagePath: 'images/cosmetics.png',
                           widget: CosmaticsScreen(),
                         ),
+
                         ///if the logged in person is pharmaceutical
                         ElevatedButton(
                             onPressed: () {
@@ -69,7 +69,10 @@ class HomeScreen extends StatelessWidget {
                             onPressed: () {
                               navigateTo(context, const AddNewEquipment());
                             },
-                            child: const Text('add new product'))
+                            child: const Text('add new product')),
+                        ElevatedButton(
+                            onPressed: () {},
+                            child: const Text('requeset med')),
                       ],
                     ),
                   ),

@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+
 enum Gender { male, female }
 
 const double imageSize = 50;
+
 const double divisor = 20;
+
+const String channelID = '0';
+
+const String channelName = 'Notifications';
 
 class MedicineTextControllers {
   final TextEditingController medicineNameController = TextEditingController();
@@ -41,6 +47,7 @@ class UserInfoControllers{
   final TextEditingController medicineAllergiesController = TextEditingController();
   final TextEditingController foodAllergiesController = TextEditingController();
 }
+
 class UserInfoValidators{
   final GlobalKey<FormState> emailValidator = GlobalKey<FormState>();
   final GlobalKey<FormState> nameValidator = GlobalKey<FormState>();
@@ -72,3 +79,5 @@ class WhatsappButton extends StatelessWidget {
         child: const Text('open whatsapp'));
   }
 }
+
+
