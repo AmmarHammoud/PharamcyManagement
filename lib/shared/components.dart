@@ -575,7 +575,8 @@ class MedicineComponents extends StatelessWidget {
     return Column(
       children: [
         ValidatedTextField(
-            controller: cubitObject.medicineTextControllers.medicineNameController,
+            controller:
+                cubitObject.medicineTextControllers.medicineNameController,
             icon: Icons.medication,
             validator: cubitObject.medicineTextValidators.medicineNameValidator,
             errorText: 'name field must be filled',
@@ -587,7 +588,8 @@ class MedicineComponents extends StatelessWidget {
           height: divisor,
         ),
         ValidatedTextField(
-            controller: cubitObject.medicineTextControllers.scientificNameController,
+            controller:
+                cubitObject.medicineTextControllers.scientificNameController,
             icon: Icons.medication,
             validator:
                 cubitObject.medicineTextValidators.scientificNameValidator,
@@ -602,7 +604,8 @@ class MedicineComponents extends StatelessWidget {
           height: divisor,
         ),
         ValidatedTextField(
-            controller: cubitObject.medicineTextControllers.companyNameController,
+            controller:
+                cubitObject.medicineTextControllers.companyNameController,
             icon: Icons.house,
             validator: cubitObject.medicineTextValidators.companyNameValidator,
             errorText: 'company name field must be filled',
@@ -671,7 +674,8 @@ class MedicineComponents extends StatelessWidget {
           height: divisor,
         ),
         ValidatedTextField(
-            controller: cubitObject.medicineTextControllers.sideEffectsController,
+            controller:
+                cubitObject.medicineTextControllers.sideEffectsController,
             icon: Icons.medical_information,
             validator: cubitObject.medicineTextValidators.sideEffectsValidator,
             errorText: 'side effects field must be filled',
@@ -685,7 +689,8 @@ class MedicineComponents extends StatelessWidget {
           height: divisor,
         ),
         ValidatedTextField(
-            controller: cubitObject.medicineTextControllers.activeIngredientController,
+            controller:
+                cubitObject.medicineTextControllers.activeIngredientController,
             icon: Icons.medical_information,
             validator:
                 cubitObject.medicineTextValidators.activeIngredientValidator,
@@ -715,23 +720,55 @@ class MedicineComponents extends StatelessWidget {
   }
 }
 
+@pragma('vm:entry-point')
+notificationTapBackground(NotificationResponse notificationResponse) {
+  print('hi-------');
+  print(notificationResponse.notificationResponseType);
+}
+
 void showNotification({
   required int id,
   required String mainTitle,
   required String details,
   bool ongoing = false,
 }) async {
+  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+      FlutterLocalNotificationsPlugin();
+  await flutterLocalNotificationsPlugin.initialize(
+    const InitializationSettings(
+      android: AndroidInitializationSettings('@mipmap/ic_launcher'),
+    ),
+    onDidReceiveNotificationResponse:
+        (NotificationResponse notificationResponse) {
+      print(notificationResponse.toString());
+    },
+    onDidReceiveBackgroundNotificationResponse: notificationTapBackground,
+  );
   await FlutterLocalNotificationsPlugin().show(
+    //payload: '',
     888,
     mainTitle,
     details,
     const NotificationDetails(
       android: AndroidNotificationDetails(
-
         channelID,
         'MY SERVICE',
         icon: 'ic_bg_service_small',
         ongoing: false,
+        actions: [
+          AndroidNotificationAction(
+            'id_1',
+            'view',
+          ),
+          AndroidNotificationAction(
+            'id_2',
+            'accept',
+          ),
+          AndroidNotificationAction(
+            'id_2',
+            'decline',
+          ),
+        ],
       ),
     ),
   );
