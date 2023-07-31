@@ -22,7 +22,7 @@ class DioHelper {
   static init() {
     dio = Dio(
       BaseOptions(
-        baseUrl: 'http://192.168.195.83:8000/api/',
+        baseUrl: 'http://192.168.5.83:8000/api/',
         receiveDataWhenStatusError: true,
       ),
     );
@@ -104,17 +104,18 @@ class DioHelper {
             }));
   }
 
-  static Future<Response> updateProfile(
-      {required String token,
-        required String name,
-      required String email,
-      required String image,
-      required String phone,
-      required String birthDate,
-      required String medicineUsed,
-      required String medicineAllergies,
-      required String foodAllergies,
-      required String haveDisease,}) async {
+  static Future<Response> updateProfile({
+    required String token,
+    required String name,
+    required String email,
+    required String image,
+    required String phone,
+    required String birthDate,
+    required String medicineUsed,
+    required String medicineAllergies,
+    required String foodAllergies,
+    required String haveDisease,
+  }) async {
     return await dio.post('update',
         data: {
           'name': name,
@@ -128,7 +129,10 @@ class DioHelper {
           'img': image
         },
         options: Options(
-            headers: {'Accept': 'application/json', 'Authorization': 'Bearer $token',},
+            headers: {
+              'Accept': 'application/json',
+              'Authorization': 'Bearer $token',
+            },
             followRedirects: false,
             validateStatus: (status) {
               return true;
@@ -272,6 +276,19 @@ class DioHelper {
           'img': image,
           'quantity': quantity
         },
+        options: Options(
+            headers: {
+              'Authorization': 'Bearer $token',
+              'Accept': 'application/json',
+            },
+            followRedirects: false,
+            validateStatus: (status) {
+              return true;
+            }));
+  }
+
+  static Future<Response> getWeeklyEarning({required String token}) async {
+    return await dio.get('7day',
         options: Options(
             headers: {
               'Authorization': 'Bearer $token',
