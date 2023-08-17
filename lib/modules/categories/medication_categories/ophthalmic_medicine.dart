@@ -24,7 +24,7 @@ class OphthalmicMedicine extends StatelessWidget {
           ),
         ],
       ),
-      drawer: const MyDrawer(),
+      drawer: MyDrawer(),
     );
   }
 }

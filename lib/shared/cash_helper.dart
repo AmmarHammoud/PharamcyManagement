@@ -19,11 +19,17 @@ class CashHelper {
     bool putUserToken = await sharedPreferences.setString('token', userToken);
     return putUserToken;
   }
+  static Future<bool> putUserEmail({required String email}) async{
+    return await sharedPreferences.setString('email', email);
+  }
 
   static String? getUserToken(){
     return sharedPreferences.getString('token');
   }
-
+  static bool isAdmin(){
+    //print('ADMIN EMAIL: ${sharedPreferences.getString('email')}');
+    return sharedPreferences.getString('email') == 'a@a.com';
+  }
   static logoutUser(){
     sharedPreferences.clear();
   }

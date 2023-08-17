@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
         ),
       ),
       home: CashHelper.getUserToken() != null
-          ? const HomeScreen()
+          ? HomeScreen()
           : const LoginScreen(),
     );
   }

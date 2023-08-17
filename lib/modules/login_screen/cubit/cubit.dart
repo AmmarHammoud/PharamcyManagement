@@ -34,19 +34,27 @@ class LoginCubit extends Cubit<LoginStates> {
         userInfoValidators.passwordValidator.currentState!.validate()) {
       emit(LoginLoadingState());
       DioHelper.login(email: email, password: password).then((value) {
+        print(value.data);
         UserModel loginModel = UserModel.formJson(value.data);
-        navigateAndFinish(context, const HomeScreen());
+        CashHelper.putUser(userToken: loginModel.token);
+        CashHelper.putUserEmail(email: loginModel.user.email);
+        //Future.delayed(const Duration(seconds: 10));
+        if (loginModel.statues == 1) {
+          navigateAndFinish(
+              context,
+              HomeScreen());
+        }
         showToast(
             context: context,
             text: loginModel.message,
             color: loginModel.statues == 1 ? Colors.green : Colors.red);
-        CashHelper.putUser(userToken: loginModel.token);
+        print(loginModel.user.email);
 
         emit(LoginSuccessState());
       }).catchError((error) {
+        print('logging in ${error.toString()}');
         emit(LoginErrorState());
       });
     }
-
   }
 }

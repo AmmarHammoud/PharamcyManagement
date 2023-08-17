@@ -4,6 +4,7 @@ import 'package:dac/modules/add_new_product/add_new_medication/cubit/states.dart
 import 'package:dac/shared/components.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../shared/cash_helper.dart';
 import '../search_box/search_box.dart';
 import 'medication_categories/digestive_medicine.dart';
 import 'medication_categories/heart_medicine.dart';
@@ -13,7 +14,7 @@ import 'medication_categories/skin_medicine.dart';
 
 class CategorizedMedicineScreen extends StatelessWidget {
   var searchController = TextEditingController();
-
+  bool isAdmin = CashHelper.isAdmin();
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -28,7 +29,7 @@ class CategorizedMedicineScreen extends StatelessWidget {
                   'categorized medicine',
                 ),
               ),
-              drawer: const MyDrawer(),
+              drawer: MyDrawer(),
               body: Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: SingleChildScrollView(
@@ -38,7 +39,7 @@ class CategorizedMedicineScreen extends StatelessWidget {
                       const SizedBox(
                         height: 15.0,
                       ),
-                      CustomizedButton(
+                      if(isAdmin)CustomizedButton(
                         title: 'add new medication',
                         condition: state is! AddNewMedicationLoadingState,
                         onPressed: () {

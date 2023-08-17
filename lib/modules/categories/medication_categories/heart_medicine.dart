@@ -23,7 +23,7 @@ class HeartMedicine extends StatelessWidget {
           ),
         ],
       ),
-      drawer: const MyDrawer(),
+      drawer: MyDrawer(),
     );
   }
 }

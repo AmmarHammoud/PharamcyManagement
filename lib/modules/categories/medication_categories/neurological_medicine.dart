@@ -23,7 +23,7 @@ class NeurologicalMedicine extends StatelessWidget {
           ),
         ],
       ),
-      drawer: const MyDrawer(),
+      drawer: MyDrawer(),
     );
   }
 }

@@ -13,7 +13,7 @@ class CosmaticsScreen extends StatelessWidget {
           'Cosmatics',
         ),
       ),
-      drawer: const MyDrawer(),
+      drawer:  MyDrawer(),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: SingleChildScrollView(
