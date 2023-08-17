@@ -420,8 +420,8 @@ class DrawerButton extends StatelessWidget {
 }
 
 class MyDrawer extends StatelessWidget {
-  const MyDrawer({Key? key}) : super(key: key);
-
+  bool isAdmin = CashHelper.isAdmin();
+  MyDrawer({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     double divisor = 15;
@@ -476,12 +476,12 @@ class MyDrawer extends StatelessWidget {
         SizedBox(
           height: divisor,
         ),
-        DrawerButton(
+        if(isAdmin) DrawerButton(
           onPressed: () => navigateTo(context, const CalculationScreen()),
           title: 'calculations',
           imagePath: 'images/budget.png',
         ),
-        SizedBox(
+        if(isAdmin)SizedBox(
           height: divisor,
         ),
         DrawerButton(
@@ -572,7 +572,7 @@ class MedicineComponents extends StatelessWidget {
     return Column(
       children: [
         ValidatedTextField(
-            controller: cubitObject.medicineTextControllers.medicineName,
+            controller: cubitObject.medicineTextControllers.medicineNameController,
             icon: Icons.medication,
             validator: cubitObject.medicineTextValidators.medicineNameValidator,
             errorText: 'name field must be filled',
@@ -584,7 +584,7 @@ class MedicineComponents extends StatelessWidget {
           height: divisor,
         ),
         ValidatedTextField(
-            controller: cubitObject.medicineTextControllers.scientificName,
+            controller: cubitObject.medicineTextControllers.scientificNameController,
             icon: Icons.medication,
             validator:
                 cubitObject.medicineTextValidators.scientificNameValidator,
@@ -599,7 +599,7 @@ class MedicineComponents extends StatelessWidget {
           height: divisor,
         ),
         ValidatedTextField(
-            controller: cubitObject.medicineTextControllers.companyName,
+            controller: cubitObject.medicineTextControllers.companyNameController,
             icon: Icons.house,
             validator: cubitObject.medicineTextValidators.companyNameValidator,
             errorText: 'company name field must be filled',
@@ -613,7 +613,7 @@ class MedicineComponents extends StatelessWidget {
           height: divisor,
         ),
         ValidatedTextField(
-            controller: cubitObject.medicineTextControllers.category,
+            controller: cubitObject.medicineTextControllers.categoryController,
             icon: Icons.padding,
             validator: cubitObject.medicineTextValidators.categoryValidator,
             errorText: 'categories field must be filled',
@@ -642,7 +642,7 @@ class MedicineComponents extends StatelessWidget {
           height: divisor,
         ),
         ValidatedTextField(
-            controller: cubitObject.medicineTextControllers.quantity,
+            controller: cubitObject.medicineTextControllers.quantityController,
             icon: Icons.production_quantity_limits_rounded,
             validator: cubitObject.medicineTextValidators.quantityValidator,
             errorText: 'quantity field must be filled',
@@ -655,7 +655,7 @@ class MedicineComponents extends StatelessWidget {
           height: divisor,
         ),
         ValidatedTextField(
-            controller: cubitObject.medicineTextControllers.usesFor,
+            controller: cubitObject.medicineTextControllers.usesForController,
             icon: Icons.medical_services_outlined,
             validator: cubitObject.medicineTextValidators.usesForValidator,
             errorText: 'uses for field must be filled',
@@ -668,7 +668,7 @@ class MedicineComponents extends StatelessWidget {
           height: divisor,
         ),
         ValidatedTextField(
-            controller: cubitObject.medicineTextControllers.sideEffects,
+            controller: cubitObject.medicineTextControllers.sideEffectsController,
             icon: Icons.medical_information,
             validator: cubitObject.medicineTextValidators.sideEffectsValidator,
             errorText: 'side effects field must be filled',
@@ -682,7 +682,7 @@ class MedicineComponents extends StatelessWidget {
           height: divisor,
         ),
         ValidatedTextField(
-            controller: cubitObject.medicineTextControllers.activeIngredient,
+            controller: cubitObject.medicineTextControllers.activeIngredientController,
             icon: Icons.medical_information,
             validator:
                 cubitObject.medicineTextValidators.activeIngredientValidator,
@@ -698,7 +698,7 @@ class MedicineComponents extends StatelessWidget {
         ),
         ValidatedTextField(
             hasNextText: false,
-            controller: cubitObject.medicineTextControllers.price,
+            controller: cubitObject.medicineTextControllers.priceController,
             icon: Icons.price_change,
             validator: cubitObject.medicineTextValidators.priceValidator,
             errorText: 'price filed must be filled',

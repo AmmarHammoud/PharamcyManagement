@@ -22,7 +22,7 @@ class DioHelper {
   static init() {
     dio = Dio(
       BaseOptions(
-        baseUrl: 'http://192.168.5.83:8000/api/',
+        baseUrl: 'http://192.168.47.83:8080/api/',
         receiveDataWhenStatusError: true,
       ),
     );
@@ -57,7 +57,8 @@ class DioHelper {
           'food_allergies': foodAllergies,
           'have_disease': haveDisease,
           'another_disease': anotherDisease,
-          'img': image
+          'img': image,
+          'NOTIFICATIONS' : '-'
         },
         options: Options(
             headers: {'Accept': 'application/json'},

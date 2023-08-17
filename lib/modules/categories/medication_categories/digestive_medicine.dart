@@ -26,7 +26,7 @@ class DigestiveMedicine extends StatelessWidget{
           ),
         ],
       ),
-      drawer: const MyDrawer(),
+      drawer: MyDrawer(),
 
 
 

@@ -2,6 +2,7 @@ import 'package:dac/modules/add_new_product/add_new_medical_equipments/add_new_m
 import 'package:dac/shared/components.dart';
 import 'package:dac/shared/constants.dart';
 import 'package:flutter/material.dart';
+import '../../shared/cash_helper.dart';
 import '../categories/categories.dart';
 import '../categories/medication_categories/cosmatics.dart';
 import '../categories/medication_categories/medical_equipments.dart';
@@ -9,8 +10,8 @@ import '../medicines_management/medicines_management.dart';
 import '../search_box/search_box.dart';
 
 class HomeScreen extends StatelessWidget {
-
-  const HomeScreen({Key? key}) : super(key: key);
+  bool isAdmin = CashHelper.isAdmin();
+  HomeScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +25,7 @@ class HomeScreen extends StatelessWidget {
             IconButton(onPressed: () {}, icon: const Icon(Icons.person_pin)),
           ],
         ),
-        drawer: const MyDrawer(),
+        drawer: MyDrawer(),
         body: Padding(
           padding: const EdgeInsets.all(10.0),
           child: SingleChildScrollView(
@@ -59,13 +60,13 @@ class HomeScreen extends StatelessWidget {
                           widget: CosmaticsScreen(),
                         ),
                         ///if the logged in person is pharmaceutical
-                        ElevatedButton(
+                        if(isAdmin)ElevatedButton(
                             onPressed: () {
                               navigateTo(
                                   context, const MedicinesManagementScreen());
                             },
                             child: const Text('medicine management')),
-                        ElevatedButton(
+                        if(isAdmin)ElevatedButton(
                             onPressed: () {
                               navigateTo(context, const AddNewEquipment());
                             },

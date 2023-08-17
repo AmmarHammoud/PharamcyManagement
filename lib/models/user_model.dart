@@ -11,7 +11,7 @@ class UserModel {
   UserModel.formJson(Map<String, dynamic> json) {
     statues = json['status'];
     message = json['message'];
-    if(json['data']!= null) user = User.fromJson(json['data']);
+    if(json['info']!= null) user = User.fromJson(json['info']);
     if(json['access_token'] != null) token = json['access_token'];
   }
 }

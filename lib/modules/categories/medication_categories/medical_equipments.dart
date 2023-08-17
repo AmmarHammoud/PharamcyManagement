@@ -16,8 +16,8 @@ class MedicalEquipmentsScreen extends StatelessWidget {
           'Med Equipment',
         ),
       ),
-      drawer: const MyDrawer(),
-      body: Padding(
+      drawer:  MyDrawer(),
+      body: const Padding(
         padding: const EdgeInsets.all(20.0),
         child: SingleChildScrollView(
           child: Column(
