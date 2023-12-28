@@ -40,23 +40,11 @@ class UpdateProfileCubit extends Cubit<UpdateProfileStates> {
     DioHelper.getUserInformation(token: CashHelper.getUserToken()!)
         .then((value) {
       userModel = UserModel.formJson(value.data);
-      print(userModel!.user.name);
+      print(value.data);
       userInfoControllers.nameController.text = userModel!.user.name;
-      userInfoControllers.emailController.text = userModel!.user.email;
       userInfoControllers.phoneController.text = userModel!.user.phone;
-      userInfoControllers.haveDiseaseController.text =
-          userModel!.user.haveDiseases;
-      userInfoControllers.medicineUsedController.text =
-          userModel!.user.medicineUsed;
-      userInfoControllers.medicineAllergiesController.text =
-          userModel!.user.medicineAllergies;
-      userInfoControllers.foodAllergiesController.text =
-          userModel!.user.foodAllergies;
 
-      for (int i = 0; i < 4; i++) {
-        questions[i] = userModel!.user.questions[i];
-        changeQuestionSwitch(switchIndex: i);
-      }
+
       emit(GetUserInformationSuccessState());
     }).catchError((error) {
       print('update profile error: ${error.toString()}');

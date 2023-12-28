@@ -46,43 +46,27 @@ class RegisterCubit extends Cubit<RegisterStates> {
   void register({
     required context,
     required String name,
-    required String email,
     required String password,
-    required String passwordConfirmation,
     required String phone,
-    required bool isMale,
-    required String birthDay,
-    required String medicineUsed,
-    required String medicineAllergies,
-    required String foodAllergies,
-    required String anotherDisease,
-    required String haveDisease,
   }) {
     if (requiredInformationFilled(context: context)) {
       emit(RegisterLoadingState());
       DioHelper.register(
         image: 'images/person.png',
         name: name,
-        email: email,
         password: password,
-        passwordConfirmation: passwordConfirmation,
         phone: phone,
-        isMale: isMale,
-        birthDay: birthDay,
-        medicineUsed: medicineUsed == '' ? '-' : medicineUsed,
-        medicineAllergies: medicineAllergies == '' ? '-' : medicineAllergies,
-        foodAllergies: foodAllergies == '' ? '-' : foodAllergies,
-        anotherDisease: anotherDisease == '' ? '-' : anotherDisease,
-        haveDisease: haveDisease == '' ? '-' : haveDisease,
       ).then((value) {
+        //print(value.data);
         UserModel registerModel = UserModel.formJson(value.data);
-        if (registerModel.statues == null) {
+        if (value.data['status'] != 1) {
+          print("The message is"+value.data['message']);
           showToast(
               context: context, text: value.data['message'], color: Colors.red);
         } else {
           showToast(
               context: context,
-              text: registerModel.message,
+              text: value.data['message'],
               color: Colors.green);
           navigateAndFinish(context, const LoginScreen());
         }
@@ -120,20 +104,12 @@ class RegisterCubit extends Cubit<RegisterStates> {
     bool requiredInformationFilled = userInfoValidators
             .nameValidator.currentState!
             .validate() &&
-        userInfoValidators.emailValidator.currentState!.validate() &&
-        userInfoValidators.passwordValidator.currentState!.validate() &&
-        userInfoValidators.passwordConfirmationValidator.currentState!
-            .validate() &&
         userInfoValidators.phoneValidator.currentState!.validate() &&
-        validateQuestion(
-            userInfoValidators.haveDiseaseValidator.currentState?.validate()) &&
-        validateQuestion(userInfoValidators.medicineUsedValidator.currentState
-            ?.validate()) &&
-        validateQuestion(userInfoValidators
-            .medicineAllergiesValidator.currentState
-            ?.validate()) &&
-        validateQuestion(
-            userInfoValidators.foodAllergiesValidator.currentState?.validate());
+        userInfoValidators.passwordValidator.currentState!.validate();
+    if(userInfoControllers.passwordController.text != userInfoControllers.passwordConfirmationController.text){
+      showToast(context: context, text: 'Password don\'t match', color: Colors.red);
+      return false;
+    }
     if (!requiredInformationFilled) {
       showToast(
           context: context,

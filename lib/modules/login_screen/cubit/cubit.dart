@@ -29,26 +29,27 @@ class LoginCubit extends Cubit<LoginStates> {
   }
 
   void login(
-      {required context, required String email, required String password}) {
-    if (userInfoValidators.emailValidator.currentState!.validate() &&
+      {required context, required String phone, required String password}) {
+    if (userInfoValidators.phoneValidator.currentState!.validate() &&
         userInfoValidators.passwordValidator.currentState!.validate()) {
       emit(LoginLoadingState());
-      DioHelper.login(email: email, password: password).then((value) {
+      DioHelper.login(phone: phone, password: password).then((value) async {
         print(value.data);
         UserModel loginModel = UserModel.formJson(value.data);
-        CashHelper.putUser(userToken: loginModel.token);
-        CashHelper.putUserEmail(email: loginModel.user.email);
-        //Future.delayed(const Duration(seconds: 10));
+        print('STATUS: ${loginModel.statues}');
         if (loginModel.statues == 1) {
-          navigateAndFinish(
-              context,
-              HomeScreen());
+          CashHelper.putUser(userToken: loginModel.user.token);
+          CashHelper.putUserPhone(mobile: loginModel.user.phone);
+          CashHelper.putUserId(id: loginModel.user.id);
+          navigateAndFinish(context, HomeScreen());
         }
+        //if(loginModel.statues == 0) {
         showToast(
             context: context,
             text: loginModel.message,
             color: loginModel.statues == 1 ? Colors.green : Colors.red);
-        print(loginModel.user.email);
+        //}
+        //print(loginModel.user.email);
 
         emit(LoginSuccessState());
       }).catchError((error) {

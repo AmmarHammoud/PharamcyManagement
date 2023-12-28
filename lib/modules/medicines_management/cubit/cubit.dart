@@ -26,6 +26,7 @@ class MedicinesManagementCubit extends Cubit<MedicinesManagementStates> {
     emit(GetTotalMedicinesLoadingState());
     DioHelper.getTotalMedicines(token: CashHelper.getUserToken()!)
         .then((value) {
+          print(value.data);
       for (int i = 0; i < value.data['data'].length; i++) {
         totalMedicines.add(MedicineModel.formJson(value.data['data'][i]));
 
@@ -43,7 +44,7 @@ class MedicinesManagementCubit extends Cubit<MedicinesManagementStates> {
         .then((value) {
       print(value.data);
       emit(DeleteMedicineSuccessState());
-      navigateAndFinish(context, const GetTotalMedicinesScreen());
+      navigateAndFinish(context, GetTotalMedicinesScreen());
       showToast(context: context, text: value.data['message'], color: Colors.green);
     }).catchError((error) {
       print('error deleting: ${error.toString()}');

@@ -1,33 +1,41 @@
 {
   "project_info": {
-    "project_number": "539367211685",
-    "project_id": "dac-app-dac4f",
-    "storage_bucket": "dac-app-dac4f.appspot.com"
+    "project_number": "996896348310",
+    "project_id": "pharmacy-abe40",
+    "storage_bucket": "pharmacy-abe40.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:539367211685:android:26101d20a24b832904c34c",
+        "mobilesdk_app_id": "1:996896348310:android:5ad1d1f92d649ed4b4cab7",
         "android_client_info": {
-          "package_name": "com.ammar.dac"
+          "package_name": "com.example.pharmacy"
         }
       },
       "oauth_client": [
         {
-          "client_id": "539367211685-torg60nrhckjo7le8hkap69djlkubljb.apps.googleusercontent.com",
+          "client_id": "996896348310-v1rvhv7vfjhao2urav7jrdad5ib0f0gj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.pharmacy",
+            "certificate_hash": "c376f510b724f5aa241607f0f5a6930e2874d891"
+          }
+        },
+        {
+          "client_id": "996896348310-n3k1hjla2csjkd5gcdtgsioggbt5uisl.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyD4eHZ8gu8-Xw5NkTJgBATzVgp0bPR7CDE"
+          "current_key": "AIzaSyBSMYwu7j5OUeiHPo0H5VCSPcJeEHoGbXs"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "539367211685-torg60nrhckjo7le8hkap69djlkubljb.apps.googleusercontent.com",
+              "client_id": "996896348310-n3k1hjla2csjkd5gcdtgsioggbt5uisl.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

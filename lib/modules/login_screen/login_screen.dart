@@ -3,10 +3,12 @@ import 'package:dac/modules/login_screen/cubit/cubit.dart';
 import 'package:dac/modules/login_screen/cubit/states.dart';
 import 'package:dac/modules/register_screen/register_screen.dart';
 import 'package:dac/shared/components.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+//import 'package:flutter/foundation.dart';
 class LoginScreen extends StatelessWidget {
   const LoginScreen({Key? key}) : super(key: key);
 
@@ -29,17 +31,18 @@ class LoginScreen extends StatelessWidget {
                   child: Column(
                     children: [
                       ValidatedTextField(
-                          controller: login.userInfoControllers.emailController,
-                          icon: Icons.email,
-                          validator: login.userInfoValidators.emailValidator,
-                          errorText: 'email field cannot be empty',
-                          hintText: 'email',
+                          controller: login.userInfoControllers.phoneController,
+                          icon: Icons.phone,
+                          validator: login.userInfoValidators.phoneValidator,
+                          errorText: 'phone field cannot be empty',
+                          hintText: 'phone',
                           onChanged: (String email) => null),
                       const SizedBox(
                         height: 10,
                       ),
                       ValidatedTextField(
-                          controller: login.userInfoControllers.passwordController,
+                          controller:
+                              login.userInfoControllers.passwordController,
                           icon: Icons.lock,
                           hasNextText: false,
                           obscureText: passwordIsShown,
@@ -52,6 +55,9 @@ class LoginScreen extends StatelessWidget {
                                 login.changePasswordVisibility();
                               },
                               passwordIsShown: passwordIsShown)),
+                      const SizedBox(
+                        height: 10,
+                      ),
                       ConditionalBuilder(
                           condition: state is! LoginLoadingState,
                           builder: (context) => ElevatedButton(
@@ -59,8 +65,8 @@ class LoginScreen extends StatelessWidget {
                               onPressed: () {
                                 login.login(
                                     context: context,
-                                    email: login.userInfoControllers
-                                        .emailController.text,
+                                    phone: login.userInfoControllers
+                                        .phoneController.text,
                                     password: login.userInfoControllers
                                         .passwordController.text);
                               }),
@@ -81,3 +87,13 @@ class LoginScreen extends StatelessWidget {
     );
   }
 }
+/*
+() {
+                                login.login(
+                                    context: context,
+                                    email: login.userInfoControllers
+                                        .emailController.text,
+                                    password: login.userInfoControllers
+                                        .passwordController.text);
+                              }
+*/

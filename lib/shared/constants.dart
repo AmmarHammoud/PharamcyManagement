@@ -32,7 +32,7 @@ class MedicineTextValidators {
 
 class UserInfoControllers{
   final TextEditingController nameController = TextEditingController();
-  final TextEditingController emailController = TextEditingController();
+  //final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController passwordConfirmationController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
@@ -42,7 +42,7 @@ class UserInfoControllers{
   final TextEditingController foodAllergiesController = TextEditingController();
 }
 class UserInfoValidators{
-  final GlobalKey<FormState> emailValidator = GlobalKey<FormState>();
+  //final GlobalKey<FormState> emailValidator = GlobalKey<FormState>();
   final GlobalKey<FormState> nameValidator = GlobalKey<FormState>();
   final GlobalKey<FormState> passwordValidator = GlobalKey<FormState>();
   final GlobalKey<FormState> passwordConfirmationValidator = GlobalKey<FormState>();
@@ -58,17 +58,27 @@ class WhatsappButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-        onPressed: () async {
-          Uri whatsapp =
-          Uri.parse('https://wa.me/+963959289671');
+    return IconButton(onPressed: () async {
+      Uri whatsapp =
+      Uri.parse('https://wa.me/+963959289671');
 
-          launchUrl(whatsapp,
-              mode: LaunchMode
-                  .externalNonBrowserApplication)
-              .then((value) => print(value.toString()))
-              .catchError((error) => print(error.toString()));
-        },
-        child: const Text('open whatsapp'));
+      launchUrl(whatsapp,
+          mode: LaunchMode
+              .externalNonBrowserApplication)
+          .then((value) => print(value.toString()))
+          .catchError((error) => print(error.toString()));
+    }, icon: Icon(Icons.call));
+      // ElevatedButton(
+      //   onPressed: () async {
+      //     Uri whatsapp =
+      //     Uri.parse('https://wa.me/+963959289671');
+      //
+      //     launchUrl(whatsapp,
+      //         mode: LaunchMode
+      //             .externalNonBrowserApplication)
+      //         .then((value) => print(value.toString()))
+      //         .catchError((error) => print(error.toString()));
+      //   },
+      //   child: const Text('open whatsapp'));
   }
 }

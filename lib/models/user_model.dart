@@ -9,10 +9,10 @@ class UserModel {
   UserModel(this.statues, this.token, this.message);
 
   UserModel.formJson(Map<String, dynamic> json) {
+    print(json);
     statues = json['status'];
     message = json['message'];
-    if(json['info']!= null) user = User.fromJson(json['info']);
-    if(json['access_token'] != null) token = json['access_token'];
+    if(json['data'] != null) user = User.fromJson(json['data']);
   }
 }
 
@@ -20,16 +20,10 @@ class User {
   late int id;
   late String name;
   late String email;
-  late String gender;
   late String phone;
-  late String birthDate;
+  late String token;
   String? image;
-  late String medicineUsed;
-  late String medicineAllergies;
-  late String foodAllergies;
-  late String haveDiseases;
-  late String anotherDiseases;
-  List<bool> questions = [];
+
   User(
       {
       required this.name,
@@ -38,32 +32,10 @@ class User {
       required this.image});
 
   User.fromJson(Map<String, dynamic> json) {
-    name = json['name'];
-    email = json['email'];
-    phone = json['number'];
-    gender = json['gender'];
-    image = json['image'];
-    birthDate = json['b_day'];
-
-    //question1: do you have any diseases?
-    haveDiseases = json['have_disease'];
-    questions.add(haveDiseases == '-');
-
-    //question2: do you use any medicine?
-    medicineUsed = json['medicine_used'];
-    questions.add(medicineUsed == '-');
-
-    //question3: Are you allergic to any medicine?
-    medicineAllergies = json['medicine_allergies'];
-    questions.add(medicineAllergies == '-');
-
-    //question4: Are you allergic to any food?
-    foodAllergies = json['food_allergies'];
-    questions.add(foodAllergies == '-');
-
-
-
-    anotherDiseases = json['another_disease'];
+    id = json['user']['id'];
+    name = json['user']['username'];
+    phone = json['user']['mobile'];
+    token = json['token'];
   }
 }
 

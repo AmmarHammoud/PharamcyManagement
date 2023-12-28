@@ -48,6 +48,10 @@ dependencies:
   url_launcher: ^6.1.11
   flutter_conditional_rendering: ^2.0.0
   syncfusion_flutter_charts: ^21.2.10
+  #firebase_analytics: ^10.4.5
+  #firebase_core: ^2.15.1
+  #firebase_messaging: ^14.6.6
+  flutter_local_notifications: ^15.1.0+1
 
 dev_dependencies:
   flutter_test:
@@ -87,12 +91,15 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
+  fonts:
+    - family: Comic
+      fonts:
+        - asset: fonts/comic.ttf
+    - family: Kfo
+      fonts:
+        - asset: fonts/KFOmCnqEu92Fr1Me5WZLCzYlKw.ttf
+         #- asset: fonts/Schyler-Italic.ttf
+           #style: italic
   #   - family: Trajan Pro
   #     fonts:
   #       - asset: fonts/TrajanPro.ttf

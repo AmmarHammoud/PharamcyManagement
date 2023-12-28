@@ -21,7 +21,7 @@ class MedicineModel{
     companyName = json['company_name'];
     category = json['category'];
     activeIngredients = json['active_ingredient'];
-    image = json['img'];
+    //image = json['img'];
     usesFor = json['uses_for'];
     sideEffects = json['effects'];
     quantity = json['quantity'];

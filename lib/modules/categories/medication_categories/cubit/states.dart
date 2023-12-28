@@ -1,0 +1,9 @@
+abstract class GetMedicineCategoriesStates{}
+
+class GetMedicineCategoriesInitialState extends GetMedicineCategoriesStates{}
+
+class GetMedicineCategoriesSuccessState extends GetMedicineCategoriesStates{}
+
+class GetMedicineCategoriesLoadingState extends GetMedicineCategoriesStates{}
+
+class GetMedicineCategoriesErrorState extends GetMedicineCategoriesStates{}

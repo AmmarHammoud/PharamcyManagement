@@ -23,7 +23,7 @@ class MedicinesManagementScreen extends StatelessWidget {
                 children: [
                   ElevatedButton(
                       onPressed: () {
-                        navigateTo(context, const GetTotalMedicinesScreen());
+                        navigateTo(context, GetTotalMedicinesScreen());
                       },
                       child: const Text('medicines management')),
                   //MedicineComponents(cubitObject: medicinesManagement)

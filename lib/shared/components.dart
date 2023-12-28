@@ -1,9 +1,17 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:dac/models/search_model/medicine_model/medicine_model.dart';
+import 'package:dac/modules/categories/medication_categories/cubit/cubit.dart';
+import 'package:dac/modules/categories/medication_categories/cubit/states.dart';
 import 'package:dac/modules/categories/medication_categories/medical_equipments.dart';
+import 'package:dac/modules/medicines_management/get_total_medicines_screee.dart';
+import 'package:dac/modules/medicines_management/medicine_preview_screen.dart';
 import 'package:dac/modules/register_screen/cubit/cubit.dart';
+import 'package:dac/modules/search_box/search_box.dart';
 import 'package:dac/shared/cash_helper.dart';
+import 'package:dac/shared/dio_helper.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
@@ -24,6 +32,39 @@ navigateAndFinish(context, Widget widget) {
     MaterialPageRoute(builder: (context) => widget),
     (Route<dynamic> route) => false,
   );
+}
+
+class MyText extends StatelessWidget {
+  const MyText({Key? key, required this.title, this.isBlue = false, this.isBlack = false})
+      : super(key: key);
+  final String title;
+  final bool isBlue;
+  final bool isBlack;
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      title,
+      style: isBlue
+          ? Theme.of(context).textTheme.headline1
+          : isBlack ? Theme.of(context).textTheme.bodyText1 : Theme.of(context).textTheme.bodyText2,
+    );
+  }
+}
+
+class MyButton extends StatelessWidget {
+  const MyButton({Key? key, required this.title, required this.onPressed})
+      : super(key: key);
+  final Function onPressed;
+  final String title;
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+        style: ElevatedButton.styleFrom(
+            minimumSize: kIsWeb ? const Size(150, 50) : const Size(100, 50)),
+        child: const MyText(title: 'login'),
+        onPressed: () => onPressed);
+  }
 }
 
 class ValidatedTextField extends StatelessWidget {
@@ -120,7 +161,7 @@ showToast(
   );
   fToast.showToast(
     child: toast,
-    gravity: ToastGravity.BOTTOM,
+    gravity: ToastGravity.CENTER,
     toastDuration: Duration(seconds: duration),
   );
 }
@@ -193,7 +234,7 @@ class ShowQuestionAnswerBox extends StatelessWidget {
                 height: 10,
               ),
               ValidatedTextField(
-                hasNextText: false,
+                  hasNextText: false,
                   controller: controller,
                   validator: validator,
                   errorText: errorText,
@@ -421,7 +462,9 @@ class DrawerButton extends StatelessWidget {
 
 class MyDrawer extends StatelessWidget {
   bool isAdmin = CashHelper.isAdmin();
+
   MyDrawer({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     double divisor = 15;
@@ -444,51 +487,56 @@ class MyDrawer extends StatelessWidget {
         SizedBox(
           height: divisor,
         ),
-        DrawerButton(
-          onPressed: () => navigateTo(context, const ProfileScreen()),
-          title: 'my profile',
-          imagePath: 'images/profile.png',
-        ),
+        if (!isAdmin)
+          DrawerButton(
+            onPressed: () => navigateTo(context, const ProfileScreen()),
+            title: 'my profile',
+            imagePath: 'images/profile.png',
+          ),
         SizedBox(
           height: divisor,
         ),
         DrawerButton(
-          onPressed: () => navigateTo(context, CategorizedMedicineScreen()),
+          onPressed: () => navigateTo(context, GetTotalMedicinesScreen()),
           title: 'medicine',
           imagePath: 'images/medicine.png',
         ),
         SizedBox(
           height: divisor,
         ),
+        // DrawerButton(
+        //   onPressed: () => navigateTo(context, MedicalEquipmentsScreen()),
+        //   title: 'medical equipments',
+        //   imagePath: 'images/medical_equipments.png',
+        // ),
+        // SizedBox(
+        //   height: divisor,
+        // ),
+        // DrawerButton(
+        //   onPressed: () => navigateTo(context, CosmaticsScreen()),
+        //   title: 'cosmetics',
+        //   imagePath: 'images/cosmetics.png',
+        // ),
+        // SizedBox(
+        //   height: divisor,
+        // ),
+        // if (isAdmin)
+        //   DrawerButton(
+        //     onPressed: () => navigateTo(context, const CalculationScreen()),
+        //     title: 'calculations',
+        //     imagePath: 'images/budget.png',
+        //   ),
+        // if (isAdmin)
+        //   SizedBox(
+        //     height: divisor,
+        //   ),
         DrawerButton(
-          onPressed: () => navigateTo(context, MedicalEquipmentsScreen()),
-          title: 'medical equipments',
-          imagePath: 'images/medical_equipments.png',
-        ),
-        SizedBox(
-          height: divisor,
-        ),
-        DrawerButton(
-          onPressed: () => navigateTo(context, CosmaticsScreen()),
-          title: 'cosmetics',
-          imagePath: 'images/cosmetics.png',
-        ),
-        SizedBox(
-          height: divisor,
-        ),
-        if(isAdmin) DrawerButton(
-          onPressed: () => navigateTo(context, const CalculationScreen()),
-          title: 'calculations',
-          imagePath: 'images/budget.png',
-        ),
-        if(isAdmin)SizedBox(
-          height: divisor,
-        ),
-        DrawerButton(
-            title: 'logout', imagePath: 'images/logout.png', onPressed: () {
+            title: 'logout',
+            imagePath: 'images/logout.png',
+            onPressed: () {
               CashHelper.logoutUser();
               navigateAndFinish(context, const LoginScreen());
-        })
+            })
       ]),
     );
   }
@@ -555,9 +603,9 @@ class DateSelector extends StatelessWidget {
 class MedicineComponents extends StatelessWidget {
   final cubitObject;
   final MedicineModel? medicineModel;
+  final bool isAdmin = CashHelper.isAdmin();
 
-  const MedicineComponents(
-      {Key? key, required this.cubitObject, this.medicineModel})
+  MedicineComponents({Key? key, required this.cubitObject, this.medicineModel})
       : super(key: key);
 
   @override
@@ -572,19 +620,25 @@ class MedicineComponents extends StatelessWidget {
     return Column(
       children: [
         ValidatedTextField(
-            controller: cubitObject.medicineTextControllers.medicineNameController,
+            enable: isAdmin,
+            controller:
+                cubitObject.medicineTextControllers.medicineNameController,
             icon: Icons.medication,
             validator: cubitObject.medicineTextValidators.medicineNameValidator,
             errorText: 'name field must be filled',
             hintText: medicineModel?.name ?? 'medicine name',
             onChanged: (name) {
-              cubitObject.medicineNameValidator.currentState?.validate();
+              cubitObject
+                  .medicineTextValidators.medicineNameValidator.currentState
+                  ?.validate();
             }),
         SizedBox(
           height: divisor,
         ),
         ValidatedTextField(
-            controller: cubitObject.medicineTextControllers.scientificNameController,
+            enable: isAdmin,
+            controller:
+                cubitObject.medicineTextControllers.scientificNameController,
             icon: Icons.medication,
             validator:
                 cubitObject.medicineTextValidators.scientificNameValidator,
@@ -599,7 +653,9 @@ class MedicineComponents extends StatelessWidget {
           height: divisor,
         ),
         ValidatedTextField(
-            controller: cubitObject.medicineTextControllers.companyNameController,
+            enable: isAdmin,
+            controller:
+                cubitObject.medicineTextControllers.companyNameController,
             icon: Icons.house,
             validator: cubitObject.medicineTextValidators.companyNameValidator,
             errorText: 'company name field must be filled',
@@ -613,6 +669,7 @@ class MedicineComponents extends StatelessWidget {
           height: divisor,
         ),
         ValidatedTextField(
+            enable: isAdmin,
             controller: cubitObject.medicineTextControllers.categoryController,
             icon: Icons.padding,
             validator: cubitObject.medicineTextValidators.categoryValidator,
@@ -628,13 +685,15 @@ class MedicineComponents extends StatelessWidget {
         DateSelector(
             hintText: 'expiry date:',
             onTap: () async {
-              final DateTime? picked = await showDatePicker(
-                  context: context,
-                  initialDate: initialDate,
-                  firstDate: DateTime(1950, 1),
-                  lastDate: DateTime(2101));
-              if (picked != null && picked != initialDate) {
-                cubitObject.changeDate(expireDate: picked);
+              if (isAdmin) {
+                final DateTime? picked = await showDatePicker(
+                    context: context,
+                    initialDate: initialDate,
+                    firstDate: DateTime(1950, 1),
+                    lastDate: DateTime(2101));
+                if (picked != null && picked != initialDate) {
+                  cubitObject.changeDate(expireDate: picked);
+                }
               }
             },
             shownDate: initialDate),
@@ -642,6 +701,7 @@ class MedicineComponents extends StatelessWidget {
           height: divisor,
         ),
         ValidatedTextField(
+            enable: isAdmin,
             controller: cubitObject.medicineTextControllers.quantityController,
             icon: Icons.production_quantity_limits_rounded,
             validator: cubitObject.medicineTextValidators.quantityValidator,
@@ -654,60 +714,195 @@ class MedicineComponents extends StatelessWidget {
         SizedBox(
           height: divisor,
         ),
-        ValidatedTextField(
-            controller: cubitObject.medicineTextControllers.usesForController,
-            icon: Icons.medical_services_outlined,
-            validator: cubitObject.medicineTextValidators.usesForValidator,
-            errorText: 'uses for field must be filled',
-            hintText: medicineModel?.usesFor ?? 'uses for',
-            onChanged: (usesFor) {
-              cubitObject.medicineTextValidators.usesForValidator.currentState!
-                  .validate();
-            }),
-        SizedBox(
-          height: divisor,
-        ),
-        ValidatedTextField(
-            controller: cubitObject.medicineTextControllers.sideEffectsController,
-            icon: Icons.medical_information,
-            validator: cubitObject.medicineTextValidators.sideEffectsValidator,
-            errorText: 'side effects field must be filled',
-            hintText: medicineModel?.sideEffects ?? 'side effects',
-            onChanged: (sideEffects) {
-              cubitObject
-                  .medicineTextValidators.sideEffectsValidator.currentState!
-                  .validate();
-            }),
-        SizedBox(
-          height: divisor,
-        ),
-        ValidatedTextField(
-            controller: cubitObject.medicineTextControllers.activeIngredientController,
-            icon: Icons.medical_information,
-            validator:
-                cubitObject.medicineTextValidators.activeIngredientValidator,
-            errorText: 'active ingredients field mist be filled',
-            hintText: medicineModel?.activeIngredients ?? 'active ingredients',
-            onChanged: (activeIngredients) {
-              cubitObject.medicineTextValidators.activeIngredientValidator
-                  .currentState!
-                  .validate();
-            }),
-        SizedBox(
-          height: divisor,
-        ),
-        ValidatedTextField(
-            hasNextText: false,
-            controller: cubitObject.medicineTextControllers.priceController,
-            icon: Icons.price_change,
-            validator: cubitObject.medicineTextValidators.priceValidator,
-            errorText: 'price filed must be filled',
-            hintText: medicineModel?.price ?? 'price',
-            onChanged: (price) {
-              cubitObject.medicineTextValidators.priceValidator.currentState!
-                  .validate();
-            }),
+        // ValidatedTextField(
+        //     controller: cubitObject.medicineTextControllers.usesForController,
+        //     icon: Icons.medical_services_outlined,
+        //     validator: cubitObject.medicineTextValidators.usesForValidator,
+        //     errorText: 'uses for field must be filled',
+        //     hintText: medicineModel?.usesFor ?? 'uses for',
+        //     onChanged: (usesFor) {
+        //       cubitObject.medicineTextValidators.usesForValidator.currentState!
+        //           .validate();
+        //     }),
+        // SizedBox(
+        //   height: divisor,
+        // ),
+        // ValidatedTextField(
+        //     controller: cubitObject.medicineTextControllers.sideEffectsController,
+        //     icon: Icons.medical_information,
+        //     validator: cubitObject.medicineTextValidators.sideEffectsValidator,
+        //     errorText: 'side effects field must be filled',
+        //     hintText: medicineModel?.sideEffects ?? 'side effects',
+        //     onChanged: (sideEffects) {
+        //       cubitObject
+        //           .medicineTextValidators.sideEffectsValidator.currentState!
+        //           .validate();
+        //     }),
+        // SizedBox(
+        //   height: divisor,
+        // ),
+        // ValidatedTextField(
+        //     controller: cubitObject.medicineTextControllers.activeIngredientController,
+        //     icon: Icons.medical_information,
+        //     validator:
+        //         cubitObject.medicineTextValidators.activeIngredientValidator,
+        //     errorText: 'active ingredients field mist be filled',
+        //     hintText: medicineModel?.activeIngredients ?? 'active ingredients',
+        //     onChanged: (activeIngredients) {
+        //       cubitObject.medicineTextValidators.activeIngredientValidator
+        //           .currentState!
+        //           .validate();
+        //     }),
+        // SizedBox(
+        //   height: divisor,
+        // ),
+        // ValidatedTextField(
+        //     hasNextText: false,
+        //     controller: cubitObject.medicineTextControllers.priceController,
+        //     icon: Icons.price_change,
+        //     validator: cubitObject.medicineTextValidators.priceValidator,
+        //     errorText: 'price filed must be filled',
+        //     hintText: medicineModel?.price ?? 'price',
+        //     onChanged: (price) {
+        //       cubitObject.medicineTextValidators.priceValidator.currentState!
+        //           .validate();
+        //     }),
       ],
+    );
+  }
+}
+
+class MedicineModelViewer extends StatelessWidget {
+  final String name;
+  final String category;
+  final String imagePath;
+  final bool condition;
+  final Function() onPressed;
+
+  const MedicineModelViewer(
+      {Key? key,
+      required this.name,
+      required this.category,
+      required this.imagePath,
+      required this.condition,
+      required this.onPressed})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    double imageSize = 50;
+    return Container(
+      color: Colors.greenAccent,
+      child: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              children: [
+                Image.asset(
+                  imagePath,
+                  width: imageSize,
+                  height: imageSize,
+                ),
+                Column(
+                  children: [
+                    Text(name),
+                    Text(
+                      category,
+                      style: const TextStyle(color: Colors.blue),
+                    )
+                  ],
+                ),
+              ],
+            ),
+            CustomizedButton(
+                title: 'view', condition: condition, onPressed: onPressed),
+            // CustomizedButton(title: 'order', condition: 1 == 1, onPressed: () {
+            //   DioHelper.addMedicineRequest(token: CashHelper.getUserToken()!,
+            //       userId: CashHelper.getUserId()!,
+            //       userName: "name",
+            //       medicineName: name)
+            //       .then((value) => print(value.data))
+            //       .onError((error, stackTrace) {
+            //     print(error.toString());
+            //   });
+            // })
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class CategorizedMedicines extends StatelessWidget {
+  const CategorizedMedicines({Key? key, required this.category})
+      : super(key: key);
+  final String category;
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => GetMedicineCategoriesCubit()
+        ..getMedicineCategories(category: category),
+      child: BlocConsumer<GetMedicineCategoriesCubit,
+              GetMedicineCategoriesStates>(
+          listener: (context, state) {},
+          builder: (context, state) {
+            var cubitObject = GetMedicineCategoriesCubit.get(context);
+            return Scaffold(
+              appBar: AppBar(
+                centerTitle: true,
+                title: Text(
+                  category,
+                ),
+              ),
+              body: Column(
+                children: [
+                  const SearchBox(),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  ConditionalBuilder(
+                    condition: state is! GetMedicineCategoriesLoadingState,
+                    builder: (context) => ListView.separated(
+                        physics: const BouncingScrollPhysics(
+                            //parent: AlwaysScrollableScrollPhysics()
+                            ),
+                        shrinkWrap: true,
+                        scrollDirection: Axis.vertical,
+                        itemBuilder: (context, index) => Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: MedicineModelViewer(
+                                ///SHOULD BE UPDATED
+                                condition: 1 == 0,
+                                name:
+                                    cubitObject.categorizedMedicine[index].name,
+                                category: cubitObject
+                                    .categorizedMedicine[index].category,
+                                imagePath: 'images/medicine.png',
+                                onPressed: () {
+                                  navigateTo(
+                                      context,
+                                      MedicinePreviewScreen(
+                                          medicineModel: cubitObject
+                                              .categorizedMedicine[index]));
+                                },
+                              ),
+                            ),
+                        separatorBuilder: (context, index) => const SizedBox(
+                              height: 10,
+                            ),
+                        itemCount: cubitObject.categorizedMedicine.length),
+                    fallback: (context) => const Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  )
+                ],
+              ),
+              drawer: MyDrawer(),
+            );
+          }),
     );
   }
 }

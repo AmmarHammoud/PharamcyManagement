@@ -1,10 +1,12 @@
 import 'package:dac/shared/components.dart';
 import 'package:flutter/material.dart';
 
+import '../../../shared/cash_helper.dart';
 import '../../search_box/search_box.dart';
+import 'package:dac/modules/add_new_product/add_new_medical_equipments/add_new_medical_equipments.dart';
 class MedicalEquipmentsScreen extends StatelessWidget {
   final searchController = TextEditingController();
-
+  bool isAdmin = CashHelper.isAdmin();
   MedicalEquipmentsScreen({super.key});
 
   @override
@@ -17,16 +19,20 @@ class MedicalEquipmentsScreen extends StatelessWidget {
         ),
       ),
       drawer:  MyDrawer(),
-      body: const Padding(
+      body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: SingleChildScrollView(
           child: Column(
-            children: const[
+            children: [
               SearchBox(),
               SizedBox(
                 height: 15.0,
               ),
-              // AddNewProductButton(condition: 0 == 1, onPressed: (){},),
+              if(isAdmin)ElevatedButton(
+                  onPressed: () {
+                    navigateTo(context, const AddNewEquipment());
+                  },
+                  child: const Text('add new product'))
             ],
           ),
         ),

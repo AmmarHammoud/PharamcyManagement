@@ -59,17 +59,14 @@ class RegisterScreen extends StatelessWidget {
                           errorText: 'Please enter your name',
                           hintText: 'user name',
                           onChanged: (String name) => null),
-                      SizedBox(
-                        height: divisor,
-                      ),
-                      ValidatedTextField(
-                          controller:
-                              register.userInfoControllers.emailController,
-                          icon: Icons.email,
-                          validator: register.userInfoValidators.emailValidator,
-                          errorText: 'Please enter your email',
-                          hintText: 'email',
-                          onChanged: (String email) => null),
+                      // ValidatedTextField(
+                      //     controller:
+                      //         register.userInfoControllers.emailController,
+                      //     icon: Icons.email,
+                      //     validator: register.userInfoValidators.emailValidator,
+                      //     errorText: 'Please enter your email',
+                      //     hintText: 'email',
+                      //     onChanged: (String email) => null),
                       SizedBox(
                         height: divisor,
                       ),
@@ -143,59 +140,59 @@ class RegisterScreen extends StatelessWidget {
                                   .format(register.birthDate),
                               onChanged: (x) {})),
                       GenderSelection(register: register),
-                      ShowQuestionAnswerBox(
-                          controller: register
-                              .userInfoControllers.haveDiseaseController,
-                          question: 'Do you have any disease?',
-                          cubitObject: register,
-                          validator:
-                              register.userInfoValidators.haveDiseaseValidator,
-                          hintText: 'diseases',
-                          errorText: 'diseases field is required',
-                          onChanged: (s) {},
-                          switchIndex: 0),
-                      SizedBox(
-                        height: divisor,
-                      ),
-                      ShowQuestionAnswerBox(
-                          controller: register
-                              .userInfoControllers.medicineUsedController,
-                          question: 'Do you use any medication?',
-                          cubitObject: register,
-                          validator:
-                              register.userInfoValidators.medicineUsedValidator,
-                          hintText: 'medication',
-                          errorText: 'medication field is required',
-                          onChanged: (s) {},
-                          switchIndex: 1),
-                      SizedBox(
-                        height: divisor,
-                      ),
-                      ShowQuestionAnswerBox(
-                          controller: register
-                              .userInfoControllers.medicineAllergiesController,
-                          question: 'Are you allergic to any medicine?',
-                          cubitObject: register,
-                          validator: register
-                              .userInfoValidators.medicineAllergiesValidator,
-                          hintText: 'allergy medicines',
-                          errorText: 'allergy medicines field is required',
-                          onChanged: (s) {},
-                          switchIndex: 2),
-                      SizedBox(
-                        height: divisor,
-                      ),
-                      ShowQuestionAnswerBox(
-                          controller: register
-                              .userInfoControllers.foodAllergiesController,
-                          question: 'Are you allergic to any food?',
-                          cubitObject: register,
-                          validator: register
-                              .userInfoValidators.foodAllergiesValidator,
-                          hintText: 'allergy food',
-                          errorText: 'allergy food field is required',
-                          onChanged: (s) {},
-                          switchIndex: 3),
+                      // ShowQuestionAnswerBox(
+                      //     controller: register
+                      //         .userInfoControllers.haveDiseaseController,
+                      //     question: 'Do you have any disease?',
+                      //     cubitObject: register,
+                      //     validator:
+                      //         register.userInfoValidators.haveDiseaseValidator,
+                      //     hintText: 'diseases',
+                      //     errorText: 'diseases field is required',
+                      //     onChanged: (s) {},
+                      //     switchIndex: 0),
+                      // SizedBox(
+                      //   height: divisor,
+                      // ),
+                      // ShowQuestionAnswerBox(
+                      //     controller: register
+                      //         .userInfoControllers.medicineUsedController,
+                      //     question: 'Do you use any medication?',
+                      //     cubitObject: register,
+                      //     validator:
+                      //         register.userInfoValidators.medicineUsedValidator,
+                      //     hintText: 'medication',
+                      //     errorText: 'medication field is required',
+                      //     onChanged: (s) {},
+                      //     switchIndex: 1),
+                      // SizedBox(
+                      //   height: divisor,
+                      // ),
+                      // ShowQuestionAnswerBox(
+                      //     controller: register
+                      //         .userInfoControllers.medicineAllergiesController,
+                      //     question: 'Are you allergic to any medicine?',
+                      //     cubitObject: register,
+                      //     validator: register
+                      //         .userInfoValidators.medicineAllergiesValidator,
+                      //     hintText: 'allergy medicines',
+                      //     errorText: 'allergy medicines field is required',
+                      //     onChanged: (s) {},
+                      //     switchIndex: 2),
+                      // SizedBox(
+                      //   height: divisor,
+                      // ),
+                      // ShowQuestionAnswerBox(
+                      //     controller: register
+                      //         .userInfoControllers.foodAllergiesController,
+                      //     question: 'Are you allergic to any food?',
+                      //     cubitObject: register,
+                      //     validator: register
+                      //         .userInfoValidators.foodAllergiesValidator,
+                      //     hintText: 'allergy food',
+                      //     errorText: 'allergy food field is required',
+                      //     onChanged: (s) {},
+                      //     switchIndex: 3),
                       SizedBox(
                         height: divisor,
                       ),
@@ -204,30 +201,14 @@ class RegisterScreen extends StatelessWidget {
                         condition: state is! RegisterLoadingState,
                         onPressed: () {
                           register.register(
-                              context: context,
-                              name: register
-                                  .userInfoControllers.nameController.text,
-                              email: register
-                                  .userInfoControllers.emailController.text,
-                              password: register
-                                  .userInfoControllers.passwordController.text,
-                              passwordConfirmation: register.userInfoControllers
-                                  .passwordConfirmationController.text,
-                              phone: register
-                                  .userInfoControllers.phoneController.text,
-                              isMale:
-                                  register.gender == Gender.male ? true : false,
-                              birthDay: DateFormat('yyyy/MM/dd')
-                                  .format(register.birthDate),
-                              haveDisease: register.userInfoControllers
-                                  .haveDiseaseController.text,
-                              medicineUsed: register.userInfoControllers
-                                  .medicineUsedController.text,
-                              medicineAllergies: register.userInfoControllers
-                                  .medicineAllergiesController.text,
-                              foodAllergies:
-                                  register.userInfoControllers.foodAllergiesController.text,
-                              anotherDisease: '');
+                            context: context,
+                            name: register
+                                .userInfoControllers.nameController.text,
+                            password: register
+                                .userInfoControllers.passwordController.text,
+                            phone: register
+                                .userInfoControllers.phoneController.text,
+                          );
                         },
                       )
                     ],

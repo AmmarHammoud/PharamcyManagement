@@ -48,41 +48,37 @@ class CategorizedMedicineScreen extends StatelessWidget {
                       const SizedBox(
                         height: 30,
                       ),
-                      SingleChildScrollView(
-                        child: SizedBox(
-                          height: 500,
-                          child: GridView.count(
-                            physics: const NeverScrollableScrollPhysics(),
-                            crossAxisCount: 2,
-                            children: const [
-                              CategoriesScreenButton(
-                                title: 'heart',
-                                widget: HeartMedicine(),
-                                imagePath: 'images/heart.png',
-                              ),
-                              CategoriesScreenButton(
-                                title: 'skin',
-                                widget: SkinMedicine(),
-                                imagePath: 'images/skin.png',
-                              ),
-                              CategoriesScreenButton(
-                                title: 'nero',
-                                widget: NeurologicalMedicine(),
-                                imagePath: 'images/neuron.png',
-                              ),
-                              CategoriesScreenButton(
-                                title: 'dig',
-                                widget: DigestiveMedicine(),
-                                imagePath: 'images/digestive.png',
-                              ),
-                              CategoriesScreenButton(
-                                title: 'opth',
-                                widget: OphthalmicMedicine(),
-                                imagePath: 'images/ophtalmology.png',
-                              ),
-                            ],
+                      GridView.count(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        crossAxisCount: 2,
+                        children: const [
+                          CategoriesScreenButton(
+                            title: 'heart',
+                            widget: CategorizedMedicines(category: 'heart'),
+                            imagePath: 'images/heart.png',
                           ),
-                        ),
+                          CategoriesScreenButton(
+                            title: 'skin',
+                            widget: CategorizedMedicines(category: 'skin'),
+                            imagePath: 'images/skin.png',
+                          ),
+                          CategoriesScreenButton(
+                            title: 'nero',
+                            widget: CategorizedMedicines(category: 'nuro'),
+                            imagePath: 'images/neuron.png',
+                          ),
+                          CategoriesScreenButton(
+                            title: 'dig',
+                            widget: CategorizedMedicines(category: 'dig'),
+                            imagePath: 'images/digestive.png',
+                          ),
+                          CategoriesScreenButton(
+                            title: 'opth',
+                            widget: CategorizedMedicines(category: 'opth'),
+                            imagePath: 'images/ophtalmology.png',
+                          ),
+                        ],
                       )
                     ],
                   ),

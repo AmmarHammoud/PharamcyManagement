@@ -46,12 +46,19 @@ class AddNewMedicationCubit extends Cubit<AddNewMedicationStates> {
             a_price: a_price,
             b_price: a_price)
         .then((value) {
+          print(value.data);
       emit(AddNewMedicationSuccessfulState());
-      navigateAndFinish(context, const GetTotalMedicinesScreen());
+      if(value.data['success']) {
+        navigateAndFinish(context, GetTotalMedicinesScreen());
+        showToast(
+            context: context,
+            text: value.data['message'],
+            color: Colors.green);
+      }
       showToast(
           context: context,
           text: value.data['message'],
-          color: value.data['success'] ? Colors.green : Colors.red);
+          color: Colors.red);
     }).catchError((error) {
       emit(AddNewMedicationErrorState());
     });
@@ -87,34 +94,35 @@ class AddNewMedicationCubit extends Cubit<AddNewMedicationStates> {
             medicineTextValidators
                 .quantityValidator.currentState
                 ?.validate()) &&
-        validateField(medicineTextValidators
-            .usesForValidator.currentState
-            ?.validate()) &&
-        validateField(
-            medicineTextValidators
-                .sideEffectsValidator.currentState
-                ?.validate()) &&
-        validateField(medicineTextValidators
-            .activeIngredientValidator.currentState
-            ?.validate()) &&
+        // validateField(medicineTextValidators
+        //     .usesForValidator.currentState
+        //     ?.validate()) &&
+        // validateField(
+        //     medicineTextValidators
+        //         .sideEffectsValidator.currentState
+        //         ?.validate()) &&
+        // validateField(medicineTextValidators
+        //     .activeIngredientValidator.currentState
+        //     ?.validate()) &&
         validateField(
             medicineTextValidators.priceValidator.currentState?.validate());
   }
 
-  // addTenMedicines() {
-  //   for (int i = 1; i <= 10; i++) {
-  //     addNewMedication(
-  //         name: 'medicine $i',
-  //         scientificName: 'scientificName $i',
-  //         companyName: 'companyName $i',
-  //         category: 'category $i',
-  //         activeIngredient: 'activeIngredient $i',
-  //         image: 'image $i',
-  //         quantity: i.toString(),
-  //         usesFor: 'usesFor $i',
-  //         sideEffects: 'sideEffects $i',
-  //         expiryDate: '2020/$i/$i',
-  //         a_price: i.toString());
-  //   }
-  // }
+  addTenMedicines(context) {
+    for (int i = 1; i <= 10; i++) {
+      addNewMedication(
+        context: context,
+          name: 'medicine--- $i',
+          scientificName: 'scientificName $i',
+          companyName: 'companyName $i',
+          category: 'opth',
+          activeIngredient: 'activeIngredient $i',
+          image: 'images/person.png',
+          quantity: i.toString(),
+          usesFor: 'usesFor $i',
+          sideEffects: 'sideEffects $i',
+          expiryDate: '2020/$i/$i',
+          a_price: i.toString());
+    }
+  }
 }

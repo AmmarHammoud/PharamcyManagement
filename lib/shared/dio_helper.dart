@@ -1,64 +1,52 @@
 import 'package:dio/dio.dart';
 
+import 'cash_helper.dart';
+
 const String API_KEY = 'cc3c2ef7b55eff8b85d61730553cc86c';
 
-class ImageUploader {
-  static late Dio dio;
-
-  static init() {
-    dio = Dio(BaseOptions(
-        baseUrl: 'https://api.imgbb.com/1/', receiveDataWhenStatusError: true));
-  }
-
-  static Future<Response> uploadImage({required String imagePath}) async {
-    return await dio.post('upload',
-        options: Options(headers: {'key': API_KEY, 'image': imagePath}));
-  }
-}
-
+//192.168.229.83
+//192.168.229.83
+//'http://192.168.229.83:8000/api/'
 class DioHelper {
   static late Dio dio;
 
   static init() {
     dio = Dio(
       BaseOptions(
-        baseUrl: 'http://192.168.47.83:8080/api/',
+        baseUrl: 'http://127.0.0.1:8000/api/',
         receiveDataWhenStatusError: true,
       ),
     );
   }
 
+  // static Future<Response> sendFcmToken(String token) async{
+  //   print("User Id : "+CashHelper.getUserId().toString());
+  //   print("Token : "+token);
+  //   return await dio.post('saveFcmToken',
+  //       data: {
+  //     'user_id': CashHelper.getUserId(),
+  //         'fcmtoken':token
+  //       },
+  //       options: Options(
+  //           headers: {'Accept': 'application/json'},
+  //           followRedirects: false,
+  //           validateStatus: (status) {
+  //             return true;
+  //           }));
+  // }
   static Future<Response> register({
     required String name,
-    required String email,
     required String image,
     required String password,
-    required String passwordConfirmation,
     required String phone,
-    required bool isMale,
-    required String birthDay,
-    required String medicineUsed,
-    required String medicineAllergies,
-    required String foodAllergies,
-    required String haveDisease,
-    required String anotherDisease,
   }) async {
     return await dio.post('register',
         data: {
-          'name': name,
-          'email': email,
+          'username': name,
+          'mobile': phone,
           'password': password,
-          'password_confirmation': passwordConfirmation,
           'number': phone,
-          'gender': isMale ? 'male' : 'female',
-          'b_day': birthDay,
-          'medicine_used': medicineUsed,
-          'medicine_allergies': medicineAllergies,
-          'food_allergies': foodAllergies,
-          'have_disease': haveDisease,
-          'another_disease': anotherDisease,
-          'img': image,
-          'NOTIFICATIONS' : '-'
+          'img': null,
         },
         options: Options(
             headers: {'Accept': 'application/json'},
@@ -69,10 +57,15 @@ class DioHelper {
   }
 
   static Future<Response> login(
-      {required String email, required String password}) async {
+      {required String phone, required String password}) async {
     return await dio.post('login',
-        data: {'email': email, 'password': password},
+        data: {'mobile': phone, 'password': password},
         options: Options(
+            // headers: {
+            //   "Access-Control-Allow-Origin": "*",
+            //   "Access-Control-Allow-Credentials": true,
+            // },
+            headers: {'Accept': 'application/json'},
             followRedirects: false,
             validateStatus: (status) {
               return status! < 500;
@@ -160,14 +153,15 @@ class DioHelper {
           'scientific_name': scientificName,
           'company_name': companyName,
           'category': category,
-          'active_ingredient': activeIngredient,
-          'img': image,
+          'active_ingredient': 'activeIngredient',
+          'img': 'null',
           'quantity': quantity,
-          'uses_for': usesFor,
-          'effects': sideEffects,
+          'uses_for': 'usesFor',
+          'effects': 'sideEffects',
           'expiry_date': expiryDate,
-          'a_price': a_price,
-          'b_price': b_price,
+          'a_price': 120,
+          'b_price': 120,
+          'tid': 1
         },
         options: Options(
             headers: {
@@ -274,7 +268,7 @@ class DioHelper {
           'name': name,
           'description': description,
           'price': price,
-          'img': image,
+          'img': null,
           'quantity': quantity
         },
         options: Options(
@@ -290,6 +284,43 @@ class DioHelper {
 
   static Future<Response> getWeeklyEarning({required String token}) async {
     return await dio.get('7day',
+        options: Options(
+            headers: {
+              'Authorization': 'Bearer $token',
+              'Accept': 'application/json',
+            },
+            followRedirects: false,
+            validateStatus: (status) {
+              return true;
+            }));
+  }
+
+  static Future<Response> getCategorizedMedicines(
+      {required String category}) async {
+    ///SHOULD BE UPDATED
+    return await dio.get('c',
+        options: Options(
+            // headers: {
+            //   'Authorization': 'Bearer $token',
+            //   'Accept': 'application/json',
+            // },
+            followRedirects: false,
+            validateStatus: (status) {
+              return true;
+            }));
+  }
+
+  static Future<Response> addMedicineRequest(
+      {required String token,
+      required int userId,
+      required String userName,
+      required String medicineName}) async {
+    return await dio.post('add_medicine_request',
+        data: {
+          'user_id': userId,
+          'user_name': userName,
+          'medicine_name': medicineName
+        },
         options: Options(
             headers: {
               'Authorization': 'Bearer $token',

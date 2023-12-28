@@ -33,7 +33,7 @@ class SearchBox extends StatelessWidget {
             return Column(
               children: [
                 ValidatedTextField(
-                  hasNextText: false,
+                    hasNextText: false,
                     controller: search.searchController,
                     icon: Icons.search,
                     validator: search.searchValidator,
@@ -48,7 +48,7 @@ class SearchBox extends StatelessWidget {
                 Container(
                     child: (() {
                   if (isLoading()) {
-                    return Column(children: const [
+                    return const Column(children: [
                       SizedBox(
                         height: 10,
                       ),
@@ -73,7 +73,7 @@ class SearchBox extends StatelessWidget {
                         height: 100,
                         color: Colors.greenAccent,
                         child: ListView.separated(
-                          //shrinkWrap: true,
+                            //shrinkWrap: true,
                             itemBuilder: (context, index) => SearchModelViewer(
                                 medicineName: search.medicineModels[index].name,
                                 medicineCategory:
@@ -115,7 +115,7 @@ class SearchModelViewer extends StatelessWidget {
     return Container(
       color: Colors.grey,
       width: 300,
-      height: 60,
+      height: 65,
       child: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Row(

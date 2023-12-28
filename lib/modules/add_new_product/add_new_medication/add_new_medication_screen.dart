@@ -24,6 +24,7 @@ class AddNewMedicationScreen extends StatelessWidget {
               title: const Text(
                 'New medication',
               ),
+              actions: [],
             ),
             body: Padding(
               padding: const EdgeInsets.all(20.0),
@@ -32,7 +33,7 @@ class AddNewMedicationScreen extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    const Text("please enter ^_^ :",
+                    const Text("please enter:",
                         style: TextStyle(
                           fontWeight: FontWeight.normal,
                           fontStyle: FontStyle.italic,

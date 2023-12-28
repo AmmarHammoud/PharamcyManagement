@@ -5,15 +5,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
 import '../../models/search_model/medicine_model/medicine_model.dart';
+import '../../shared/cash_helper.dart';
 import '../../shared/components.dart';
 import '../../shared/constants.dart';
 
 class MedicinePreviewScreen extends StatelessWidget {
   final MedicineModel medicineModel;
 
-  const MedicinePreviewScreen({Key? key, required this.medicineModel})
+  final bool isAdmin = CashHelper.isAdmin();
+   MedicinePreviewScreen({Key? key, required this.medicineModel})
       : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -50,12 +51,12 @@ class MedicinePreviewScreen extends StatelessWidget {
                     const SizedBox(
                       height: divisor,
                     ),
-                    CustomizedButton(
+                    if(isAdmin)CustomizedButton(
                         title: 'update medicine info',
                         condition:
                             state is! UpdateMedicineInformationLoadingState,
                         onPressed: () {}),
-                    CustomizedButton(
+                    if(isAdmin)CustomizedButton(
                         color: Colors.red,
                         title: 'delete medicine',
                         condition: state is! DeleteMedicineLoadingState,
