@@ -20,14 +20,11 @@ class AddNewMedicationCubit extends Cubit<AddNewMedicationStates> {
     required String name,
     required String scientificName,
     required String companyName,
-    required String category,
-    required String activeIngredient,
+    required int category,
     required String image,
     required String quantity,
-    required String usesFor,
-    required String sideEffects,
     required String expiryDate,
-    required String a_price,
+    required double price,
     //required String b_price
   }) {
     emit(AddNewMedicationLoadingState());
@@ -37,28 +34,26 @@ class AddNewMedicationCubit extends Cubit<AddNewMedicationStates> {
             scientificName: scientificName,
             companyName: companyName,
             category: category,
-            activeIngredient: activeIngredient,
             image: image,
             quantity: quantity,
-            usesFor: usesFor,
-            sideEffects: sideEffects,
             expiryDate: expiryDate,
-            a_price: a_price,
-            b_price: a_price)
+            price: price)
         .then((value) {
           print(value.data);
       emit(AddNewMedicationSuccessfulState());
-      if(value.data['success']) {
+      if(value.data['success'] == 1) {
         navigateAndFinish(context, GetTotalMedicinesScreen());
         showToast(
             context: context,
             text: value.data['message'],
             color: Colors.green);
       }
-      showToast(
+      else {
+        showToast(
           context: context,
           text: value.data['message'],
           color: Colors.red);
+      }
     }).catchError((error) {
       emit(AddNewMedicationErrorState());
     });
@@ -108,21 +103,20 @@ class AddNewMedicationCubit extends Cubit<AddNewMedicationStates> {
             medicineTextValidators.priceValidator.currentState?.validate());
   }
 
-  addTenMedicines(context) {
-    for (int i = 1; i <= 10; i++) {
-      addNewMedication(
-        context: context,
-          name: 'medicine--- $i',
-          scientificName: 'scientificName $i',
-          companyName: 'companyName $i',
-          category: 'opth',
-          activeIngredient: 'activeIngredient $i',
-          image: 'images/person.png',
-          quantity: i.toString(),
-          usesFor: 'usesFor $i',
-          sideEffects: 'sideEffects $i',
-          expiryDate: '2020/$i/$i',
-          a_price: i.toString());
-    }
-  }
+  // addTenMedicines(context) {
+  //   for (int i = 1; i <= 10; i++) {
+  //     addNewMedication(
+  //       context: context,
+  //         name: 'medicine--- $i',
+  //         scientificName: 'scientificName $i',
+  //         companyName: 'companyName $i',
+  //         category: 'opth',
+  //         image: 'images/person.png',
+  //         quantity: i.toString(),
+  //         usesFor: 'usesFor $i',
+  //         sideEffects: 'sideEffects $i',
+  //         expiryDate: '2020/$i/$i',
+  //         a_price: i.toString());
+  //   }
+  // }
 }

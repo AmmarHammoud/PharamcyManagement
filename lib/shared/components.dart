@@ -1,8 +1,8 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:dac/models/search_model/medicine_model/medicine_model.dart';
+import 'package:dac/modules/categories/add_category_screen.dart';
 import 'package:dac/modules/categories/medication_categories/cubit/cubit.dart';
 import 'package:dac/modules/categories/medication_categories/cubit/states.dart';
-import 'package:dac/modules/categories/medication_categories/medical_equipments.dart';
 import 'package:dac/modules/medicines_management/get_total_medicines_screee.dart';
 import 'package:dac/modules/medicines_management/medicine_preview_screen.dart';
 import 'package:dac/modules/register_screen/cubit/cubit.dart';
@@ -17,7 +17,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import '../modules/calculations_screen/calculation_screen.dart';
 import '../modules/categories/categories.dart';
-import '../modules/categories/medication_categories/cosmatics.dart';
 import '../modules/login_screen/login_screen.dart';
 import '../modules/profile_screen/profile_screen.dart';
 import 'constants.dart';
@@ -35,18 +34,25 @@ navigateAndFinish(context, Widget widget) {
 }
 
 class MyText extends StatelessWidget {
-  const MyText({Key? key, required this.title, this.isBlue = false, this.isBlack = false})
+  const MyText(
+      {Key? key,
+      required this.title,
+      this.isBlue = false,
+      this.isBlack = false})
       : super(key: key);
   final String title;
   final bool isBlue;
   final bool isBlack;
+
   @override
   Widget build(BuildContext context) {
     return Text(
       title,
       style: isBlue
           ? Theme.of(context).textTheme.headline1
-          : isBlack ? Theme.of(context).textTheme.bodyText1 : Theme.of(context).textTheme.bodyText2,
+          : isBlack
+              ? Theme.of(context).textTheme.bodyText1
+              : Theme.of(context).textTheme.bodyText2,
     );
   }
 }
@@ -620,7 +626,8 @@ class MedicineComponents extends StatelessWidget {
     return Column(
       children: [
         ValidatedTextField(
-            enable: isAdmin,
+            //enable: isAdmin,
+            //enable: false,
             controller:
                 cubitObject.medicineTextControllers.medicineNameController,
             icon: Icons.medication,
@@ -636,7 +643,8 @@ class MedicineComponents extends StatelessWidget {
           height: divisor,
         ),
         ValidatedTextField(
-            enable: isAdmin,
+            //enable: isAdmin,
+          //enable: false,
             controller:
                 cubitObject.medicineTextControllers.scientificNameController,
             icon: Icons.medication,
@@ -653,7 +661,8 @@ class MedicineComponents extends StatelessWidget {
           height: divisor,
         ),
         ValidatedTextField(
-            enable: isAdmin,
+            //enable: isAdmin,
+          //enable: false,
             controller:
                 cubitObject.medicineTextControllers.companyNameController,
             icon: Icons.house,
@@ -669,7 +678,8 @@ class MedicineComponents extends StatelessWidget {
           height: divisor,
         ),
         ValidatedTextField(
-            enable: isAdmin,
+            //enable: isAdmin,
+          //enable: false,
             controller: cubitObject.medicineTextControllers.categoryController,
             icon: Icons.padding,
             validator: cubitObject.medicineTextValidators.categoryValidator,
@@ -701,7 +711,8 @@ class MedicineComponents extends StatelessWidget {
           height: divisor,
         ),
         ValidatedTextField(
-            enable: isAdmin,
+            //enable: isAdmin,
+          //enable: false,
             controller: cubitObject.medicineTextControllers.quantityController,
             icon: Icons.production_quantity_limits_rounded,
             validator: cubitObject.medicineTextValidators.quantityValidator,
@@ -756,17 +767,18 @@ class MedicineComponents extends StatelessWidget {
         // SizedBox(
         //   height: divisor,
         // ),
-        // ValidatedTextField(
-        //     hasNextText: false,
-        //     controller: cubitObject.medicineTextControllers.priceController,
-        //     icon: Icons.price_change,
-        //     validator: cubitObject.medicineTextValidators.priceValidator,
-        //     errorText: 'price filed must be filled',
-        //     hintText: medicineModel?.price ?? 'price',
-        //     onChanged: (price) {
-        //       cubitObject.medicineTextValidators.priceValidator.currentState!
-        //           .validate();
-        //     }),
+        ValidatedTextField(
+          enable: false,
+            hasNextText: false,
+            controller: cubitObject.medicineTextControllers.priceController,
+            icon: Icons.price_change,
+            validator: cubitObject.medicineTextValidators.priceValidator,
+            errorText: 'price filed must be filled',
+            hintText: medicineModel?.price.toString() ?? 'price',
+            onChanged: (price) {
+              cubitObject.medicineTextValidators.priceValidator.currentState!
+                  .validate();
+            }),
       ],
     );
   }
@@ -844,7 +856,7 @@ class CategorizedMedicines extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => GetMedicineCategoriesCubit()
-        ..getMedicineCategories(category: category),
+        ..getMedicineAccordingToCategory(category: category),
       child: BlocConsumer<GetMedicineCategoriesCubit,
               GetMedicineCategoriesStates>(
           listener: (context, state) {},
@@ -857,48 +869,50 @@ class CategorizedMedicines extends StatelessWidget {
                   category,
                 ),
               ),
-              body: Column(
-                children: [
-                  const SearchBox(),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  ConditionalBuilder(
-                    condition: state is! GetMedicineCategoriesLoadingState,
-                    builder: (context) => ListView.separated(
-                        physics: const BouncingScrollPhysics(
-                            //parent: AlwaysScrollableScrollPhysics()
-                            ),
-                        shrinkWrap: true,
-                        scrollDirection: Axis.vertical,
-                        itemBuilder: (context, index) => Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: MedicineModelViewer(
-                                ///SHOULD BE UPDATED
-                                condition: 1 == 0,
-                                name:
-                                    cubitObject.categorizedMedicine[index].name,
-                                category: cubitObject
-                                    .categorizedMedicine[index].category,
-                                imagePath: 'images/medicine.png',
-                                onPressed: () {
-                                  navigateTo(
-                                      context,
-                                      MedicinePreviewScreen(
-                                          medicineModel: cubitObject
-                                              .categorizedMedicine[index]));
-                                },
-                              ),
-                            ),
-                        separatorBuilder: (context, index) => const SizedBox(
-                              height: 10,
-                            ),
-                        itemCount: cubitObject.categorizedMedicine.length),
-                    fallback: (context) => const Center(
-                      child: CircularProgressIndicator(),
+              body: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    const SearchBox(),
+                    const SizedBox(
+                      height: 20,
                     ),
-                  )
-                ],
+                    ConditionalBuilder(
+                      condition: state is! GetMedicineCategoriesLoadingState,
+                      builder: (context) => ListView.separated(
+                          physics: const BouncingScrollPhysics(
+                              //parent: AlwaysScrollableScrollPhysics()
+                              ),
+                          shrinkWrap: true,
+                          scrollDirection: Axis.vertical,
+                          itemBuilder: (context, index) => Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: MedicineModelViewer(
+                                  ///SHOULD BE UPDATED
+                                  condition: 1 == 1,
+                                  name: cubitObject
+                                      .categorizedMedicine[index].name,
+                                  category: cubitObject
+                                      .categorizedMedicine[index].category,
+                                  imagePath: 'images/medicine.png',
+                                  onPressed: () {
+                                    navigateTo(
+                                        context,
+                                        MedicinePreviewScreen(
+                                            medicineModel: cubitObject
+                                                .categorizedMedicine[index]));
+                                  },
+                                ),
+                              ),
+                          separatorBuilder: (context, index) => const SizedBox(
+                                height: 10,
+                              ),
+                          itemCount: cubitObject.categorizedMedicine.length),
+                      fallback: (context) => const Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                    )
+                  ],
+                ),
               ),
               drawer: MyDrawer(),
             );

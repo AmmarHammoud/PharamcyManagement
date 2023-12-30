@@ -28,7 +28,10 @@ class MedicinePreviewScreen extends StatelessWidget {
 
           var medicineManagement = MedicinesManagementCubit.get(context);
           return Scaffold(
-            appBar: AppBar(),
+            appBar: AppBar(
+              title: const Text('medicine details'),
+              actions: [],
+            ),
             body: Padding(
               padding: const EdgeInsets.all(10.0),
               child: SingleChildScrollView(
@@ -48,22 +51,22 @@ class MedicinePreviewScreen extends StatelessWidget {
                       cubitObject: medicineManagement,
                       medicineModel: medicineModel,
                     ),
-                    const SizedBox(
-                      height: divisor,
-                    ),
-                    if(isAdmin)CustomizedButton(
-                        title: 'update medicine info',
-                        condition:
-                            state is! UpdateMedicineInformationLoadingState,
-                        onPressed: () {}),
-                    if(isAdmin)CustomizedButton(
-                        color: Colors.red,
-                        title: 'delete medicine',
-                        condition: state is! DeleteMedicineLoadingState,
-                        onPressed: () {
-                          medicineManagement.deleteMedicine(
-                              context: context, id: medicineModel.id);
-                        })
+                    // const SizedBox(
+                    //   height: divisor,
+                    // ),
+                    // if(isAdmin)CustomizedButton(
+                    //     title: 'update medicine info',
+                    //     condition:
+                    //         state is! UpdateMedicineInformationLoadingState,
+                    //     onPressed: () {}),
+                    // if(isAdmin)CustomizedButton(
+                    //     color: Colors.red,
+                    //     title: 'delete medicine',
+                    //     condition: state is! DeleteMedicineLoadingState,
+                    //     onPressed: () {
+                    //       medicineManagement.deleteMedicine(
+                    //           context: context, id: medicineModel.id);
+                    //     })
                   ],
                 ),
               ),

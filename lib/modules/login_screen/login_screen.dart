@@ -1,17 +1,19 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
+import 'package:dac/main/main.dart';
 import 'package:dac/modules/login_screen/cubit/cubit.dart';
 import 'package:dac/modules/login_screen/cubit/states.dart';
 import 'package:dac/modules/register_screen/register_screen.dart';
 import 'package:dac/shared/components.dart';
+import 'package:dac/shared/constants.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 //import 'package:flutter/foundation.dart';
 class LoginScreen extends StatelessWidget {
   const LoginScreen({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -24,7 +26,8 @@ class LoginScreen extends StatelessWidget {
             return SafeArea(
               child: Scaffold(
                 appBar: AppBar(
-                  title: const Text('login'),
+                  title: Text(AppLocal.login.getString(context)),
+                  actions: const [TranslateButton()],
                 ),
                 body: Padding(
                   padding: const EdgeInsets.all(20.0),
@@ -35,7 +38,7 @@ class LoginScreen extends StatelessWidget {
                           icon: Icons.phone,
                           validator: login.userInfoValidators.phoneValidator,
                           errorText: 'phone field cannot be empty',
-                          hintText: 'phone',
+                          hintText: AppLocal.phone.getString(context),
                           onChanged: (String email) => null),
                       const SizedBox(
                         height: 10,
@@ -48,7 +51,7 @@ class LoginScreen extends StatelessWidget {
                           obscureText: passwordIsShown,
                           validator: login.userInfoValidators.passwordValidator,
                           errorText: 'password is incorrect',
-                          hintText: 'password',
+                          hintText: AppLocal.password.getString(context),
                           onChanged: (String password) => null,
                           suffixIcon: showPasswordIcon(
                               onPressed: () {
@@ -61,7 +64,7 @@ class LoginScreen extends StatelessWidget {
                       ConditionalBuilder(
                           condition: state is! LoginLoadingState,
                           builder: (context) => ElevatedButton(
-                              child: const Text('login'),
+                              child: Text(AppLocal.login.getString(context)),
                               onPressed: () {
                                 login.login(
                                     context: context,
@@ -77,7 +80,8 @@ class LoginScreen extends StatelessWidget {
                           onPressed: () {
                             navigateTo(context, const RegisterScreen());
                           },
-                          child: const Text('register')),
+                          child: Text(AppLocal.register.getString(context))),
+
                     ],
                   ),
                 ),

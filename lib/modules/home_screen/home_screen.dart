@@ -1,14 +1,12 @@
-import 'package:dac/modules/add_new_product/add_new_medical_equipments/add_new_medical_equipments.dart';
 import 'package:dac/modules/add_new_product/add_new_medication/add_new_medication_screen.dart';
 import 'package:dac/modules/medicines_management/get_total_medicines_screee.dart';
 import 'package:dac/shared/components.dart';
 import 'package:dac/shared/constants.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 import '../../shared/cash_helper.dart';
 import '../categories/categories.dart';
-import '../categories/medication_categories/cosmatics.dart';
-import '../categories/medication_categories/medical_equipments.dart';
 import '../medicines_management/medicines_management.dart';
 import '../search_box/search_box.dart';
 
@@ -18,6 +16,7 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //print(CashHelper.getUserPhone());
     // if(CashHelper.getUserToken() != null){
       //NotificationService notificationService=NotificationService();
        //notificationService.initialise();
@@ -26,6 +25,7 @@ class HomeScreen extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           actions: [
+            const TranslateButton(),
             IconButton(
                 onPressed: () {},
                 icon: const Icon(Icons.notification_important_outlined)),
@@ -51,10 +51,11 @@ class HomeScreen extends StatelessWidget {
                   physics: const NeverScrollableScrollPhysics(),
                   crossAxisCount: 2,
                   children: [
-                    MainScreenButton(title: 'Categ', widget: CategorizedMedicineScreen(), imagePath: 'images/medicine.png'),
+                    MainScreenButton(title: AppLocal.categories.getString(
+                        context), widget: CategorizedMedicineScreen(), imagePath: 'images/medicine.png'),
                     //MainScreenButton(title: 'add', widget: AddNewMedicationScreen(), imagePath: 'images/medicine.png'),
                      MainScreenButton(
-                        title: 'medicine',
+                        title: AppLocal.medicines.getString(context),
                         imagePath: 'images/medicine.png',
                         widget: GetTotalMedicinesScreen()),
                     // MainScreenButton(

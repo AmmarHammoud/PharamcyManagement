@@ -3,6 +3,7 @@ import 'package:dac/modules/register_screen/cubit/cubit.dart';
 import 'package:dac/modules/register_screen/cubit/states.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import '../../shared/components.dart';
@@ -26,7 +27,8 @@ class RegisterScreen extends StatelessWidget {
           return SafeArea(
             child: Scaffold(
               appBar: AppBar(
-                title: const Text('Register'),
+                title: Text(AppLocal.register.getString(context)),
+                actions: const [TranslateButton()],
               ),
               body: Padding(
                 padding: const EdgeInsets.all(20.0),
@@ -57,7 +59,7 @@ class RegisterScreen extends StatelessWidget {
                           icon: Icons.person,
                           validator: register.userInfoValidators.nameValidator,
                           errorText: 'Please enter your name',
-                          hintText: 'user name',
+                          hintText: AppLocal.userName.getString(context),
                           onChanged: (String name) => null),
                       // ValidatedTextField(
                       //     controller:
@@ -78,7 +80,7 @@ class RegisterScreen extends StatelessWidget {
                           validator:
                               register.userInfoValidators.passwordValidator,
                           errorText: 'Please enter your password',
-                          hintText: 'password',
+                          hintText: AppLocal.password.getString(context),
                           onChanged: (String password) => null,
                           suffixIcon: showPasswordIcon(
                               onPressed: () {
@@ -96,7 +98,7 @@ class RegisterScreen extends StatelessWidget {
                           validator: register
                               .userInfoValidators.passwordConfirmationValidator,
                           errorText: 'Please enter your password again',
-                          hintText: 're-write password',
+                          hintText: AppLocal.reWritePassword.getString(context),
                           onChanged: (String passwordConfirmation) => null,
                           suffixIcon: showPasswordIcon(
                               onPressed: () {
@@ -113,7 +115,7 @@ class RegisterScreen extends StatelessWidget {
                           hasNextText: false,
                           validator: register.userInfoValidators.phoneValidator,
                           errorText: 'Please enter your phone number',
-                          hintText: 'phone number',
+                          hintText: AppLocal.password.getString(context),
                           onChanged: (String phone) => null),
                       const SizedBox(
                         height: 10,
@@ -139,60 +141,7 @@ class RegisterScreen extends StatelessWidget {
                               hintText: DateFormat('yyyy/MM/dd')
                                   .format(register.birthDate),
                               onChanged: (x) {})),
-                      GenderSelection(register: register),
-                      // ShowQuestionAnswerBox(
-                      //     controller: register
-                      //         .userInfoControllers.haveDiseaseController,
-                      //     question: 'Do you have any disease?',
-                      //     cubitObject: register,
-                      //     validator:
-                      //         register.userInfoValidators.haveDiseaseValidator,
-                      //     hintText: 'diseases',
-                      //     errorText: 'diseases field is required',
-                      //     onChanged: (s) {},
-                      //     switchIndex: 0),
-                      // SizedBox(
-                      //   height: divisor,
-                      // ),
-                      // ShowQuestionAnswerBox(
-                      //     controller: register
-                      //         .userInfoControllers.medicineUsedController,
-                      //     question: 'Do you use any medication?',
-                      //     cubitObject: register,
-                      //     validator:
-                      //         register.userInfoValidators.medicineUsedValidator,
-                      //     hintText: 'medication',
-                      //     errorText: 'medication field is required',
-                      //     onChanged: (s) {},
-                      //     switchIndex: 1),
-                      // SizedBox(
-                      //   height: divisor,
-                      // ),
-                      // ShowQuestionAnswerBox(
-                      //     controller: register
-                      //         .userInfoControllers.medicineAllergiesController,
-                      //     question: 'Are you allergic to any medicine?',
-                      //     cubitObject: register,
-                      //     validator: register
-                      //         .userInfoValidators.medicineAllergiesValidator,
-                      //     hintText: 'allergy medicines',
-                      //     errorText: 'allergy medicines field is required',
-                      //     onChanged: (s) {},
-                      //     switchIndex: 2),
-                      // SizedBox(
-                      //   height: divisor,
-                      // ),
-                      // ShowQuestionAnswerBox(
-                      //     controller: register
-                      //         .userInfoControllers.foodAllergiesController,
-                      //     question: 'Are you allergic to any food?',
-                      //     cubitObject: register,
-                      //     validator: register
-                      //         .userInfoValidators.foodAllergiesValidator,
-                      //     hintText: 'allergy food',
-                      //     errorText: 'allergy food field is required',
-                      //     onChanged: (s) {},
-                      //     switchIndex: 3),
+                      //GenderSelection(register: register),
                       SizedBox(
                         height: divisor,
                       ),

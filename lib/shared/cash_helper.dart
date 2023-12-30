@@ -30,9 +30,13 @@ class CashHelper {
   static String? getUserToken(){
     return sharedPreferences.getString('token');
   }
+
+  static String? getUserPhone() {
+    return sharedPreferences.getString('mobile');
+  }
   static bool isAdmin(){
-    //print('ADMIN EMAIL: ${sharedPreferences.getString('email')}');
-    return sharedPreferences.getString('email') == 'a@a.com';
+    //print('in isAdmin function: ${getUserPhone()}');
+    return getUserPhone() == '0991996920';
   }
   static Future<bool> putUserId({required int id}) async{
     return await sharedPreferences.setInt('id', id);

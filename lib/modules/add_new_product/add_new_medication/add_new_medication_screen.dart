@@ -4,6 +4,7 @@ import 'package:dac/shared/components.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import '../../../shared/constants.dart';
 import 'cubit/states.dart';
 
 class AddNewMedicationScreen extends StatelessWidget {
@@ -20,7 +21,6 @@ class AddNewMedicationScreen extends StatelessWidget {
           var addNewMedication = AddNewMedicationCubit.get(context);
           return Scaffold(
             appBar: AppBar(
-              centerTitle: true,
               title: const Text(
                 'New medication',
               ),
@@ -33,14 +33,14 @@ class AddNewMedicationScreen extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    const Text("please enter:",
-                        style: TextStyle(
-                          fontWeight: FontWeight.normal,
-                          fontStyle: FontStyle.italic,
-                          fontSize: 20.0,
-                          color: Colors.indigoAccent,
-                          backgroundColor: Colors.white70,
-                        )),
+                    // const Text("please enter:",
+                    //     style: TextStyle(
+                    //       fontWeight: FontWeight.normal,
+                    //       fontStyle: FontStyle.italic,
+                    //       fontSize: 20.0,
+                    //       color: Colors.indigoAccent,
+                    //       backgroundColor: Colors.white70,
+                    //     )),
                     SizedBox(
                       height: divisor,
                     ),
@@ -59,16 +59,12 @@ class AddNewMedicationScreen extends StatelessWidget {
                                 scientificName:
                                     addNewMedication.medicineTextControllers.scientificNameController.text,
                                 companyName: addNewMedication.medicineTextControllers.companyNameController.text,
-                                category: addNewMedication.medicineTextControllers.categoryController.text,
-                                activeIngredient:
-                                    addNewMedication.medicineTextControllers.activeIngredientController.text,
+                                category: cat[addNewMedication.medicineTextControllers.categoryController.text],
                                 image: 'images/person.png',
                                 quantity: addNewMedication.medicineTextControllers.quantityController.text,
-                                usesFor: addNewMedication.medicineTextControllers.usesForController.text,
-                                sideEffects: addNewMedication.medicineTextControllers.sideEffectsController.text,
                                 expiryDate: DateFormat('yyyy/MM/dd')
                                     .format(addNewMedication.medicineTextControllers.expireDate),
-                                a_price: addNewMedication.medicineTextControllers.priceController.text,
+                                price: double.parse(addNewMedication.medicineTextControllers.priceController.text),
                                 );
                           } else {
                             showToast(

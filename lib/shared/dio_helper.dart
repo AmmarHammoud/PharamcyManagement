@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 
 import 'cash_helper.dart';
+import 'constants.dart';
 
 const String API_KEY = 'cc3c2ef7b55eff8b85d61730553cc86c';
 
@@ -13,7 +14,7 @@ class DioHelper {
   static init() {
     dio = Dio(
       BaseOptions(
-        baseUrl: 'http://127.0.0.1:8000/api/',
+        baseUrl: 'http://192.168.137.8:8000/api/',
         receiveDataWhenStatusError: true,
       ),
     );
@@ -138,30 +139,21 @@ class DioHelper {
       required String name,
       required String scientificName,
       required String companyName,
-      required String category,
-      required String activeIngredient,
+      required int category,
       required String image,
       required String quantity,
-      required String usesFor,
-      required String sideEffects,
       required String expiryDate,
-      required String a_price,
-      required String b_price}) async {
-    return await dio.post('add',
+      required double price}) async {
+    return await dio.post('medications',
         data: {
-          'name': name,
+          'commercial_name': name,
           'scientific_name': scientificName,
-          'company_name': companyName,
-          'category': category,
-          'active_ingredient': 'activeIngredient',
+          'manufacture': companyName,
+          'category_id': category,
           'img': 'null',
           'quantity': quantity,
-          'uses_for': 'usesFor',
-          'effects': 'sideEffects',
           'expiry_date': expiryDate,
-          'a_price': 120,
-          'b_price': 120,
-          'tid': 1
+          'price': price,
         },
         options: Options(
             headers: {
@@ -190,7 +182,7 @@ class DioHelper {
   }
 
   static Future<Response> getTotalMedicines({required String token}) async {
-    return await dio.get('total_medican',
+    return await dio.get('medications',
         options: Options(
             headers: {
               'Authorization': 'Bearer $token',
@@ -295,15 +287,47 @@ class DioHelper {
             }));
   }
 
+  //
+  static Future<Response> getCategories() async {
+    return await dio.get('categories',
+        options: Options(
+            headers: {
+              //'Authorization': 'Bearer $token',
+              'Accept': 'application/json',
+            },
+            followRedirects: false,
+            validateStatus: (status) {
+              return true;
+            }));
+  }
+
+  static Future<Response> addCategory({required String title}) async {
+    return await dio.post('categories',
+        data: {'title': title},
+        options: Options(
+            headers: {
+              //'Authorization': 'Bearer $token',
+              'Accept': 'application/json',
+              //'id': cat[category]
+            },
+            followRedirects: false,
+            validateStatus: (status) {
+              return true;
+            }));
+  }
+
   static Future<Response> getCategorizedMedicines(
       {required String category}) async {
     ///SHOULD BE UPDATED
-    return await dio.get('c',
+    return await dio.get('medsByType',
+        //data: {'id': cat[category]},
+        queryParameters: {'id': cat[category]},
         options: Options(
-            // headers: {
-            //   'Authorization': 'Bearer $token',
-            //   'Accept': 'application/json',
-            // },
+            headers: {
+              //'Authorization': 'Bearer $token',
+              'Accept': 'application/json',
+              //'id': cat[category]
+            },
             followRedirects: false,
             validateStatus: (status) {
               return true;

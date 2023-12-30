@@ -10,8 +10,9 @@ import 'cubit/cubit.dart';
 import 'cubit/states.dart';
 
 class GetTotalMedicinesScreen extends StatelessWidget {
-   GetTotalMedicinesScreen({Key? key}) : super(key: key);
+  GetTotalMedicinesScreen({Key? key}) : super(key: key);
   bool isAdmin = CashHelper.isAdmin();
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -21,26 +22,34 @@ class GetTotalMedicinesScreen extends StatelessWidget {
         builder: (context, state) {
           var medicinesManagement = MedicinesManagementCubit.get(context);
           return Scaffold(
-            appBar: AppBar(actions: [],),
+            appBar: AppBar(
+              title: const Text('all medicines'),
+              actions: [],
+            ),
             body: SingleChildScrollView(
               child: Column(
                 children: [
-                if(isAdmin) ElevatedButton(onPressed: (){
-                  navigateTo(context, const AddNewMedicationScreen());
-                }, child: const Text('Add new medication')),
+                  const SizedBox(height: 20,),
+                  if (isAdmin)
+                    ElevatedButton(
+                        onPressed: () {
+                          navigateTo(context, const AddNewMedicationScreen());
+                        },
+                        child: const Text('Add new medication')),
                   ConditionalBuilder(
                     condition: state is! GetTotalMedicinesLoadingState,
                     builder: (context) => ListView.separated(
                         physics: const BouncingScrollPhysics(
                             //parent: AlwaysScrollableScrollPhysics()
-                        ),
+                            ),
                         shrinkWrap: true,
                         scrollDirection: Axis.vertical,
                         itemBuilder: (context, index) => Padding(
                               padding: const EdgeInsets.all(10.0),
                               child: MedicineModelViewer(
                                 condition: state is! DeleteMedicineLoadingState,
-                                name: medicinesManagement.totalMedicines[index].name,
+                                name: medicinesManagement
+                                    .totalMedicines[index].name,
                                 category: medicinesManagement
                                     .totalMedicines[index].category,
                                 imagePath: 'images/medicine.png',
@@ -61,7 +70,9 @@ class GetTotalMedicinesScreen extends StatelessWidget {
                       child: CircularProgressIndicator(),
                     ),
                   ),
-                  const SizedBox(height: 15,)
+                  const SizedBox(
+                    height: 15,
+                  )
                 ],
               ),
             ),
