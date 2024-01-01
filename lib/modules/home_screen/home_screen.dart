@@ -1,4 +1,5 @@
 import 'package:dac/modules/add_new_product/add_new_medication/add_new_medication_screen.dart';
+import 'package:dac/modules/admin_orders/admin_orders_screen.dart';
 import 'package:dac/modules/medicines_management/get_total_medicines_screee.dart';
 import 'package:dac/shared/components.dart';
 import 'package:dac/shared/constants.dart';
@@ -12,14 +13,15 @@ import '../search_box/search_box.dart';
 
 class HomeScreen extends StatelessWidget {
   bool isAdmin = CashHelper.isAdmin();
+
   HomeScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     //print(CashHelper.getUserPhone());
     // if(CashHelper.getUserToken() != null){
-      //NotificationService notificationService=NotificationService();
-       //notificationService.initialise();
+    //NotificationService notificationService=NotificationService();
+    //notificationService.initialise();
     // }
     return SafeArea(
       child: Scaffold(
@@ -27,9 +29,11 @@ class HomeScreen extends StatelessWidget {
           actions: [
             const TranslateButton(),
             IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  navigateTo(context, const AdminOrdersScreen());
+                },
                 icon: const Icon(Icons.notification_important_outlined)),
-            if(!isAdmin) const WhatsappButton(),
+            if (!isAdmin) const WhatsappButton(),
           ],
         ),
         drawer: MyDrawer(),
@@ -51,10 +55,12 @@ class HomeScreen extends StatelessWidget {
                   physics: const NeverScrollableScrollPhysics(),
                   crossAxisCount: 2,
                   children: [
-                    MainScreenButton(title: AppLocal.categories.getString(
-                        context), widget: CategorizedMedicineScreen(), imagePath: 'images/medicine.png'),
+                    MainScreenButton(
+                        title: AppLocal.categories.getString(context),
+                        widget: CategorizedMedicineScreen(),
+                        imagePath: 'images/medicine.png'),
                     //MainScreenButton(title: 'add', widget: AddNewMedicationScreen(), imagePath: 'images/medicine.png'),
-                     MainScreenButton(
+                    MainScreenButton(
                         title: AppLocal.medicines.getString(context),
                         imagePath: 'images/medicine.png',
                         widget: GetTotalMedicinesScreen()),
@@ -75,7 +81,6 @@ class HomeScreen extends StatelessWidget {
                     //           context, const MedicinesManagementScreen());
                     //     },
                     //     child: const Text('medicine management')),
-
                   ],
                 ),
               ],

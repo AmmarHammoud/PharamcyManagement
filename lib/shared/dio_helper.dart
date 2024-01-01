@@ -99,6 +99,10 @@ class DioHelper {
             }));
   }
 
+  static Future<Response> getAdminOrders() async{
+    return await dio.get('order');
+  }
+
   static Future<Response> updateProfile({
     required String token,
     required String name,

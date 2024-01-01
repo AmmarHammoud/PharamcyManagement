@@ -644,7 +644,7 @@ class MedicineComponents extends StatelessWidget {
         ),
         ValidatedTextField(
             //enable: isAdmin,
-          //enable: false,
+            //enable: false,
             controller:
                 cubitObject.medicineTextControllers.scientificNameController,
             icon: Icons.medication,
@@ -662,7 +662,7 @@ class MedicineComponents extends StatelessWidget {
         ),
         ValidatedTextField(
             //enable: isAdmin,
-          //enable: false,
+            //enable: false,
             controller:
                 cubitObject.medicineTextControllers.companyNameController,
             icon: Icons.house,
@@ -679,7 +679,7 @@ class MedicineComponents extends StatelessWidget {
         ),
         ValidatedTextField(
             //enable: isAdmin,
-          //enable: false,
+            //enable: false,
             controller: cubitObject.medicineTextControllers.categoryController,
             icon: Icons.padding,
             validator: cubitObject.medicineTextValidators.categoryValidator,
@@ -712,7 +712,7 @@ class MedicineComponents extends StatelessWidget {
         ),
         ValidatedTextField(
             //enable: isAdmin,
-          //enable: false,
+            //enable: false,
             controller: cubitObject.medicineTextControllers.quantityController,
             icon: Icons.production_quantity_limits_rounded,
             validator: cubitObject.medicineTextValidators.quantityValidator,
@@ -768,7 +768,7 @@ class MedicineComponents extends StatelessWidget {
         //   height: divisor,
         // ),
         ValidatedTextField(
-          enable: false,
+            enable: false,
             hasNextText: false,
             controller: cubitObject.medicineTextControllers.priceController,
             icon: Icons.price_change,
@@ -917,6 +917,89 @@ class CategorizedMedicines extends StatelessWidget {
               drawer: MyDrawer(),
             );
           }),
+    );
+  }
+}
+
+class AdminOrderViewer extends StatelessWidget {
+  final String medName;
+  final String userId;
+  final int quantity;
+  final String status;
+  final String payment;
+  final String imagePath;
+  final bool condition;
+  final Function() onPressed;
+
+  const AdminOrderViewer(
+      {Key? key,
+      required this.medName,
+      required this.userId,
+      required this.status,
+      required this.payment,
+      required this.quantity,
+      required this.imagePath,
+      required this.condition,
+      required this.onPressed})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    double imageSize = 50;
+    return Container(
+      color: Colors.greenAccent,
+      child: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              children: [
+                Image.asset(
+                  imagePath,
+                  width: imageSize,
+                  height: imageSize,
+                ),
+                Column(
+                  children: [
+                    Text(medName),
+                    Text(
+                      userId,
+                      style: const TextStyle(color: Colors.blue),
+                    )
+                  ],
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                Text('quantity: ${quantity.toString()}')
+              ],
+            ),
+            Column(
+              children: [
+                Text(status),
+                CustomizedButton(
+                    title: 'view', condition: condition, onPressed: onPressed),
+                Text(
+                  payment == '1' ? 'paid' : 'not paid',
+                  style: TextStyle(
+                      color: payment == '1' ? Colors.blue : Colors.red),
+                )
+              ],
+            ),
+            // CustomizedButton(title: 'order', condition: 1 == 1, onPressed: () {
+            //   DioHelper.addMedicineRequest(token: CashHelper.getUserToken()!,
+            //       userId: CashHelper.getUserId()!,
+            //       userName: "medName",
+            //       medicineName: medName)
+            //       .then((value) => print(value.data))
+            //       .onError((error, stackTrace) {
+            //     print(error.toString());
+            //   });
+            // })
+          ],
+        ),
+      ),
     );
   }
 }
