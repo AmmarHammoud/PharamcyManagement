@@ -150,6 +150,7 @@ class RegisterScreen extends StatelessWidget {
                         condition: state is! RegisterLoadingState,
                         onPressed: () {
                           register.register(
+                            image: 'budget.png',
                             context: context,
                             name: register
                                 .userInfoControllers.nameController.text,

@@ -45,6 +45,7 @@ class RegisterCubit extends Cubit<RegisterStates> {
 
   void register({
     required context,
+    required String image,
     required String name,
     required String password,
     required String phone,
@@ -52,7 +53,7 @@ class RegisterCubit extends Cubit<RegisterStates> {
     if (requiredInformationFilled(context: context)) {
       emit(RegisterLoadingState());
       DioHelper.register(
-        image: 'images/person.png',
+        image: image,
         name: name,
         password: password,
         phone: phone,

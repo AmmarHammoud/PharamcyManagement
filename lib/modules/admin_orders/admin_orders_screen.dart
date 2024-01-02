@@ -29,23 +29,26 @@ class AdminOrdersScreen extends StatelessWidget {
                                 shrinkWrap: true,
                                 scrollDirection: Axis.vertical,
                                 itemBuilder: (BuildContext context, int index) {
-                                  return AdminOrderViewer(
-                                      status:
-                                          ordersCubit.adminOrders[index].status,
-                                      quantity: ordersCubit
-                                          .adminOrders[index].quantity,
-                                      payment: ordersCubit
-                                          .adminOrders[index].payment
-                                          .toString(),
-                                      medName: ordersCubit
-                                          .adminOrders[index].medId
-                                          .toString(),
-                                      userId: ordersCubit
-                                          .adminOrders[index].userId
-                                          .toString(),
-                                      imagePath: 'images/medicine.png',
-                                      condition: 1 == 1,
-                                      onPressed: () {});
+                                  return OrderViewer(
+                                    status:
+                                        ordersCubit.adminOrders[index].status,
+                                    quantity:
+                                        ordersCubit.adminOrders[index].quantity,
+                                    payment: ordersCubit
+                                        .adminOrders[index].payment
+                                        .toString(),
+                                    medName: ordersCubit
+                                        .adminOrders[index].medName
+                                        .toString(),
+                                    userId: ordersCubit
+                                        .adminOrders[index].userId
+                                        .toString(),
+                                    imagePath: 'images/medicine.png',
+                                    condition: 1 == 1,
+                                    onPressed: () {},
+                                    userName:
+                                        ordersCubit.adminOrders[index].userName,
+                                  );
                                 },
                                 separatorBuilder:
                                     (BuildContext context, int index) =>

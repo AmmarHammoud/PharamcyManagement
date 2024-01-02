@@ -47,6 +47,7 @@ class GetTotalMedicinesScreen extends StatelessWidget {
                         itemBuilder: (context, index) => Padding(
                               padding: const EdgeInsets.all(10.0),
                               child: MedicineModelViewer(
+                                medId: medicinesManagement.totalMedicines[index].id,
                                 condition: state is! DeleteMedicineLoadingState,
                                 name: medicinesManagement
                                     .totalMedicines[index].name,

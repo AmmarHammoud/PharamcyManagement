@@ -29,16 +29,15 @@ navigateAndFinish(context, Widget widget) {
   Navigator.pushAndRemoveUntil(
     context,
     MaterialPageRoute(builder: (context) => widget),
-    (Route<dynamic> route) => false,
+        (Route<dynamic> route) => false,
   );
 }
 
 class MyText extends StatelessWidget {
-  const MyText(
-      {Key? key,
-      required this.title,
-      this.isBlue = false,
-      this.isBlack = false})
+  const MyText({Key? key,
+    required this.title,
+    this.isBlue = false,
+    this.isBlack = false})
       : super(key: key);
   final String title;
   final bool isBlue;
@@ -49,10 +48,19 @@ class MyText extends StatelessWidget {
     return Text(
       title,
       style: isBlue
-          ? Theme.of(context).textTheme.headline1
+          ? Theme
+          .of(context)
+          .textTheme
+          .headline1
           : isBlack
-              ? Theme.of(context).textTheme.bodyText1
-              : Theme.of(context).textTheme.bodyText2,
+          ? Theme
+          .of(context)
+          .textTheme
+          .bodyText1
+          : Theme
+          .of(context)
+          .textTheme
+          .bodyText2,
     );
   }
 }
@@ -88,21 +96,20 @@ class ValidatedTextField extends StatelessWidget {
   final double fontSize;
   final double radius;
 
-  const ValidatedTextField(
-      {Key? key,
-      required this.controller,
-      required this.validator,
-      required this.errorText,
-      required this.hintText,
-      required this.onChanged,
-      this.onFieldSubmitted,
-      this.hasNextText = true,
-      this.enable = true,
-      this.icon,
-      this.suffixIcon,
-      this.obscureText = false,
-      this.fontSize = 20.0,
-      this.radius = 15.0})
+  const ValidatedTextField({Key? key,
+    required this.controller,
+    required this.validator,
+    required this.errorText,
+    required this.hintText,
+    required this.onChanged,
+    this.onFieldSubmitted,
+    this.hasNextText = true,
+    this.enable = true,
+    this.icon,
+    this.suffixIcon,
+    this.obscureText = false,
+    this.fontSize = 20.0,
+    this.radius = 15.0})
       : super(key: key);
 
   @override
@@ -120,7 +127,7 @@ class ValidatedTextField extends StatelessWidget {
         controller: controller,
         enabled: enable,
         textInputAction:
-            hasNextText ? TextInputAction.next : TextInputAction.done,
+        hasNextText ? TextInputAction.next : TextInputAction.done,
         keyboardType: textInputType,
         obscureText: obscureText,
         validator: (value) {
@@ -148,11 +155,10 @@ class ValidatedTextField extends StatelessWidget {
 ///but needs to be handled
 FToast fToast = FToast();
 
-showToast(
-    {required context,
-    required String text,
-    required Color color,
-    int duration = 3}) {
+showToast({required context,
+  required String text,
+  required Color color,
+  int duration = 3}) {
   fToast.init(context);
   Widget toast = Container(
     padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
@@ -203,16 +209,15 @@ class ShowQuestionAnswerBox extends StatelessWidget {
   final Function(String) onChanged;
   final int switchIndex;
 
-  const ShowQuestionAnswerBox(
-      {Key? key,
-      required this.controller,
-      required this.cubitObject,
-      required this.question,
-      required this.validator,
-      required this.errorText,
-      required this.hintText,
-      required this.onChanged,
-      required this.switchIndex})
+  const ShowQuestionAnswerBox({Key? key,
+    required this.controller,
+    required this.cubitObject,
+    required this.question,
+    required this.validator,
+    required this.errorText,
+    required this.hintText,
+    required this.onChanged,
+    required this.switchIndex})
       : super(key: key);
 
   @override
@@ -224,7 +229,10 @@ class ShowQuestionAnswerBox extends StatelessWidget {
           children: [
             Text(
               question,
-              style: Theme.of(context).textTheme.bodyText1,
+              style: Theme
+                  .of(context)
+                  .textTheme
+                  .bodyText1,
             ),
             FlutterSwitch(
                 value: cubitObject.questions[switchIndex],
@@ -267,7 +275,10 @@ class GenderSelection extends StatelessWidget {
       children: [
         Text(
           'Gender: ',
-          style: Theme.of(context).textTheme.bodyText1,
+          style: Theme
+              .of(context)
+              .textTheme
+              .bodyText1,
         ),
         Expanded(
           child: GenderSelectionButton(
@@ -287,11 +298,10 @@ class GenderSelectionButton extends StatelessWidget {
   final String text;
   final Gender gender;
 
-  const GenderSelectionButton(
-      {Key? key,
-      required this.register,
-      required this.text,
-      required this.gender})
+  const GenderSelectionButton({Key? key,
+    required this.register,
+    required this.text,
+    required this.gender})
       : super(key: key);
 
   @override
@@ -316,11 +326,10 @@ class MainScreenButton extends StatelessWidget {
   final Widget widget;
   final String imagePath;
 
-  const MainScreenButton(
-      {super.key,
-      required this.title,
-      required this.widget,
-      required this.imagePath});
+  const MainScreenButton({super.key,
+    required this.title,
+    required this.widget,
+    required this.imagePath});
 
   @override
   Widget build(BuildContext context) {
@@ -370,11 +379,10 @@ class CategoriesScreenButton extends StatelessWidget {
   final Widget widget;
   final String imagePath;
 
-  const CategoriesScreenButton(
-      {super.key,
-      required this.title,
-      required this.widget,
-      required this.imagePath});
+  const CategoriesScreenButton({super.key,
+    required this.title,
+    required this.widget,
+    required this.imagePath});
 
   @override
   Widget build(BuildContext context) {
@@ -411,9 +419,12 @@ class CategoriesScreenButton extends StatelessWidget {
                         color: Colors.blueAccent,
                         child: Center(
                             child: Text(
-                          title,
-                          style: Theme.of(context).textTheme.bodyText2,
-                        ))))
+                              title,
+                              style: Theme
+                                  .of(context)
+                                  .textTheme
+                                  .bodyText2,
+                            ))))
               ],
             ),
           ),
@@ -430,13 +441,12 @@ class DrawerButton extends StatelessWidget {
   final String imagePath;
   final Function() onPressed;
 
-  const DrawerButton(
-      {super.key,
-      this.width = 20,
-      this.color = Colors.blueAccent,
-      required this.title,
-      required this.imagePath,
-      required this.onPressed});
+  const DrawerButton({super.key,
+    this.width = 20,
+    this.color = Colors.blueAccent,
+    required this.title,
+    required this.imagePath,
+    required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -456,7 +466,10 @@ class DrawerButton extends StatelessWidget {
               onPressed: onPressed,
               child: Text(
                 title,
-                style: Theme.of(context).textTheme.bodyText1,
+                style: Theme
+                    .of(context)
+                    .textTheme
+                    .bodyText1,
               ),
             ),
           ],
@@ -486,7 +499,10 @@ class MyDrawer extends StatelessWidget {
             ),
             child: Text(
               'more info',
-              style: Theme.of(context).textTheme.bodyText2,
+              style: Theme
+                  .of(context)
+                  .textTheme
+                  .bodyText2,
             ),
           ),
         ),
@@ -554,25 +570,26 @@ class CustomizedButton extends StatelessWidget {
   final Function() onPressed;
   final Color color;
 
-  const CustomizedButton(
-      {Key? key,
-      required this.title,
-      required this.condition,
-      required this.onPressed,
-      this.color = Colors.blue})
+  const CustomizedButton({Key? key,
+    required this.title,
+    required this.condition,
+    required this.onPressed,
+    this.color = Colors.blue})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ConditionalBuilder(
       condition: condition,
-      builder: (context) => ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: color,
-          ),
-          onPressed: onPressed,
-          child: Text(title)),
-      fallback: (context) => const Center(
+      builder: (context) =>
+          ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: color,
+              ),
+              onPressed: onPressed,
+              child: Text(title)),
+      fallback: (context) =>
+      const Center(
         child: CircularProgressIndicator(),
       ),
     );
@@ -584,11 +601,10 @@ class DateSelector extends StatelessWidget {
   final DateTime shownDate;
   final String hintText;
 
-  const DateSelector(
-      {Key? key,
-      required this.onTap,
-      required this.shownDate,
-      required this.hintText})
+  const DateSelector({Key? key,
+    required this.onTap,
+    required this.shownDate,
+    required this.hintText})
       : super(key: key);
 
   @override
@@ -626,10 +642,10 @@ class MedicineComponents extends StatelessWidget {
     return Column(
       children: [
         ValidatedTextField(
-            //enable: isAdmin,
-            //enable: false,
+          //enable: isAdmin,
+          //enable: false,
             controller:
-                cubitObject.medicineTextControllers.medicineNameController,
+            cubitObject.medicineTextControllers.medicineNameController,
             icon: Icons.medication,
             validator: cubitObject.medicineTextValidators.medicineNameValidator,
             errorText: 'name field must be filled',
@@ -643,13 +659,13 @@ class MedicineComponents extends StatelessWidget {
           height: divisor,
         ),
         ValidatedTextField(
-            //enable: isAdmin,
-            //enable: false,
+          //enable: isAdmin,
+          //enable: false,
             controller:
-                cubitObject.medicineTextControllers.scientificNameController,
+            cubitObject.medicineTextControllers.scientificNameController,
             icon: Icons.medication,
             validator:
-                cubitObject.medicineTextValidators.scientificNameValidator,
+            cubitObject.medicineTextValidators.scientificNameValidator,
             errorText: 'scientific name field must be filled',
             hintText: medicineModel?.scientificName ?? 'scientific name',
             onChanged: (scientificName) {
@@ -661,10 +677,10 @@ class MedicineComponents extends StatelessWidget {
           height: divisor,
         ),
         ValidatedTextField(
-            //enable: isAdmin,
-            //enable: false,
+          //enable: isAdmin,
+          //enable: false,
             controller:
-                cubitObject.medicineTextControllers.companyNameController,
+            cubitObject.medicineTextControllers.companyNameController,
             icon: Icons.house,
             validator: cubitObject.medicineTextValidators.companyNameValidator,
             errorText: 'company name field must be filled',
@@ -678,8 +694,8 @@ class MedicineComponents extends StatelessWidget {
           height: divisor,
         ),
         ValidatedTextField(
-            //enable: isAdmin,
-            //enable: false,
+          //enable: isAdmin,
+          //enable: false,
             controller: cubitObject.medicineTextControllers.categoryController,
             icon: Icons.padding,
             validator: cubitObject.medicineTextValidators.categoryValidator,
@@ -711,8 +727,8 @@ class MedicineComponents extends StatelessWidget {
           height: divisor,
         ),
         ValidatedTextField(
-            //enable: isAdmin,
-            //enable: false,
+          //enable: isAdmin,
+          //enable: false,
             controller: cubitObject.medicineTextControllers.quantityController,
             icon: Icons.production_quantity_limits_rounded,
             validator: cubitObject.medicineTextValidators.quantityValidator,
@@ -789,15 +805,16 @@ class MedicineModelViewer extends StatelessWidget {
   final String category;
   final String imagePath;
   final bool condition;
+  final int medId;
   final Function() onPressed;
 
-  const MedicineModelViewer(
-      {Key? key,
-      required this.name,
-      required this.category,
-      required this.imagePath,
-      required this.condition,
-      required this.onPressed})
+  const MedicineModelViewer({Key? key,
+    required this.name,
+    required this.medId,
+    required this.category,
+    required this.imagePath,
+    required this.condition,
+    required this.onPressed})
       : super(key: key);
 
   @override
@@ -830,16 +847,27 @@ class MedicineModelViewer extends StatelessWidget {
             ),
             CustomizedButton(
                 title: 'view', condition: condition, onPressed: onPressed),
-            // CustomizedButton(title: 'order', condition: 1 == 1, onPressed: () {
-            //   DioHelper.addMedicineRequest(token: CashHelper.getUserToken()!,
-            //       userId: CashHelper.getUserId()!,
-            //       userName: "name",
-            //       medicineName: name)
-            //       .then((value) => print(value.data))
-            //       .onError((error, stackTrace) {
-            //     print(error.toString());
-            //   });
-            // })
+            CustomizedButton(
+                title: 'order',
+                condition: 1 == 1,
+                onPressed: () {
+                  DioHelper.addMedicineRequest(
+                    userId: CashHelper.getUserId()!,
+                    medId: medId,
+                    quantity: 20,
+                  )
+                      .then((value) {
+                    print(value.data);
+                    showToast(context: context,
+                        text: value.data['message'],
+                        color: value.data['success'] == 1
+                            ? Colors.green
+                            : Colors.red);
+                  })
+                      .onError((error, stackTrace) {
+                    print(error.toString());
+                  });
+                })
           ],
         ),
       ),
@@ -855,10 +883,11 @@ class CategorizedMedicines extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => GetMedicineCategoriesCubit()
+      create: (context) =>
+      GetMedicineCategoriesCubit()
         ..getMedicineAccordingToCategory(category: category),
       child: BlocConsumer<GetMedicineCategoriesCubit,
-              GetMedicineCategoriesStates>(
+          GetMedicineCategoriesStates>(
           listener: (context, state) {},
           builder: (context, state) {
             var cubitObject = GetMedicineCategoriesCubit.get(context);
@@ -878,36 +907,44 @@ class CategorizedMedicines extends StatelessWidget {
                     ),
                     ConditionalBuilder(
                       condition: state is! GetMedicineCategoriesLoadingState,
-                      builder: (context) => ListView.separated(
-                          physics: const BouncingScrollPhysics(
-                              //parent: AlwaysScrollableScrollPhysics()
+                      builder: (context) =>
+                          ListView.separated(
+                              physics: const BouncingScrollPhysics(
+                                //parent: AlwaysScrollableScrollPhysics()
                               ),
-                          shrinkWrap: true,
-                          scrollDirection: Axis.vertical,
-                          itemBuilder: (context, index) => Padding(
-                                padding: const EdgeInsets.all(10.0),
-                                child: MedicineModelViewer(
-                                  ///SHOULD BE UPDATED
-                                  condition: 1 == 1,
-                                  name: cubitObject
-                                      .categorizedMedicine[index].name,
-                                  category: cubitObject
-                                      .categorizedMedicine[index].category,
-                                  imagePath: 'images/medicine.png',
-                                  onPressed: () {
-                                    navigateTo(
-                                        context,
-                                        MedicinePreviewScreen(
-                                            medicineModel: cubitObject
-                                                .categorizedMedicine[index]));
-                                  },
-                                ),
-                              ),
-                          separatorBuilder: (context, index) => const SizedBox(
+                              shrinkWrap: true,
+                              scrollDirection: Axis.vertical,
+                              itemBuilder: (context, index) =>
+                                  Padding(
+                                    padding: const EdgeInsets.all(10.0),
+                                    child: MedicineModelViewer(
+                                      medId:
+                                      cubitObject.categorizedMedicine[index].id,
+
+                                      ///SHOULD BE UPDATED
+                                      condition: 1 == 1,
+                                      name: cubitObject
+                                          .categorizedMedicine[index].name,
+                                      category: cubitObject
+                                          .categorizedMedicine[index].category,
+                                      imagePath: 'images/medicine.png',
+                                      onPressed: () {
+                                        navigateTo(
+                                            context,
+                                            MedicinePreviewScreen(
+                                                medicineModel: cubitObject
+                                                    .categorizedMedicine[index]));
+                                      },
+                                    ),
+                                  ),
+                              separatorBuilder: (context, index) =>
+                              const SizedBox(
                                 height: 10,
                               ),
-                          itemCount: cubitObject.categorizedMedicine.length),
-                      fallback: (context) => const Center(
+                              itemCount: cubitObject.categorizedMedicine
+                                  .length),
+                      fallback: (context) =>
+                      const Center(
                         child: CircularProgressIndicator(),
                       ),
                     )
@@ -921,8 +958,9 @@ class CategorizedMedicines extends StatelessWidget {
   }
 }
 
-class AdminOrderViewer extends StatelessWidget {
+class OrderViewer extends StatelessWidget {
   final String medName;
+  final String userName;
   final String userId;
   final int quantity;
   final String status;
@@ -931,16 +969,16 @@ class AdminOrderViewer extends StatelessWidget {
   final bool condition;
   final Function() onPressed;
 
-  const AdminOrderViewer(
-      {Key? key,
-      required this.medName,
-      required this.userId,
-      required this.status,
-      required this.payment,
-      required this.quantity,
-      required this.imagePath,
-      required this.condition,
-      required this.onPressed})
+  const OrderViewer({Key? key,
+    required this.userName,
+    required this.medName,
+    required this.userId,
+    required this.status,
+    required this.payment,
+    required this.quantity,
+    required this.imagePath,
+    required this.condition,
+    required this.onPressed})
       : super(key: key);
 
   @override
@@ -962,17 +1000,18 @@ class AdminOrderViewer extends StatelessWidget {
                 ),
                 Column(
                   children: [
-                    Text(medName),
+                    Text(medName,),
                     Text(
-                      userId,
+                      userName,
                       style: const TextStyle(color: Colors.blue),
-                    )
+                    ),
+                    Text('quantity: ${quantity.toString()}',)
                   ],
                 ),
                 const SizedBox(
                   width: 10,
                 ),
-                Text('quantity: ${quantity.toString()}')
+
               ],
             ),
             Column(

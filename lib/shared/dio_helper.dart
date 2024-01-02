@@ -14,7 +14,7 @@ class DioHelper {
   static init() {
     dio = Dio(
       BaseOptions(
-        baseUrl: 'http://192.168.137.8:8000/api/',
+        baseUrl: 'http://192.168.137.160:8000/api/',
         receiveDataWhenStatusError: true,
       ),
     );
@@ -47,7 +47,7 @@ class DioHelper {
           'mobile': phone,
           'password': password,
           'number': phone,
-          'img': null,
+          'profile_img_url': image,
         },
         options: Options(
             headers: {'Accept': 'application/json'},
@@ -86,11 +86,11 @@ class DioHelper {
       {required String token,
       required String searchText,
       required String searchType}) async {
-    return await dio.post('search1',
-        data: {'search_text': searchText, 'search_type': searchType},
+    return await dio.get('searchMedications',
+        queryParameters: {'commercial_name': searchText},
         options: Options(
             headers: {
-              'Authorization': 'Bearer $token',
+//              'Authorization': 'Bearer $token',
               'Accept': 'application/json'
             },
             followRedirects: false,
@@ -339,19 +339,19 @@ class DioHelper {
   }
 
   static Future<Response> addMedicineRequest(
-      {required String token,
+      {
       required int userId,
-      required String userName,
-      required String medicineName}) async {
-    return await dio.post('add_medicine_request',
+      required int medId,
+      required int quantity}) async {
+    return await dio.post('order',
         data: {
           'user_id': userId,
-          'user_name': userName,
-          'medicine_name': medicineName
+          'medication_id': medId,
+          'quantity': quantity
         },
         options: Options(
             headers: {
-              'Authorization': 'Bearer $token',
+              //'Authorization': 'Bearer $token',
               'Accept': 'application/json',
             },
             followRedirects: false,

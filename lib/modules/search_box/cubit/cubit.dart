@@ -23,7 +23,7 @@ class SearchCubit extends Cubit<SearchStates> {
   }
 
   bool foundResults(){
-    bool foundResults = searchModel!.code != '404';
+    bool foundResults = searchModel!.success == 1;
     emit(CheckForSearchResultsState());
     return foundResults;
   }
@@ -43,9 +43,10 @@ class SearchCubit extends Cubit<SearchStates> {
     DioHelper.search(
             token: token, searchText: searchText, searchType: searchType)
         .then((value) {
+          print(value.data);
       searchModel = SearchModel.fromJson(value.data);
       if (foundResults()) {
-        fillMedicineModels(value.data['data']['data']);
+        fillMedicineModels(value.data['data']);
       }
       emit(SearchSuccessState());
     }).catchError((error) {

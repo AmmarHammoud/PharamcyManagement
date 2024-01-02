@@ -63,6 +63,7 @@ class SearchBox extends StatelessWidget {
                           child: const Center(
                             child: Text(
                               'no results found',
+                              //style: TextStyle(fontSize: 12.0),
                             ),
                           ));
                     }
@@ -133,8 +134,8 @@ class SearchModelViewer extends StatelessWidget {
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Text(medicineName),
-                Text(medicineCategory),
+                Text(medicineName, style: const TextStyle(fontSize: 15.0),),
+                Text(medicineCategory, style: const TextStyle(fontSize: 15.0),),
               ],
             ),
           ],

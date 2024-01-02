@@ -4,6 +4,8 @@ class AdminOrdersModel {
   late int quantity;
   late String status;
   late int payment;
+  late String userName;
+  late String medName;
 
   AdminOrdersModel.fromJson(Map<String, dynamic> json){
     userId = json['user_id'];
@@ -11,6 +13,8 @@ class AdminOrdersModel {
     quantity = json['quantity'];
     status = json['status'];
     payment = json['payment'];
+    userName = json['username'];
+    medName = json['commercial_name'];
   }
 
 }
