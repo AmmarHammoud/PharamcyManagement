@@ -1,6 +1,6 @@
 import 'package:dac/modules/add_new_product/add_new_medication/add_new_medication_screen.dart';
-import 'package:dac/modules/admin_orders/admin_orders_screen.dart';
 import 'package:dac/modules/medicines_management/get_total_medicines_screee.dart';
+import 'package:dac/modules/orders/user_orders_screen.dart';
 import 'package:dac/shared/components.dart';
 import 'package:dac/shared/constants.dart';
 
@@ -9,6 +9,7 @@ import 'package:flutter_localization/flutter_localization.dart';
 import '../../shared/cash_helper.dart';
 import '../categories/categories.dart';
 import '../medicines_management/medicines_management.dart';
+import '../orders/admin_orders_screen.dart';
 import '../search_box/search_box.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -30,7 +31,11 @@ class HomeScreen extends StatelessWidget {
             const TranslateButton(),
             IconButton(
                 onPressed: () {
-                  navigateTo(context, const AdminOrdersScreen());
+                  if (isAdmin) {
+                    navigateTo(context, const AdminOrdersScreen());
+                  } else {
+                    navigateTo(context, const UserOrdersScreen());
+                  }
                 },
                 icon: const Icon(Icons.notification_important_outlined)),
             if (!isAdmin) const WhatsappButton(),

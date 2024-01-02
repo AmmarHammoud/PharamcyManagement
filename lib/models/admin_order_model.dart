@@ -6,7 +6,7 @@ class AdminOrdersModel {
   late int payment;
   late String userName;
   late String medName;
-
+  late int orderId;
   AdminOrdersModel.fromJson(Map<String, dynamic> json){
     userId = json['user_id'];
     medId = json['medication_id'];
@@ -15,6 +15,7 @@ class AdminOrdersModel {
     payment = json['payment'];
     userName = json['username'];
     medName = json['commercial_name'];
+    orderId = json['order_id'];
   }
 
 }

@@ -29,15 +29,16 @@ navigateAndFinish(context, Widget widget) {
   Navigator.pushAndRemoveUntil(
     context,
     MaterialPageRoute(builder: (context) => widget),
-        (Route<dynamic> route) => false,
+    (Route<dynamic> route) => false,
   );
 }
 
 class MyText extends StatelessWidget {
-  const MyText({Key? key,
-    required this.title,
-    this.isBlue = false,
-    this.isBlack = false})
+  const MyText(
+      {Key? key,
+      required this.title,
+      this.isBlue = false,
+      this.isBlack = false})
       : super(key: key);
   final String title;
   final bool isBlue;
@@ -48,19 +49,10 @@ class MyText extends StatelessWidget {
     return Text(
       title,
       style: isBlue
-          ? Theme
-          .of(context)
-          .textTheme
-          .headline1
+          ? Theme.of(context).textTheme.headline1
           : isBlack
-          ? Theme
-          .of(context)
-          .textTheme
-          .bodyText1
-          : Theme
-          .of(context)
-          .textTheme
-          .bodyText2,
+              ? Theme.of(context).textTheme.bodyText1
+              : Theme.of(context).textTheme.bodyText2,
     );
   }
 }
@@ -96,20 +88,21 @@ class ValidatedTextField extends StatelessWidget {
   final double fontSize;
   final double radius;
 
-  const ValidatedTextField({Key? key,
-    required this.controller,
-    required this.validator,
-    required this.errorText,
-    required this.hintText,
-    required this.onChanged,
-    this.onFieldSubmitted,
-    this.hasNextText = true,
-    this.enable = true,
-    this.icon,
-    this.suffixIcon,
-    this.obscureText = false,
-    this.fontSize = 20.0,
-    this.radius = 15.0})
+  const ValidatedTextField(
+      {Key? key,
+      required this.controller,
+      required this.validator,
+      required this.errorText,
+      required this.hintText,
+      required this.onChanged,
+      this.onFieldSubmitted,
+      this.hasNextText = true,
+      this.enable = true,
+      this.icon,
+      this.suffixIcon,
+      this.obscureText = false,
+      this.fontSize = 20.0,
+      this.radius = 15.0})
       : super(key: key);
 
   @override
@@ -127,7 +120,7 @@ class ValidatedTextField extends StatelessWidget {
         controller: controller,
         enabled: enable,
         textInputAction:
-        hasNextText ? TextInputAction.next : TextInputAction.done,
+            hasNextText ? TextInputAction.next : TextInputAction.done,
         keyboardType: textInputType,
         obscureText: obscureText,
         validator: (value) {
@@ -155,10 +148,11 @@ class ValidatedTextField extends StatelessWidget {
 ///but needs to be handled
 FToast fToast = FToast();
 
-showToast({required context,
-  required String text,
-  required Color color,
-  int duration = 3}) {
+showToast(
+    {required context,
+    required String text,
+    required Color color,
+    int duration = 3}) {
   fToast.init(context);
   Widget toast = Container(
     padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
@@ -209,15 +203,16 @@ class ShowQuestionAnswerBox extends StatelessWidget {
   final Function(String) onChanged;
   final int switchIndex;
 
-  const ShowQuestionAnswerBox({Key? key,
-    required this.controller,
-    required this.cubitObject,
-    required this.question,
-    required this.validator,
-    required this.errorText,
-    required this.hintText,
-    required this.onChanged,
-    required this.switchIndex})
+  const ShowQuestionAnswerBox(
+      {Key? key,
+      required this.controller,
+      required this.cubitObject,
+      required this.question,
+      required this.validator,
+      required this.errorText,
+      required this.hintText,
+      required this.onChanged,
+      required this.switchIndex})
       : super(key: key);
 
   @override
@@ -229,10 +224,7 @@ class ShowQuestionAnswerBox extends StatelessWidget {
           children: [
             Text(
               question,
-              style: Theme
-                  .of(context)
-                  .textTheme
-                  .bodyText1,
+              style: Theme.of(context).textTheme.bodyText1,
             ),
             FlutterSwitch(
                 value: cubitObject.questions[switchIndex],
@@ -275,10 +267,7 @@ class GenderSelection extends StatelessWidget {
       children: [
         Text(
           'Gender: ',
-          style: Theme
-              .of(context)
-              .textTheme
-              .bodyText1,
+          style: Theme.of(context).textTheme.bodyText1,
         ),
         Expanded(
           child: GenderSelectionButton(
@@ -298,10 +287,11 @@ class GenderSelectionButton extends StatelessWidget {
   final String text;
   final Gender gender;
 
-  const GenderSelectionButton({Key? key,
-    required this.register,
-    required this.text,
-    required this.gender})
+  const GenderSelectionButton(
+      {Key? key,
+      required this.register,
+      required this.text,
+      required this.gender})
       : super(key: key);
 
   @override
@@ -326,10 +316,11 @@ class MainScreenButton extends StatelessWidget {
   final Widget widget;
   final String imagePath;
 
-  const MainScreenButton({super.key,
-    required this.title,
-    required this.widget,
-    required this.imagePath});
+  const MainScreenButton(
+      {super.key,
+      required this.title,
+      required this.widget,
+      required this.imagePath});
 
   @override
   Widget build(BuildContext context) {
@@ -379,10 +370,11 @@ class CategoriesScreenButton extends StatelessWidget {
   final Widget widget;
   final String imagePath;
 
-  const CategoriesScreenButton({super.key,
-    required this.title,
-    required this.widget,
-    required this.imagePath});
+  const CategoriesScreenButton(
+      {super.key,
+      required this.title,
+      required this.widget,
+      required this.imagePath});
 
   @override
   Widget build(BuildContext context) {
@@ -419,12 +411,9 @@ class CategoriesScreenButton extends StatelessWidget {
                         color: Colors.blueAccent,
                         child: Center(
                             child: Text(
-                              title,
-                              style: Theme
-                                  .of(context)
-                                  .textTheme
-                                  .bodyText2,
-                            ))))
+                          title,
+                          style: Theme.of(context).textTheme.bodyText2,
+                        ))))
               ],
             ),
           ),
@@ -441,12 +430,13 @@ class DrawerButton extends StatelessWidget {
   final String imagePath;
   final Function() onPressed;
 
-  const DrawerButton({super.key,
-    this.width = 20,
-    this.color = Colors.blueAccent,
-    required this.title,
-    required this.imagePath,
-    required this.onPressed});
+  const DrawerButton(
+      {super.key,
+      this.width = 20,
+      this.color = Colors.blueAccent,
+      required this.title,
+      required this.imagePath,
+      required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -466,10 +456,7 @@ class DrawerButton extends StatelessWidget {
               onPressed: onPressed,
               child: Text(
                 title,
-                style: Theme
-                    .of(context)
-                    .textTheme
-                    .bodyText1,
+                style: Theme.of(context).textTheme.bodyText1,
               ),
             ),
           ],
@@ -499,10 +486,7 @@ class MyDrawer extends StatelessWidget {
             ),
             child: Text(
               'more info',
-              style: Theme
-                  .of(context)
-                  .textTheme
-                  .bodyText2,
+              style: Theme.of(context).textTheme.bodyText2,
             ),
           ),
         ),
@@ -570,26 +554,25 @@ class CustomizedButton extends StatelessWidget {
   final Function() onPressed;
   final Color color;
 
-  const CustomizedButton({Key? key,
-    required this.title,
-    required this.condition,
-    required this.onPressed,
-    this.color = Colors.blue})
+  const CustomizedButton(
+      {Key? key,
+      required this.title,
+      required this.condition,
+      required this.onPressed,
+      this.color = Colors.blue})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ConditionalBuilder(
       condition: condition,
-      builder: (context) =>
-          ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: color,
-              ),
-              onPressed: onPressed,
-              child: Text(title)),
-      fallback: (context) =>
-      const Center(
+      builder: (context) => ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: color,
+          ),
+          onPressed: onPressed,
+          child: Text(title)),
+      fallback: (context) => const Center(
         child: CircularProgressIndicator(),
       ),
     );
@@ -601,10 +584,11 @@ class DateSelector extends StatelessWidget {
   final DateTime shownDate;
   final String hintText;
 
-  const DateSelector({Key? key,
-    required this.onTap,
-    required this.shownDate,
-    required this.hintText})
+  const DateSelector(
+      {Key? key,
+      required this.onTap,
+      required this.shownDate,
+      required this.hintText})
       : super(key: key);
 
   @override
@@ -642,10 +626,10 @@ class MedicineComponents extends StatelessWidget {
     return Column(
       children: [
         ValidatedTextField(
-          //enable: isAdmin,
-          //enable: false,
+            //enable: isAdmin,
+            //enable: false,
             controller:
-            cubitObject.medicineTextControllers.medicineNameController,
+                cubitObject.medicineTextControllers.medicineNameController,
             icon: Icons.medication,
             validator: cubitObject.medicineTextValidators.medicineNameValidator,
             errorText: 'name field must be filled',
@@ -659,13 +643,13 @@ class MedicineComponents extends StatelessWidget {
           height: divisor,
         ),
         ValidatedTextField(
-          //enable: isAdmin,
-          //enable: false,
+            //enable: isAdmin,
+            //enable: false,
             controller:
-            cubitObject.medicineTextControllers.scientificNameController,
+                cubitObject.medicineTextControllers.scientificNameController,
             icon: Icons.medication,
             validator:
-            cubitObject.medicineTextValidators.scientificNameValidator,
+                cubitObject.medicineTextValidators.scientificNameValidator,
             errorText: 'scientific name field must be filled',
             hintText: medicineModel?.scientificName ?? 'scientific name',
             onChanged: (scientificName) {
@@ -677,10 +661,10 @@ class MedicineComponents extends StatelessWidget {
           height: divisor,
         ),
         ValidatedTextField(
-          //enable: isAdmin,
-          //enable: false,
+            //enable: isAdmin,
+            //enable: false,
             controller:
-            cubitObject.medicineTextControllers.companyNameController,
+                cubitObject.medicineTextControllers.companyNameController,
             icon: Icons.house,
             validator: cubitObject.medicineTextValidators.companyNameValidator,
             errorText: 'company name field must be filled',
@@ -694,8 +678,8 @@ class MedicineComponents extends StatelessWidget {
           height: divisor,
         ),
         ValidatedTextField(
-          //enable: isAdmin,
-          //enable: false,
+            //enable: isAdmin,
+            //enable: false,
             controller: cubitObject.medicineTextControllers.categoryController,
             icon: Icons.padding,
             validator: cubitObject.medicineTextValidators.categoryValidator,
@@ -727,8 +711,8 @@ class MedicineComponents extends StatelessWidget {
           height: divisor,
         ),
         ValidatedTextField(
-          //enable: isAdmin,
-          //enable: false,
+            //enable: isAdmin,
+            //enable: false,
             controller: cubitObject.medicineTextControllers.quantityController,
             icon: Icons.production_quantity_limits_rounded,
             validator: cubitObject.medicineTextValidators.quantityValidator,
@@ -800,6 +784,54 @@ class MedicineComponents extends StatelessWidget {
   }
 }
 
+class QuantitySelector extends StatelessWidget {
+  const QuantitySelector({Key? key, required this.medId}) : super(key: key);
+  final int medId;
+
+  @override
+  Widget build(BuildContext context) {
+    var quantityController = TextEditingController();
+    var quantityValidator = GlobalKey<FormState>();
+    return Scaffold(
+      appBar: AppBar(),
+      body: Padding(
+        padding: const EdgeInsets.all(18.0),
+        child: Column(
+          children: [
+            ValidatedTextField(
+                controller: quantityController,
+                validator: quantityValidator,
+                errorText: 'quantity should be filled',
+                hintText: 'quantity',
+                onChanged: (_) {
+                  print(_);
+                }),
+            ElevatedButton(
+                onPressed: () {
+                  DioHelper.addMedicineRequest(
+                    userId: CashHelper.getUserId()!,
+                    medId: medId,
+                    quantity: int.parse(quantityController.text),
+                  ).then((value) {
+                    print(value.data);
+                    showToast(
+                        context: context,
+                        text: value.data['message'],
+                        color: value.data['success'] == 1
+                            ? Colors.green
+                            : Colors.red);
+                  }).onError((error, stackTrace) {
+                    print(error.toString());
+                  });
+                },
+                child: const Text('order'))
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 class MedicineModelViewer extends StatelessWidget {
   final String name;
   final String category;
@@ -808,18 +840,22 @@ class MedicineModelViewer extends StatelessWidget {
   final int medId;
   final Function() onPressed;
 
-  const MedicineModelViewer({Key? key,
-    required this.name,
-    required this.medId,
-    required this.category,
-    required this.imagePath,
-    required this.condition,
-    required this.onPressed})
+  //final bool isAdmin = CashHelper.isAdmin();
+  const MedicineModelViewer(
+      {Key? key,
+      required this.name,
+      required this.medId,
+      required this.category,
+      required this.imagePath,
+      required this.condition,
+      required this.onPressed})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     double imageSize = 50;
+    bool isAdmin = CashHelper.isAdmin();
+
     return Container(
       color: Colors.greenAccent,
       child: Padding(
@@ -847,27 +883,71 @@ class MedicineModelViewer extends StatelessWidget {
             ),
             CustomizedButton(
                 title: 'view', condition: condition, onPressed: onPressed),
-            CustomizedButton(
-                title: 'order',
-                condition: 1 == 1,
-                onPressed: () {
-                  DioHelper.addMedicineRequest(
-                    userId: CashHelper.getUserId()!,
-                    medId: medId,
-                    quantity: 20,
-                  )
-                      .then((value) {
-                    print(value.data);
-                    showToast(context: context,
-                        text: value.data['message'],
-                        color: value.data['success'] == 1
-                            ? Colors.green
-                            : Colors.red);
-                  })
-                      .onError((error, stackTrace) {
-                    print(error.toString());
-                  });
-                })
+            if (!isAdmin)
+              Column(
+                children: [
+                  CustomizedButton(
+                      title: 'order',
+                      condition: 1 == 1,
+                      onPressed: () {
+                        navigateTo(
+                            context,
+                            QuantitySelector(
+                              medId: medId,
+                            ));
+                        // DioHelper.addMedicineRequest(
+                        //   userId: CashHelper.getUserId()!,
+                        //   medId: medId,
+                        //   quantity: 20,
+                        // ).then((value) {
+                        //   print(value.data);
+                        //   showToast(
+                        //       context: context,
+                        //       text: value.data['message'],
+                        //       color: value.data['success'] == 1
+                        //           ? Colors.green
+                        //           : Colors.red);
+                        // }).onError((error, stackTrace) {
+                        //   print(error.toString());
+                        // });
+                      }),
+                  //if (!isAdmin)
+                  //   SizedBox(
+                  //     width: 50,
+                  //     child: ValidatedTextField(
+                  //         controller: quantityController,
+                  //         validator: quantityValidator,
+                  //         errorText: 'quantity should be filled',
+                  //         hintText: 'quantity',
+                  //         onChanged: (_){print(_);}),
+                  //   ),
+                  //QuantitySelection(value: 10, color: Colors.grey)
+                ],
+              ),
+            if (!isAdmin)
+              // CustomizedButton(
+              //     title: 'fav', condition: 1 == 1, onPressed: () {
+              //   DioHelper.addToFavorite(
+              //       userId: CashHelper.getUserId()!, medicationId: medId);
+              // })
+              IconButton(
+                  onPressed: () {
+                    DioHelper.addToFavorite(
+                            userId: CashHelper.getUserId()!,
+                            medicationId: medId)
+                        .then((value) {
+                      print(value.data);
+                      showToast(
+                          context: context,
+                          text: value.data['message'],
+                          color: value.data['success'] == 1
+                              ? Colors.green
+                              : Colors.red);
+                    }).onError((error, stackTrace) {
+                      print(error.toString());
+                    });
+                  },
+                  icon: const Icon(Icons.favorite_outlined))
           ],
         ),
       ),
@@ -883,11 +963,10 @@ class CategorizedMedicines extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) =>
-      GetMedicineCategoriesCubit()
+      create: (context) => GetMedicineCategoriesCubit()
         ..getMedicineAccordingToCategory(category: category),
       child: BlocConsumer<GetMedicineCategoriesCubit,
-          GetMedicineCategoriesStates>(
+              GetMedicineCategoriesStates>(
           listener: (context, state) {},
           builder: (context, state) {
             var cubitObject = GetMedicineCategoriesCubit.get(context);
@@ -907,44 +986,39 @@ class CategorizedMedicines extends StatelessWidget {
                     ),
                     ConditionalBuilder(
                       condition: state is! GetMedicineCategoriesLoadingState,
-                      builder: (context) =>
-                          ListView.separated(
-                              physics: const BouncingScrollPhysics(
-                                //parent: AlwaysScrollableScrollPhysics()
+                      builder: (context) => ListView.separated(
+                          physics: const BouncingScrollPhysics(
+                              //parent: AlwaysScrollableScrollPhysics()
                               ),
-                              shrinkWrap: true,
-                              scrollDirection: Axis.vertical,
-                              itemBuilder: (context, index) =>
-                                  Padding(
-                                    padding: const EdgeInsets.all(10.0),
-                                    child: MedicineModelViewer(
-                                      medId:
+                          shrinkWrap: true,
+                          scrollDirection: Axis.vertical,
+                          itemBuilder: (context, index) => Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: MedicineModelViewer(
+                                  medId:
                                       cubitObject.categorizedMedicine[index].id,
 
-                                      ///SHOULD BE UPDATED
-                                      condition: 1 == 1,
-                                      name: cubitObject
-                                          .categorizedMedicine[index].name,
-                                      category: cubitObject
-                                          .categorizedMedicine[index].category,
-                                      imagePath: 'images/medicine.png',
-                                      onPressed: () {
-                                        navigateTo(
-                                            context,
-                                            MedicinePreviewScreen(
-                                                medicineModel: cubitObject
-                                                    .categorizedMedicine[index]));
-                                      },
-                                    ),
-                                  ),
-                              separatorBuilder: (context, index) =>
-                              const SizedBox(
+                                  ///SHOULD BE UPDATED
+                                  condition: 1 == 1,
+                                  name: cubitObject
+                                      .categorizedMedicine[index].name,
+                                  category: cubitObject
+                                      .categorizedMedicine[index].category,
+                                  imagePath: 'images/medicine.png',
+                                  onPressed: () {
+                                    navigateTo(
+                                        context,
+                                        MedicinePreviewScreen(
+                                            medicineModel: cubitObject
+                                                .categorizedMedicine[index]));
+                                  },
+                                ),
+                              ),
+                          separatorBuilder: (context, index) => const SizedBox(
                                 height: 10,
                               ),
-                              itemCount: cubitObject.categorizedMedicine
-                                  .length),
-                      fallback: (context) =>
-                      const Center(
+                          itemCount: cubitObject.categorizedMedicine.length),
+                      fallback: (context) => const Center(
                         child: CircularProgressIndicator(),
                       ),
                     )
@@ -961,6 +1035,7 @@ class CategorizedMedicines extends StatelessWidget {
 class OrderViewer extends StatelessWidget {
   final String medName;
   final String userName;
+  final int orderId;
   final String userId;
   final int quantity;
   final String status;
@@ -969,21 +1044,24 @@ class OrderViewer extends StatelessWidget {
   final bool condition;
   final Function() onPressed;
 
-  const OrderViewer({Key? key,
-    required this.userName,
-    required this.medName,
-    required this.userId,
-    required this.status,
-    required this.payment,
-    required this.quantity,
-    required this.imagePath,
-    required this.condition,
-    required this.onPressed})
+  const OrderViewer(
+      {Key? key,
+      required this.userName,
+      required this.medName,
+      required this.orderId,
+      required this.userId,
+      required this.status,
+      required this.payment,
+      required this.quantity,
+      required this.imagePath,
+      required this.condition,
+      required this.onPressed})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     double imageSize = 50;
+    bool isAdmin = CashHelper.isAdmin();
     return Container(
       color: Colors.greenAccent,
       child: Padding(
@@ -1000,30 +1078,94 @@ class OrderViewer extends StatelessWidget {
                 ),
                 Column(
                   children: [
-                    Text(medName,),
+                    Text(
+                      medName,
+                    ),
                     Text(
                       userName,
                       style: const TextStyle(color: Colors.blue),
                     ),
-                    Text('quantity: ${quantity.toString()}',)
+                    Text(
+                      'quantity: ${quantity.toString()}',
+                    )
                   ],
                 ),
                 const SizedBox(
                   width: 10,
                 ),
-
               ],
             ),
             Column(
               children: [
                 Text(status),
+                if (isAdmin)
+                  Row(
+                    children: [
+                      ElevatedButton(
+                          onPressed: () {
+                            DioHelper.changeOrderStatus(
+                                    orderId: orderId, status: 'Preparing')
+                                .then((value) {
+                              print(value.data);
+                              showToast(
+                                  context: context,
+                                  text: value.data['message'],
+                                  color: value.data['success'] == 1
+                                      ? Colors.green
+                                      : Colors.red);
+                            }).onError((error, stackTrace) {
+                              print(error.toString());
+                            });
+                          },
+                          child: const Text('prepearing')),
+                      const SizedBox(
+                        width: 5,
+                      ),
+                      ElevatedButton(
+                          onPressed: () {
+                            DioHelper.changeOrderStatus(
+                                    orderId: orderId, status: 'Sent')
+                                .then((value) {
+                              print(value.data);
+                              showToast(
+                                  context: context,
+                                  text: value.data['message'],
+                                  color: value.data['success'] == 1
+                                      ? Colors.green
+                                      : Colors.red);
+                            }).onError((error, stackTrace) {
+                              print(error.toString());
+                            });
+                          },
+                          child: const Text('sent')),
+                    ],
+                  ),
+                const SizedBox(
+                  height: 5,
+                ),
                 CustomizedButton(
                     title: 'view', condition: condition, onPressed: onPressed),
                 Text(
+                  //'payment',
                   payment == '1' ? 'paid' : 'not paid',
                   style: TextStyle(
-                      color: payment == '1' ? Colors.blue : Colors.red),
-                )
+                    color: payment == '1' ? Colors.blue : Colors.red,
+                  ),
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+                if (isAdmin)
+                  ElevatedButton(
+                      onPressed: () {
+                        DioHelper.changeOrderPayment(orderId: orderId)
+                            .then((value) {
+                          print(value.data);
+                        }).onError((error, stackTrace) {
+                          print(error.toString());
+                        });
+                      },
+                      child: const Text('paid'))
               ],
             ),
             // CustomizedButton(title: 'order', condition: 1 == 1, onPressed: () {
@@ -1040,5 +1182,109 @@ class OrderViewer extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class QuantitySelection extends StatelessWidget {
+  final int limitSelectQuantity;
+  final int value;
+  final double width;
+  final double height;
+  final Function? onChanged;
+  final Color color;
+
+  QuantitySelection(
+      {required this.value,
+      this.width = 40.0,
+      this.height = 42.0,
+      this.limitSelectQuantity = 100,
+      required this.color,
+      this.onChanged});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        if (onChanged != null) {
+          showOptions(context);
+        }
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border.all(width: 1.0, color: Colors.grey),
+          borderRadius: BorderRadius.circular(3),
+        ),
+        height: height,
+        width: width,
+        child: Padding(
+          padding: EdgeInsets.symmetric(
+              vertical: 2.0, horizontal: (onChanged != null) ? 5.0 : 10.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Expanded(
+                child: Center(
+                  child: Text(
+                    value.toString(),
+                    style: TextStyle(fontSize: 14, color: color),
+                  ),
+                ),
+              ),
+              if (onChanged != null)
+                const SizedBox(
+                  width: 5.0,
+                ),
+              if (onChanged != null)
+                Icon(Icons.keyboard_arrow_down,
+                    size: 14, color: Colors.greenAccent)
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  void showOptions(context) {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext context) {
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      for (int option = 1;
+                          option <= limitSelectQuantity;
+                          option++)
+                        ListTile(
+                            onTap: () {
+                              onChanged!(option);
+                              Navigator.pop(context);
+                            },
+                            title: Text(
+                              option.toString(),
+                              textAlign: TextAlign.center,
+                            )),
+                    ],
+                  ),
+                ),
+              ),
+              Container(
+                height: 1,
+                decoration: BoxDecoration(color: Colors.grey),
+              ),
+              ListTile(
+                title: Text(
+                  //S.of(context).selectTheQuantity,
+                  'sss',
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ],
+          );
+        });
   }
 }

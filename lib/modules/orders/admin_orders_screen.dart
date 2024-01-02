@@ -1,6 +1,7 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
-import 'package:dac/modules/admin_orders/cubit/cubit.dart';
-import 'package:dac/modules/admin_orders/cubit/states.dart';
+import 'package:dac/modules/orders/cubit/cubit.dart';
+//import 'package:dac/modules/orders/cubit/cubit.dart';
+import 'package:dac/modules/orders/cubit/states.dart';
 import 'package:dac/shared/components.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,11 +12,11 @@ class AdminOrdersScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => AdminOrdersCubit()..getAdminOrders(),
-      child: BlocConsumer<AdminOrdersCubit, AdminOrdersStates>(
+      create: (context) => OrdersCubit()..getAdminOrders(),
+      child: BlocConsumer<OrdersCubit, OrdersStates>(
           listener: (context, state) {},
           builder: (context, state) {
-            var ordersCubit = AdminOrdersCubit.get(context);
+            var ordersCubit = OrdersCubit.get(context);
             return Scaffold(
               appBar: AppBar(),
               body: SingleChildScrollView(
@@ -24,7 +25,7 @@ class AdminOrdersScreen extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.all(18.0),
                       child: ConditionalBuilder(
-                          condition: state is! AdminOrdersLoadingState,
+                          condition: state is! OrdersLoadingState,
                           builder: (context) => ListView.separated(
                                 shrinkWrap: true,
                                 scrollDirection: Axis.vertical,
@@ -38,16 +39,18 @@ class AdminOrdersScreen extends StatelessWidget {
                                         .adminOrders[index].payment
                                         .toString(),
                                     medName: ordersCubit
-                                        .adminOrders[index].medName
-                                        .toString(),
+                                            .adminOrders[index].medName ??
+                                        'medName'.toString(),
+                                    orderId: ordersCubit.adminOrders[index].orderId,
                                     userId: ordersCubit
                                         .adminOrders[index].userId
                                         .toString(),
                                     imagePath: 'images/medicine.png',
                                     condition: 1 == 1,
                                     onPressed: () {},
-                                    userName:
-                                        ordersCubit.adminOrders[index].userName,
+                                    userName: ordersCubit
+                                            .adminOrders[index].userName ??
+                                        'userName',
                                   );
                                 },
                                 separatorBuilder:

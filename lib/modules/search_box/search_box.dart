@@ -1,4 +1,6 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
+import 'package:dac/models/search_model/medicine_model/medicine_model.dart';
+import 'package:dac/modules/medicines_management/medicine_preview_screen.dart';
 import 'package:dac/modules/search_box/cubit/cubit.dart';
 import 'package:dac/modules/search_box/cubit/states.dart';
 import 'package:dac/shared/cash_helper.dart';
@@ -76,6 +78,7 @@ class SearchBox extends StatelessWidget {
                         child: ListView.separated(
                             //shrinkWrap: true,
                             itemBuilder: (context, index) => SearchModelViewer(
+                              model: search.medicineModels[index],
                                 medicineName: search.medicineModels[index].name,
                                 medicineCategory:
                                     search.medicineModels[index].category,
@@ -102,9 +105,10 @@ class SearchModelViewer extends StatelessWidget {
   final String medicineName;
   final String medicineCategory;
   final String imageLink;
-
+  final MedicineModel model;
   const SearchModelViewer(
       {Key? key,
+        required this.model,
       required this.medicineName,
       required this.medicineCategory,
       required this.imageLink})
@@ -119,26 +123,31 @@ class SearchModelViewer extends StatelessWidget {
       height: 65,
       child: Padding(
         padding: const EdgeInsets.all(10.0),
-        child: Row(
-          //mainAxisAlignment: MainAxisAlignment.end,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Image.asset(
-              'images/medicine.png',
-              width: imageSize,
-              height: imageSize,
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Text(medicineName, style: const TextStyle(fontSize: 15.0),),
-                Text(medicineCategory, style: const TextStyle(fontSize: 15.0),),
-              ],
-            ),
-          ],
+        child: InkWell(
+          onTap: (){
+            navigateTo(context, MedicinePreviewScreen(medicineModel: model));
+          },
+          child: Row(
+            //mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Image.asset(
+                'images/medicine.png',
+                width: imageSize,
+                height: imageSize,
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Text(medicineName, style: const TextStyle(fontSize: 15.0),),
+                  Text(medicineCategory, style: const TextStyle(fontSize: 15.0),),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -99,8 +99,27 @@ class DioHelper {
             }));
   }
 
-  static Future<Response> getAdminOrders() async{
-    return await dio.get('order');
+  static Future<Response> getAdminOrders() async {
+    return await dio.get('orders');
+  }
+
+  static Future<Response> getUserOrders({required userId}) async {
+    return await dio.get('order/user/$userId');
+  }
+
+  static Future<Response> addToFavorite(
+      {required int userId, required int medicationId}) async {
+    return await dio.post('addToFavourite',
+        data: {'user_id': userId, 'medication_id': medicationId});
+  }
+
+  static Future<Response> changeOrderStatus(
+      {required int orderId, required String status}) async {
+    return await dio.post('order/status/$orderId', data: {'status': status});
+  }
+
+  static Future<Response> changeOrderPayment({required int orderId}) async{
+    return await dio.post('order/payment/$orderId', data: {'payment': true});
   }
 
   static Future<Response> updateProfile({
@@ -339,16 +358,9 @@ class DioHelper {
   }
 
   static Future<Response> addMedicineRequest(
-      {
-      required int userId,
-      required int medId,
-      required int quantity}) async {
+      {required int userId, required int medId, required int quantity}) async {
     return await dio.post('order',
-        data: {
-          'user_id': userId,
-          'medication_id': medId,
-          'quantity': quantity
-        },
+        data: {'user_id': userId, 'medication_id': medId, 'quantity': quantity},
         options: Options(
             headers: {
               //'Authorization': 'Bearer $token',

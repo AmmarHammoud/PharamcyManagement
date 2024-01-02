@@ -115,7 +115,7 @@ class RegisterScreen extends StatelessWidget {
                           hasNextText: false,
                           validator: register.userInfoValidators.phoneValidator,
                           errorText: 'Please enter your phone number',
-                          hintText: AppLocal.password.getString(context),
+                          hintText: AppLocal.phone.getString(context),
                           onChanged: (String phone) => null),
                       const SizedBox(
                         height: 10,
