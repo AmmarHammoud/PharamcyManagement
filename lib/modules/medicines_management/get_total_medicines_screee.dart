@@ -33,12 +33,12 @@ class GetTotalMedicinesScreen extends StatelessWidget {
                   const SizedBox(
                     height: 20,
                   ),
-                  if (isAdmin)
-                    ElevatedButton(
-                        onPressed: () {
-                          navigateTo(context, const AddNewMedicationScreen());
-                        },
-                        child: const Text('Add new medication')),
+                  // if (isAdmin)
+                  //   ElevatedButton(
+                  //       onPressed: () {
+                  //         navigateTo(context, const AddNewMedicationScreen());
+                  //       },
+                  //       child: const Text('Add new medication')),
                   ConditionalBuilder(
                     condition: state is! GetTotalMedicinesLoadingState,
                     builder: (context) => ListView.separated(

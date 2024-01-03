@@ -1,5 +1,6 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:dac/models/search_model/medicine_model/medicine_model.dart';
+import 'package:dac/modules/add_new_product/add_new_medication/add_new_medication_screen.dart';
 import 'package:dac/modules/categories/add_category_screen.dart';
 import 'package:dac/modules/categories/medication_categories/cubit/cubit.dart';
 import 'package:dac/modules/categories/medication_categories/cubit/states.dart';
@@ -547,7 +548,10 @@ class MyDrawer extends StatelessWidget {
             imagePath: 'images/logout.png',
             onPressed: () {
               CashHelper.logoutUser();
-              showToast(context: context, text: 'Logout successfully', color: Colors.green);
+              showToast(
+                  context: context,
+                  text: 'Logout successfully',
+                  color: Colors.green);
               navigateAndFinish(context, const LoginScreen());
             })
       ]),
@@ -684,21 +688,21 @@ class MedicineComponents extends StatelessWidget {
         SizedBox(
           height: divisor,
         ),
-        ValidatedTextField(
-            //enable: isAdmin,
-            //enable: false,
-            controller: cubitObject.medicineTextControllers.categoryController,
-            icon: Icons.padding,
-            validator: cubitObject.medicineTextValidators.categoryValidator,
-            errorText: 'categories field must be filled',
-            hintText: medicineModel?.category ?? 'categories',
-            onChanged: (categories) {
-              cubitObject.medicineTextValidators.categoryValidator.currentState!
-                  .validate();
-            }),
-        SizedBox(
-          height: divisor,
-        ),
+        // ValidatedTextField(
+        //     //enable: isAdmin,
+        //     //enable: false,
+        //     controller: cubitObject.medicineTextControllers.categoryController,
+        //     icon: Icons.padding,
+        //     validator: cubitObject.medicineTextValidators.categoryValidator,
+        //     errorText: 'categories field must be filled',
+        //     hintText: medicineModel?.category ?? 'categories',
+        //     onChanged: (categories) {
+        //       cubitObject.medicineTextValidators.categoryValidator.currentState!
+        //           .validate();
+        //     }),
+        // SizedBox(
+        //   height: divisor,
+        // ),
         DateSelector(
             hintText: 'expiry date:',
             onTap: () async {
@@ -963,9 +967,10 @@ class MedicineModelViewer extends StatelessWidget {
 }
 
 class CategorizedMedicines extends StatelessWidget {
-  const CategorizedMedicines({Key? key, required this.category})
-      : super(key: key);
+  CategorizedMedicines({Key? key, required this.category, required this.categoryId}) : super(key: key);
   final String category;
+  final int categoryId;
+  bool isAdmin = CashHelper.isAdmin();
 
   @override
   Widget build(BuildContext context) {
@@ -984,52 +989,64 @@ class CategorizedMedicines extends StatelessWidget {
                   category,
                 ),
               ),
-              body: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    const SearchBox(),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    ConditionalBuilder(
-                      condition: state is! GetMedicineCategoriesLoadingState,
-                      builder: (context) => ListView.separated(
-                          physics: const BouncingScrollPhysics(
-                              //parent: AlwaysScrollableScrollPhysics()
-                              ),
-                          shrinkWrap: true,
-                          scrollDirection: Axis.vertical,
-                          itemBuilder: (context, index) => Padding(
-                                padding: const EdgeInsets.all(10.0),
-                                child: MedicineModelViewer(
-                                  medId:
-                                      cubitObject.categorizedMedicine[index].id,
-
-                                  ///SHOULD BE UPDATED
-                                  condition: 1 == 1,
-                                  name: cubitObject
-                                      .categorizedMedicine[index].name,
-                                  category: cubitObject
-                                      .categorizedMedicine[index].category,
-                                  imagePath: 'images/medicine.png',
-                                  onPressed: () {
-                                    navigateTo(
-                                        context,
-                                        MedicinePreviewScreen(
-                                            medicineModel: cubitObject
-                                                .categorizedMedicine[index]));
-                                  },
-                                ),
-                              ),
-                          separatorBuilder: (context, index) => const SizedBox(
-                                height: 10,
-                              ),
-                          itemCount: cubitObject.categorizedMedicine.length),
-                      fallback: (context) => const Center(
-                        child: CircularProgressIndicator(),
+              body: Padding(
+                padding: const EdgeInsets.all(18.0),
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      const SearchBox(),
+                      const SizedBox(
+                        height: 20,
                       ),
-                    )
-                  ],
+                      if (isAdmin)
+                        ElevatedButton(
+                            onPressed: () {
+                              navigateTo(context, AddNewMedicationScreen(categoryId: categoryId,));
+                            },
+                            child: const Text('add new medication')),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      ConditionalBuilder(
+                        condition: state is! GetMedicineCategoriesLoadingState,
+                        builder: (context) => ListView.separated(
+                            physics: const BouncingScrollPhysics(
+                                //parent: AlwaysScrollableScrollPhysics()
+                                ),
+                            shrinkWrap: true,
+                            scrollDirection: Axis.vertical,
+                            itemBuilder: (context, index) => Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: MedicineModelViewer(
+                                    medId:
+                                        cubitObject.categorizedMedicine[index].id,
+
+                                    ///SHOULD BE UPDATED
+                                    condition: 1 == 1,
+                                    name: cubitObject
+                                        .categorizedMedicine[index].name,
+                                    category: cubitObject
+                                        .categorizedMedicine[index].category,
+                                    imagePath: 'images/medicine.png',
+                                    onPressed: () {
+                                      navigateTo(
+                                          context,
+                                          MedicinePreviewScreen(
+                                              medicineModel: cubitObject
+                                                  .categorizedMedicine[index]));
+                                    },
+                                  ),
+                                ),
+                            separatorBuilder: (context, index) => const SizedBox(
+                                  height: 10,
+                                ),
+                            itemCount: cubitObject.categorizedMedicine.length),
+                        fallback: (context) => const Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ),
               drawer: MyDrawer(),

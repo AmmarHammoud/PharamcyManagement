@@ -1,4 +1,5 @@
 import 'package:dac/modules/add_new_product/add_new_medication/cubit/states.dart';
+import 'package:dac/modules/home_screen/home_screen.dart';
 import 'package:dac/modules/medicines_management/get_total_medicines_screee.dart';
 import 'package:dac/shared/cash_helper.dart';
 import 'package:dac/shared/components.dart';
@@ -20,7 +21,7 @@ class AddNewMedicationCubit extends Cubit<AddNewMedicationStates> {
     required String name,
     required String scientificName,
     required String companyName,
-    required String category,
+    required int category,
     required String image,
     required String quantity,
     required String expiryDate,
@@ -40,6 +41,13 @@ class AddNewMedicationCubit extends Cubit<AddNewMedicationStates> {
         .then((value) {
       emit(AddNewMedicationSuccessfulState());
       print(value.data);
+      if(value.data['success'] == 1){
+        navigateAndFinish(context, HomeScreen());
+      }
+      showToast(
+          context: context,
+          text: value.data['message'],
+          color: value.data['success'] == 1 ? Colors.green : Colors.red);
     }).onError((error, stackTrace) {
       emit(AddNewMedicationErrorState());
       print(error.toString);
@@ -64,8 +72,6 @@ class AddNewMedicationCubit extends Cubit<AddNewMedicationStates> {
             .scientificNameValidator.currentState
             ?.validate()) &&
         validateField(medicineTextValidators.companyNameValidator.currentState
-            ?.validate()) &&
-        validateField(medicineTextValidators.categoryValidator.currentState
             ?.validate()) &&
         validateField(medicineTextValidators.quantityValidator.currentState
             ?.validate()) &&

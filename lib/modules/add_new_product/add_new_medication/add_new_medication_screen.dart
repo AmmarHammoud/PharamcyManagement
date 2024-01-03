@@ -8,8 +8,8 @@ import '../../../shared/constants.dart';
 import 'cubit/states.dart';
 
 class AddNewMedicationScreen extends StatelessWidget {
-  const AddNewMedicationScreen({Key? key}) : super(key: key);
-
+  const AddNewMedicationScreen({Key? key, required this.categoryId}) : super(key: key);
+  final int categoryId;
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -59,7 +59,7 @@ class AddNewMedicationScreen extends StatelessWidget {
                                 scientificName:
                                     addNewMedication.medicineTextControllers.scientificNameController.text,
                                 companyName: addNewMedication.medicineTextControllers.companyNameController.text,
-                                category: addNewMedication.medicineTextControllers.categoryController.text,
+                                category: categoryId,
                                 image: 'images/person.png',
                                 quantity: addNewMedication.medicineTextControllers.quantityController.text,
                                 expiryDate: DateFormat('yyyy/MM/dd')

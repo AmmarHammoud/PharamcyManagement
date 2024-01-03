@@ -26,7 +26,7 @@ class MedicineTextControllers {
   final TextEditingController scientificNameController =
       TextEditingController();
   final TextEditingController companyNameController = TextEditingController();
-  final TextEditingController categoryController = TextEditingController();
+  //final TextEditingController categoryController = TextEditingController();
   final TextEditingController activeIngredientController =
       TextEditingController();
   final TextEditingController priceController = TextEditingController();
@@ -40,7 +40,7 @@ class MedicineTextValidators {
   final GlobalKey<FormState> medicineNameValidator = GlobalKey<FormState>();
   final GlobalKey<FormState> scientificNameValidator = GlobalKey<FormState>();
   final GlobalKey<FormState> companyNameValidator = GlobalKey<FormState>();
-  final GlobalKey<FormState> categoryValidator = GlobalKey<FormState>();
+  //final GlobalKey<FormState> categoryValidator = GlobalKey<FormState>();
   final GlobalKey<FormState> activeIngredientValidator = GlobalKey<FormState>();
   final GlobalKey<FormState> priceValidator = GlobalKey<FormState>();
   final GlobalKey<FormState> usesForValidator = GlobalKey<FormState>();

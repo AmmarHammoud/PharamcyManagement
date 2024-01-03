@@ -14,7 +14,7 @@ class GetMedicineCategoriesCubit extends Cubit<GetMedicineCategoriesStates> {
   static GetMedicineCategoriesCubit get(context) => BlocProvider.of(context);
 
   List<MedicineModel> categorizedMedicine = [];
-  List<Category> categories = [];
+  List<MyCategory> categories = [];
 
   getMedicineAccordingToCategory({required String category}) {
     categorizedMedicine.clear();
@@ -36,7 +36,7 @@ class GetMedicineCategoriesCubit extends Cubit<GetMedicineCategoriesStates> {
     DioHelper.getCategories().then((value) {
       print(value.data);
       for (int i = 0; i < value.data['data'].length; i++) {
-        categories.add(Category.fromJson(value.data['data'][i]));
+        categories.add(MyCategory.fromJson(value.data['data'][i]));
       }
       emit(GetMedicineCategoriesSuccessState());
     }).onError((error, stackTrace) {

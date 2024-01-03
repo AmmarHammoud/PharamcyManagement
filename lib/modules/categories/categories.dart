@@ -41,11 +41,11 @@ class CategorizedMedicineScreen extends StatelessWidget {
                     const SizedBox(
                       height: 20,
                     ),
-                    if(isAdmin)ElevatedButton(
-                        onPressed: () {
-                          navigateTo(context, const AddCategoryScreen());
-                        },
-                        child: const Text('add Category')),
+                    // if(isAdmin)ElevatedButton(
+                    //     onPressed: () {
+                    //       navigateTo(context, const AddCategoryScreen());
+                    //     },
+                    //     child: const Text('add Category')),
                     const SizedBox(
                       height: 15.0,
                     ),
@@ -113,6 +113,8 @@ class CategorizedMedicineScreen extends StatelessWidget {
                                 .categories[idx].title,
                             imagePath: 'images/skin.png',
                             widget: CategorizedMedicines(
+                              categoryId: categoriesCubitObject
+                                  .categories[idx].id,
                                 category: categoriesCubitObject
                                     .categories[idx].title),
                           ),
