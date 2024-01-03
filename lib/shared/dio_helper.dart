@@ -14,7 +14,7 @@ class DioHelper {
   static init() {
     dio = Dio(
       BaseOptions(
-        baseUrl: 'http://192.168.137.160:8000/api/',
+        baseUrl: 'http://127.0.0.1:8000/api/',
         receiveDataWhenStatusError: true,
       ),
     );
@@ -83,9 +83,7 @@ class DioHelper {
   }
 
   static Future<Response> search(
-      {required String token,
-      required String searchText,
-      required String searchType}) async {
+      {required String token, required String searchText}) async {
     return await dio.get('searchMedications',
         queryParameters: {'commercial_name': searchText},
         options: Options(
@@ -99,12 +97,20 @@ class DioHelper {
             }));
   }
 
+  static Future<Response> searchCategory({required String title}) async {
+    return await dio.get('searchCategories', queryParameters: {'title': title});
+  }
+
   static Future<Response> getAdminOrders() async {
     return await dio.get('orders');
   }
 
   static Future<Response> getUserOrders({required userId}) async {
     return await dio.get('order/user/$userId');
+  }
+
+  static Future<Response> getCategoryIdByTitle({required String title}) async {
+    return await dio.post('getIdByCatTitle', data: {'title': title});
   }
 
   static Future<Response> addToFavorite(
@@ -118,7 +124,7 @@ class DioHelper {
     return await dio.post('order/status/$orderId', data: {'status': status});
   }
 
-  static Future<Response> changeOrderPayment({required int orderId}) async{
+  static Future<Response> changeOrderPayment({required int orderId}) async {
     return await dio.post('order/payment/$orderId', data: {'payment': true});
   }
 
@@ -158,11 +164,10 @@ class DioHelper {
   }
 
   static Future<Response> addNewMedication(
-      {required String token,
-      required String name,
+      {required String name,
       required String scientificName,
       required String companyName,
-      required int category,
+      required String category,
       required String image,
       required String quantity,
       required String expiryDate,
@@ -172,8 +177,8 @@ class DioHelper {
           'commercial_name': name,
           'scientific_name': scientificName,
           'manufacture': companyName,
-          'category_id': category,
-          'img': 'null',
+          'category_title': category,
+          'img_url': image,
           'quantity': quantity,
           'expiry_date': expiryDate,
           'price': price,
@@ -181,7 +186,7 @@ class DioHelper {
         options: Options(
             headers: {
               'Accept': 'application/json',
-              'Authorization': 'Bearer $token'
+              //'Authorization': 'Bearer $token'
             },
             followRedirects: false,
             validateStatus: (status) {

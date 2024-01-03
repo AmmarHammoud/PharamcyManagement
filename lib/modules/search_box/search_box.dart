@@ -10,7 +10,8 @@ import 'package:flutter_conditional_rendering/conditional_switch.dart';
 import '../../shared/components.dart';
 
 class SearchBox extends StatelessWidget {
-  const SearchBox({Key? key}) : super(key: key);
+  const SearchBox({Key? key, this.accordingToCat = false}) : super(key: key);
+  final bool accordingToCat;
 
   @override
   Widget build(BuildContext context) {
@@ -29,25 +30,41 @@ class SearchBox extends StatelessWidget {
             }
 
             bool noResultsFound() {
-              return search.searchModel!.message == 'No Results Found';
+              return search.searchModel!.success == 0;
             }
 
-            return Column(
-              children: [
-                ValidatedTextField(
-                    hasNextText: false,
-                    controller: search.searchController,
-                    icon: Icons.search,
-                    validator: search.searchValidator,
-                    errorText: 'You cannot search about empty text',
-                    hintText: 'Search',
-                    onChanged: (text) {
-                      search.search(
-                          token: CashHelper.getUserToken()!,
-                          searchText: search.searchController.text,
-                          searchType: 'name');
-                    }),
-                Container(
+            Widget noRes() {
+              return Container(
+                  width: 300,
+                  height: 50,
+                  color: Colors.grey,
+                  child: const Center(
+                    child: Text(
+                      'no results found',
+                      //style: TextStyle(fontSize: 12.0),
+                    ),
+                  ));
+            }
+
+            Widget handle() {
+              if (accordingToCat) {
+                if (isLoading()) {
+                  return const Column(children: [
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Center(child: CircularProgressIndicator())
+                  ]);
+                }
+                else if(searchSuccess()){
+                  if (noResultsFound()) {
+                    return noRes();
+                  }
+                  return const SearchCategoryFound();
+                }
+                return Container();
+              } else {
+                return Container(
                     child: (() {
                   if (isLoading()) {
                     return const Column(children: [
@@ -78,7 +95,7 @@ class SearchBox extends StatelessWidget {
                         child: ListView.separated(
                             //shrinkWrap: true,
                             itemBuilder: (context, index) => SearchModelViewer(
-                              model: search.medicineModels[index],
+                                model: search.medicineModels[index],
                                 medicineName: search.medicineModels[index].name,
                                 medicineCategory:
                                     search.medicineModels[index].category,
@@ -93,7 +110,29 @@ class SearchBox extends StatelessWidget {
                   } else {
                     return null;
                   }
-                }()))
+                }()));
+              }
+            }
+
+            return Column(
+              children: [
+                ValidatedTextField(
+                    hasNextText: false,
+                    controller: search.searchController,
+                    icon: Icons.search,
+                    validator: search.searchValidator,
+                    errorText: 'You cannot search about empty text',
+                    hintText: 'Search',
+                    onChanged: (text) {
+                      accordingToCat
+                          ? search.searchByCategory(
+                              title: search.searchController.text)
+                          : search.search(
+                              token: CashHelper.getUserToken()!,
+                              searchText: search.searchController.text,
+                              searchType: 'name');
+                    }),
+                handle()
               ],
             );
           }),
@@ -106,9 +145,10 @@ class SearchModelViewer extends StatelessWidget {
   final String medicineCategory;
   final String imageLink;
   final MedicineModel model;
+
   const SearchModelViewer(
       {Key? key,
-        required this.model,
+      required this.model,
       required this.medicineName,
       required this.medicineCategory,
       required this.imageLink})
@@ -124,7 +164,7 @@ class SearchModelViewer extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(10.0),
         child: InkWell(
-          onTap: (){
+          onTap: () {
             navigateTo(context, MedicinePreviewScreen(medicineModel: model));
           },
           child: Row(
@@ -142,14 +182,34 @@ class SearchModelViewer extends StatelessWidget {
               Column(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  Text(medicineName, style: const TextStyle(fontSize: 15.0),),
-                  Text(medicineCategory, style: const TextStyle(fontSize: 15.0),),
+                  Text(
+                    medicineName,
+                    style: const TextStyle(fontSize: 15.0),
+                  ),
+                  Text(
+                    medicineCategory,
+                    style: const TextStyle(fontSize: 15.0),
+                  ),
                 ],
               ),
             ],
           ),
         ),
       ),
+    );
+  }
+}
+
+class SearchCategoryFound extends StatelessWidget {
+  const SearchCategoryFound({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Colors.grey,
+      width: 300,
+      height: 65,
+      child: const Text('Found'),
     );
   }
 }

@@ -146,7 +146,7 @@ class RegisterScreen extends StatelessWidget {
                         height: divisor,
                       ),
                       CustomizedButton(
-                        title: 'register',
+                        title: AppLocal.register.getString(context),
                         condition: state is! RegisterLoadingState,
                         onPressed: () {
                           register.register(

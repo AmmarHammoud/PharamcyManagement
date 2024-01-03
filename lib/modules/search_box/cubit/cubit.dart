@@ -16,13 +16,13 @@ class SearchCubit extends Cubit<SearchStates> {
   SearchModel? searchModel;
   List<MedicineModel> medicineModels = [];
 
-  bool searchForEmptyText(){
-    bool searchForEmptyText  = searchController.text == '';
+  bool searchForEmptyText() {
+    bool searchForEmptyText = searchController.text == '';
     emit(SearchForEmptyTextState());
     return searchForEmptyText;
   }
 
-  bool foundResults(){
+  bool foundResults() {
     bool foundResults = searchModel!.success == 1;
     emit(CheckForSearchResultsState());
     return foundResults;
@@ -38,12 +38,13 @@ class SearchCubit extends Cubit<SearchStates> {
       required String searchText,
       required String searchType}) {
     deleteCurrentSearchModels();
-    if(searchForEmptyText()) {emit(SearchForEmptyTextState()); return;}
+    if (searchForEmptyText()) {
+      emit(SearchForEmptyTextState());
+      return;
+    }
     emit(SearchLoadingState());
-    DioHelper.search(
-            token: token, searchText: searchText, searchType: searchType)
-        .then((value) {
-          print(value.data);
+    DioHelper.search(token: token, searchText: searchText).then((value) {
+      print(value.data);
       searchModel = SearchModel.fromJson(value.data);
       if (foundResults()) {
         fillMedicineModels(value.data['data']);
@@ -51,6 +52,17 @@ class SearchCubit extends Cubit<SearchStates> {
       emit(SearchSuccessState());
     }).catchError((error) {
       emit(SearchErrorState());
+    });
+  }
+
+  void searchByCategory({required String title}) {
+    emit(SearchLoadingState());
+    DioHelper.searchCategory(title: title).then((value) {
+      emit(SearchSuccessState());
+      print(value.data);
+    }).onError((error, stackTrace) {
+      emit(SearchErrorState());
+      print(error.toString());
     });
   }
 

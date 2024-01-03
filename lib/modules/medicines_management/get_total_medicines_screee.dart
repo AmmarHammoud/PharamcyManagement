@@ -22,6 +22,7 @@ class GetTotalMedicinesScreen extends StatelessWidget {
         builder: (context, state) {
           var medicinesManagement = MedicinesManagementCubit.get(context);
           return Scaffold(
+            drawer: MyDrawer(),
             appBar: AppBar(
               title: const Text('all medicines'),
               actions: [],
@@ -29,7 +30,9 @@ class GetTotalMedicinesScreen extends StatelessWidget {
             body: SingleChildScrollView(
               child: Column(
                 children: [
-                  const SizedBox(height: 20,),
+                  const SizedBox(
+                    height: 20,
+                  ),
                   if (isAdmin)
                     ElevatedButton(
                         onPressed: () {
@@ -47,7 +50,8 @@ class GetTotalMedicinesScreen extends StatelessWidget {
                         itemBuilder: (context, index) => Padding(
                               padding: const EdgeInsets.all(10.0),
                               child: MedicineModelViewer(
-                                medId: medicinesManagement.totalMedicines[index].id,
+                                medId: medicinesManagement
+                                    .totalMedicines[index].id,
                                 condition: state is! DeleteMedicineLoadingState,
                                 name: medicinesManagement
                                     .totalMedicines[index].name,

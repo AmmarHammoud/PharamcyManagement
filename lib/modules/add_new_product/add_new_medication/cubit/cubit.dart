@@ -20,7 +20,7 @@ class AddNewMedicationCubit extends Cubit<AddNewMedicationStates> {
     required String name,
     required String scientificName,
     required String companyName,
-    required int category,
+    required String category,
     required String image,
     required String quantity,
     required String expiryDate,
@@ -29,7 +29,6 @@ class AddNewMedicationCubit extends Cubit<AddNewMedicationStates> {
   }) {
     emit(AddNewMedicationLoadingState());
     DioHelper.addNewMedication(
-            token: CashHelper.getUserToken()!,
             name: name,
             scientificName: scientificName,
             companyName: companyName,
@@ -39,23 +38,11 @@ class AddNewMedicationCubit extends Cubit<AddNewMedicationStates> {
             expiryDate: expiryDate,
             price: price)
         .then((value) {
-          print(value.data);
       emit(AddNewMedicationSuccessfulState());
-      if(value.data['success'] == 1) {
-        navigateAndFinish(context, GetTotalMedicinesScreen());
-        showToast(
-            context: context,
-            text: value.data['message'],
-            color: Colors.green);
-      }
-      else {
-        showToast(
-          context: context,
-          text: value.data['message'],
-          color: Colors.red);
-      }
-    }).catchError((error) {
+      print(value.data);
+    }).onError((error, stackTrace) {
       emit(AddNewMedicationErrorState());
+      print(error.toString);
     });
   }
 
@@ -73,22 +60,15 @@ class AddNewMedicationCubit extends Cubit<AddNewMedicationStates> {
     return validateField(medicineTextValidators
             .medicineNameValidator.currentState
             ?.validate()) &&
-        validateField(
-            medicineTextValidators
-                .scientificNameValidator.currentState
-                ?.validate()) &&
-        validateField(
-            medicineTextValidators
-                .companyNameValidator.currentState
-                ?.validate()) &&
-        validateField(
-            medicineTextValidators
-                .categoryValidator.currentState
-                ?.validate()) &&
-        validateField(
-            medicineTextValidators
-                .quantityValidator.currentState
-                ?.validate()) &&
+        validateField(medicineTextValidators
+            .scientificNameValidator.currentState
+            ?.validate()) &&
+        validateField(medicineTextValidators.companyNameValidator.currentState
+            ?.validate()) &&
+        validateField(medicineTextValidators.categoryValidator.currentState
+            ?.validate()) &&
+        validateField(medicineTextValidators.quantityValidator.currentState
+            ?.validate()) &&
         // validateField(medicineTextValidators
         //     .usesForValidator.currentState
         //     ?.validate()) &&
@@ -103,20 +83,20 @@ class AddNewMedicationCubit extends Cubit<AddNewMedicationStates> {
             medicineTextValidators.priceValidator.currentState?.validate());
   }
 
-  // addTenMedicines(context) {
-  //   for (int i = 1; i <= 10; i++) {
-  //     addNewMedication(
-  //       context: context,
-  //         name: 'medicine--- $i',
-  //         scientificName: 'scientificName $i',
-  //         companyName: 'companyName $i',
-  //         category: 'opth',
-  //         image: 'images/person.png',
-  //         quantity: i.toString(),
-  //         usesFor: 'usesFor $i',
-  //         sideEffects: 'sideEffects $i',
-  //         expiryDate: '2020/$i/$i',
-  //         a_price: i.toString());
-  //   }
-  // }
+// addTenMedicines(context) {
+//   for (int i = 1; i <= 10; i++) {
+//     addNewMedication(
+//       context: context,
+//         name: 'medicine--- $i',
+//         scientificName: 'scientificName $i',
+//         companyName: 'companyName $i',
+//         category: 'opth',
+//         image: 'images/person.png',
+//         quantity: i.toString(),
+//         usesFor: 'usesFor $i',
+//         sideEffects: 'sideEffects $i',
+//         expiryDate: '2020/$i/$i',
+//         a_price: i.toString());
+//   }
+// }
 }

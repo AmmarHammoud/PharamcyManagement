@@ -38,8 +38,10 @@ class AddCategoryScreen extends StatelessWidget {
                       title: 'Add category',
                       condition: state is! GetMedicineCategoriesLoadingState,
                       onPressed: () {
-                        addCategory.addCategory(
+                        if(categoryValidator.currentState!.validate()) {
+                          addCategory.addCategory(
                             context: context, title: categoryController.text);
+                        }
                       })
                 ],
               ),

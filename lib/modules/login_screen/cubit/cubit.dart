@@ -36,7 +36,7 @@ class LoginCubit extends Cubit<LoginStates> {
       DioHelper.login(phone: phone, password: password).then((value) async {
         print(value.data);
         UserModel loginModel = UserModel.formJson(value.data);
-        print('phone: ${loginModel.user.phone}');
+        //print('phone: ${loginModel.user.phone}');
         if (loginModel.statues == 1) {
           CashHelper.putUser(userToken: loginModel.user.token);
           CashHelper.putUserPhone(mobile: loginModel.user.phone);

@@ -12,7 +12,7 @@ class UserModel {
     print(json);
     statues = json['status'];
     message = json['message'];
-    if(json['data'] != null) user = User.fromJson(json['data']);
+    if(statues != 0) user = User.fromJson(json['data']);
   }
 }
 

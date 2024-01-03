@@ -59,7 +59,7 @@ class AddNewMedicationScreen extends StatelessWidget {
                                 scientificName:
                                     addNewMedication.medicineTextControllers.scientificNameController.text,
                                 companyName: addNewMedication.medicineTextControllers.companyNameController.text,
-                                category: cat[addNewMedication.medicineTextControllers.categoryController.text],
+                                category: addNewMedication.medicineTextControllers.categoryController.text,
                                 image: 'images/person.png',
                                 quantity: addNewMedication.medicineTextControllers.quantityController.text,
                                 expiryDate: DateFormat('yyyy/MM/dd')

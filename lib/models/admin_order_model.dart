@@ -15,7 +15,7 @@ class AdminOrdersModel {
     payment = json['payment'];
     userName = json['username'];
     medName = json['commercial_name'];
-    orderId = json['order_id'];
+    orderId = json['id'];
   }
 
 }

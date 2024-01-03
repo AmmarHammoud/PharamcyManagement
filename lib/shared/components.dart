@@ -3,6 +3,7 @@ import 'package:dac/models/search_model/medicine_model/medicine_model.dart';
 import 'package:dac/modules/categories/add_category_screen.dart';
 import 'package:dac/modules/categories/medication_categories/cubit/cubit.dart';
 import 'package:dac/modules/categories/medication_categories/cubit/states.dart';
+import 'package:dac/modules/home_screen/home_screen.dart';
 import 'package:dac/modules/medicines_management/get_total_medicines_screee.dart';
 import 'package:dac/modules/medicines_management/medicine_preview_screen.dart';
 import 'package:dac/modules/register_screen/cubit/cubit.dart';
@@ -493,6 +494,11 @@ class MyDrawer extends StatelessWidget {
         SizedBox(
           height: divisor,
         ),
+        DrawerButton(
+          onPressed: () => navigateTo(context, HomeScreen()),
+          title: 'Home',
+          imagePath: 'images/profile.png',
+        ),
         if (!isAdmin)
           DrawerButton(
             onPressed: () => navigateTo(context, const ProfileScreen()),
@@ -541,6 +547,7 @@ class MyDrawer extends StatelessWidget {
             imagePath: 'images/logout.png',
             onPressed: () {
               CashHelper.logoutUser();
+              showToast(context: context, text: 'Logout successfully', color: Colors.green);
               navigateAndFinish(context, const LoginScreen());
             })
       ]),
@@ -768,7 +775,7 @@ class MedicineComponents extends StatelessWidget {
         //   height: divisor,
         // ),
         ValidatedTextField(
-            enable: false,
+            //enable: false,
             hasNextText: false,
             controller: cubitObject.medicineTextControllers.priceController,
             icon: Icons.price_change,

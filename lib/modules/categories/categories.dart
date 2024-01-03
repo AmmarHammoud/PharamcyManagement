@@ -37,7 +37,7 @@ class CategorizedMedicineScreen extends StatelessWidget {
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    const SearchBox(),
+                    const SearchBox( accordingToCat: true),
                     const SizedBox(
                       height: 20,
                     ),
