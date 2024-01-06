@@ -65,10 +65,10 @@ class HomeScreen extends StatelessWidget {
                         widget: CategorizedMedicineScreen(),
                         imagePath: 'images/medicine.png'),
                     //MainScreenButton(title: 'add', widget: AddNewMedicationScreen(), imagePath: 'images/medicine.png'),
-                    MainScreenButton(
-                        title: AppLocal.medicines.getString(context),
-                        imagePath: 'images/medicine.png',
-                        widget: GetTotalMedicinesScreen()),
+                    // MainScreenButton(
+                    //     title: AppLocal.medicines.getString(context),
+                    //     imagePath: 'images/medicine.png',
+                    //     widget: GetTotalMedicinesScreen()),
                     // MainScreenButton(
                     //   title: 'Med Equipment',
                     //   imagePath: 'images/medical_equipments.png',

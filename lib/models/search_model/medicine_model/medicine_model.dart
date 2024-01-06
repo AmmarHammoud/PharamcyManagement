@@ -1,8 +1,6 @@
-
 import 'package:dac/shared/constants.dart';
 
-class MedicineModel{
-
+class MedicineModel {
   late int id;
   late String name;
   late String scientificName;
@@ -12,8 +10,20 @@ class MedicineModel{
   late int quantity;
   late String expireDate;
   late double price;
-  MedicineModel.formJson(Map<String, dynamic> json){
 
+  MedicineModel(
+      {required this.id,
+      required this.name,
+      required this.scientificName,
+      required this.companyName,
+      required this.category,
+      required this.image,
+      required this.quantity,
+      required this.expireDate,
+      required this.price});
+
+  MedicineModel.formJson(Map<String, dynamic> json) {
+    print('json: $json');
     id = json['id'];
     scientificName = json['scientific_name'];
     name = json['commercial_name'];
@@ -21,12 +31,13 @@ class MedicineModel{
     price = json['price'];
     expireDate = json['expiry_date'];
     quantity = json['quantity'];
-    category = cat[json['category_id'].toString()];
+    if (json['category'] != null) category = json['category'];
+    else category = 'cat';
     //image = json['img'];
   }
 
-  void printInfo(){
-    print('name: $name\nscientificName: $scientificName\ncompanyName: $companyName');
+  void printInfo() {
+    print(
+        'name: $name\nscientificName: $scientificName\ncompanyName: $companyName');
   }
-
 }

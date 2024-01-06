@@ -345,11 +345,11 @@ class DioHelper {
   }
 
   static Future<Response> getCategorizedMedicines(
-      {required String category}) async {
+      {required int category}) async {
     ///SHOULD BE UPDATED
     return await dio.get('medsByType',
         //data: {'id': cat[category]},
-        queryParameters: {'id': cat[category]},
+        queryParameters: {'id': category},
         options: Options(
             headers: {
               //'Authorization': 'Bearer $token',

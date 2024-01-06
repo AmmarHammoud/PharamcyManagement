@@ -4,6 +4,7 @@ import 'package:dac/modules/add_new_product/add_new_medication/add_new_medicatio
 import 'package:dac/modules/categories/add_category_screen.dart';
 import 'package:dac/modules/categories/medication_categories/cubit/cubit.dart';
 import 'package:dac/modules/categories/medication_categories/cubit/states.dart';
+import 'package:dac/modules/favourites.dart';
 import 'package:dac/modules/home_screen/home_screen.dart';
 import 'package:dac/modules/medicines_management/get_total_medicines_screee.dart';
 import 'package:dac/modules/medicines_management/medicine_preview_screen.dart';
@@ -22,6 +23,8 @@ import '../modules/categories/categories.dart';
 import '../modules/login_screen/login_screen.dart';
 import '../modules/profile_screen/profile_screen.dart';
 import 'constants.dart';
+
+List<MedicineModel> favList = [];
 
 navigateTo(context, Widget widget) {
   Navigator.push(context, MaterialPageRoute(builder: (context) => widget));
@@ -543,6 +546,14 @@ class MyDrawer extends StatelessWidget {
         //   SizedBox(
         //     height: divisor,
         //   ),
+        if(!isAdmin)DrawerButton(
+          title: 'fav',
+          imagePath: 'images/logout.png',
+          onPressed: (){
+            navigateTo(context, const FavouritesScreen());
+          },
+
+        ),
         DrawerButton(
             title: 'logout',
             imagePath: 'images/logout.png',
@@ -943,20 +954,31 @@ class MedicineModelViewer extends StatelessWidget {
               // })
               IconButton(
                   onPressed: () {
-                    DioHelper.addToFavorite(
-                            userId: CashHelper.getUserId()!,
-                            medicationId: medId)
-                        .then((value) {
-                      print(value.data);
-                      showToast(
-                          context: context,
-                          text: value.data['message'],
-                          color: value.data['success'] == 1
-                              ? Colors.green
-                              : Colors.red);
-                    }).onError((error, stackTrace) {
-                      print(error.toString());
-                    });
+                    // DioHelper.addToFavorite(
+                    //         userId: CashHelper.getUserId()!,
+                    //         medicationId: medId)
+                    //     .then((value) {
+                    //   print(value.data);
+                    //   showToast(
+                    //       context: context,
+                    //       text: value.data['message'],
+                    //       color: value.data['success'] == 1
+                    //           ? Colors.green
+                    //           : Colors.red);
+                    // }).onError((error, stackTrace) {
+                    //   print(error.toString());
+                    // });
+                    favList.add(MedicineModel(
+                        id: 1,
+                        name: name,
+                        scientificName: '',
+                        companyName: '',
+                        category: category,
+                        image: 'image',
+                        quantity: 2,
+                        expireDate: '',
+                        price: 10));
+                    showToast(context: context, text: 'Added successfully', color: Colors.green);
                   },
                   icon: const Icon(Icons.favorite_outlined))
           ],
@@ -967,16 +989,19 @@ class MedicineModelViewer extends StatelessWidget {
 }
 
 class CategorizedMedicines extends StatelessWidget {
-  CategorizedMedicines({Key? key, required this.category, required this.categoryId}) : super(key: key);
+  CategorizedMedicines(
+      {Key? key, required this.category, required this.categoryId})
+      : super(key: key);
   final String category;
   final int categoryId;
   bool isAdmin = CashHelper.isAdmin();
 
   @override
   Widget build(BuildContext context) {
+    print('categoryId: $categoryId');
     return BlocProvider(
       create: (context) => GetMedicineCategoriesCubit()
-        ..getMedicineAccordingToCategory(category: category),
+        ..getMedicineAccordingToCategory(category: categoryId),
       child: BlocConsumer<GetMedicineCategoriesCubit,
               GetMedicineCategoriesStates>(
           listener: (context, state) {},
@@ -1001,7 +1026,11 @@ class CategorizedMedicines extends StatelessWidget {
                       if (isAdmin)
                         ElevatedButton(
                             onPressed: () {
-                              navigateTo(context, AddNewMedicationScreen(categoryId: categoryId,));
+                              navigateTo(
+                                  context,
+                                  AddNewMedicationScreen(
+                                    categoryId: categoryId,
+                                  ));
                             },
                             child: const Text('add new medication')),
                       const SizedBox(
@@ -1018,8 +1047,8 @@ class CategorizedMedicines extends StatelessWidget {
                             itemBuilder: (context, index) => Padding(
                                   padding: const EdgeInsets.all(10.0),
                                   child: MedicineModelViewer(
-                                    medId:
-                                        cubitObject.categorizedMedicine[index].id,
+                                    medId: cubitObject
+                                        .categorizedMedicine[index].id,
 
                                     ///SHOULD BE UPDATED
                                     condition: 1 == 1,
@@ -1037,7 +1066,8 @@ class CategorizedMedicines extends StatelessWidget {
                                     },
                                   ),
                                 ),
-                            separatorBuilder: (context, index) => const SizedBox(
+                            separatorBuilder: (context, index) =>
+                                const SizedBox(
                                   height: 10,
                                 ),
                             itemCount: cubitObject.categorizedMedicine.length),
@@ -1185,6 +1215,12 @@ class OrderViewer extends StatelessWidget {
                         DioHelper.changeOrderPayment(orderId: orderId)
                             .then((value) {
                           print(value.data);
+                          showToast(
+                              context: context,
+                              text: value.data['message'],
+                              color: value.data['success'] == 1
+                                  ? Colors.green
+                                  : Colors.red);
                         }).onError((error, stackTrace) {
                           print(error.toString());
                         });

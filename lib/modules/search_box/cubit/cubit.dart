@@ -50,10 +50,18 @@ class SearchCubit extends Cubit<SearchStates> {
     }
     emit(SearchLoadingState());
     DioHelper.search(token: token, searchText: searchText).then((value) {
-      print(value.data);
+      //print(value.data);
       searchModel = SearchModel.fromJson(value.data);
       if (foundResults()) {
         fillMedicineModels(value.data['data']);
+        //int x = 0;
+        print(value.data);
+        // while(value.data['$x'] != null){
+        //   medicineModels.add(MedicineModel.formJson(value.data['$x']));
+        //   medicineModels[x].category = value.data['category'];
+        //   x++;
+        // }
+        print(medicineModels[0].name);
       }
       emit(SearchSuccessState());
     }).catchError((error) {

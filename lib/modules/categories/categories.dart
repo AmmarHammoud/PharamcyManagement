@@ -41,11 +41,11 @@ class CategorizedMedicineScreen extends StatelessWidget {
                     const SizedBox(
                       height: 20,
                     ),
-                    // if(isAdmin)ElevatedButton(
-                    //     onPressed: () {
-                    //       navigateTo(context, const AddCategoryScreen());
-                    //     },
-                    //     child: const Text('add Category')),
+                    if(isAdmin)ElevatedButton(
+                        onPressed: () {
+                          navigateTo(context, const AddCategoryScreen());
+                        },
+                        child: const Text('add Category')),
                     const SizedBox(
                       height: 15.0,
                     ),

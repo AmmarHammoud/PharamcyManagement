@@ -197,10 +197,10 @@ class SearchModelViewer extends StatelessWidget {
                     medicineName,
                     style: const TextStyle(fontSize: 15.0),
                   ),
-                  Text(
-                    medicineCategory,
-                    style: const TextStyle(fontSize: 15.0),
-                  ),
+                  // Text(
+                  //   medicineCategory,
+                  //   style: const TextStyle(fontSize: 15.0),
+                  // ),
                 ],
               ),
             ],

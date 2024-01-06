@@ -26,11 +26,15 @@ class MedicinesManagementCubit extends Cubit<MedicinesManagementStates> {
     emit(GetTotalMedicinesLoadingState());
     DioHelper.getTotalMedicines(token: CashHelper.getUserToken()!)
         .then((value) {
-          print(value.data);
-      for (int i = 0; i < value.data['data'].length; i++) {
-        totalMedicines.add(MedicineModel.formJson(value.data['data'][i]));
-
-      }
+          //print(value.data);
+          int x = 0;
+          print(value.data['0']);
+          while(value.data['$x'] != null){
+            totalMedicines.add(MedicineModel.formJson(value.data['$x']));
+            totalMedicines[x].category = value.data['category'];
+            x++;
+          }
+          //print(totalMedicines[0].name);
       emit(GetTotalMedicinesSuccessState());
     }).catchError((error) {
       print('error in getTotalMedicines: ${error.toString()}');

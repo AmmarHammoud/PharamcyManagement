@@ -16,14 +16,22 @@ class GetMedicineCategoriesCubit extends Cubit<GetMedicineCategoriesStates> {
   List<MedicineModel> categorizedMedicine = [];
   List<MyCategory> categories = [];
 
-  getMedicineAccordingToCategory({required String category}) {
+  getMedicineAccordingToCategory({required int category}) {
     categorizedMedicine.clear();
     emit(GetMedicineCategoriesLoadingState());
+    print('cat: $category');
     DioHelper.getCategorizedMedicines(category: category).then((value) {
-      print(value.data);
-      for (int i = 0; i < value.data.length; i++) {
-        categorizedMedicine.add(MedicineModel.formJson(value.data[i]));
+      //print('getCategorizedMedicine: ${value.data}');
+      //print('value.data[]: ${value.data['0']}');
+      int x = 0;
+      while(value.data['$x'] != null){
+        categorizedMedicine.add(MedicineModel.formJson(value.data['$x']));
+        categorizedMedicine[x].category = value.data['category'];
+        x++;
       }
+      // for (int i = 0; i < value.data.length; i++) {
+      //   categorizedMedicine.add(MedicineModel.formJson(value.data['$i']));
+      // }
       emit(GetMedicineCategoriesSuccessState());
     }).onError((error, stackTrace) {
       emit(GetMedicineCategoriesErrorState());

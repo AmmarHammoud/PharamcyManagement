@@ -84,7 +84,7 @@ class WhatsappButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return IconButton(
         onPressed: () async {
-          Uri whatsapp = Uri.parse('https://wa.me/+963959289671');
+          Uri whatsapp = Uri.parse('https://wa.me/+963991996920');
 
           launchUrl(whatsapp, mode: LaunchMode.externalNonBrowserApplication)
               .then((value) => print(value.toString()))
